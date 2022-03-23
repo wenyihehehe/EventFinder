@@ -1,0 +1,8 @@
+Django
+djangorestframework
+djangorestframework-filters
+django-extensions
+django-cors-headers
+django-rest-passwordreset
+django-filter
+Pillow
