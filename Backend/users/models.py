@@ -51,16 +51,25 @@ class Address(models.Model):
 
     STATE = (
         ("Johor", "Johor"),
-        ("Selangor", "Selangor"),
-        ("Kuala Lumpur", "Kuala Lumpur"),
         ("Kedah", "Kedah"),
+        ("Kelantan", "Kelantan"),
+        ("Malacca", "Malacca"),
+        ("Negeri Sembilan", "Negeri Sembilan"),
+        ("Pahang", "Pahang"),
         ("Penang", "Penang"),
+        ("Perak", "Perak"),
+        ("Perlis", "Perlis"),
         ("Sabah", "Sabah"),
-        ("Melaka", "Melaka"),
+        ("Sarawak", "Sawarak"),
+        ("Selangor", "Selangor"),
+        ("Terengganu", "Terengganu"),
+        ("Kuala Lumpur", "Kuala Lumpur"),
+        ("Labuan", "Labuan"),
+        ("Putrajaya", "Putrajaya"),
     )
 
     id = models.AutoField(primary_key=True)
-    userId = models.OneToOneField(User, on_delete=models.CASCADE, related_name="address")
+    userId = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=100)
     address2 = models.CharField(max_length=100)
     city = models.CharField(max_length=50)
@@ -76,16 +85,22 @@ Extended from User
 '''
 class OrganizerProfile(models.Model):
     id = models.AutoField(primary_key=True)
-    userId = models.OneToOneField(User, on_delete=models.CASCADE, related_name="organizerProfile")
+    userId = models.OneToOneField(User, on_delete=models.CASCADE)
     organizerName = models.CharField(max_length=50)
     profileImage = models.ImageField(null=True, blank=True)
     contactNumber = models.CharField(max_length=11)
-    Description = models.CharField(max_length=500)
+    description = models.CharField(max_length=500)
 
     def __str__(self):
         return self.organizerName
 
 class Event(models.Model):
+    STATUS = (
+        ("Draft", "Draft"),
+        ("Published", "Published"),
+        ("Ended", "Ended"),
+    )
+
     id = models.AutoField(primary_key=True)
     organizerId = models.ForeignKey(OrganizerProfile, on_delete=models.CASCADE, related_name="event")    
     title = models.CharField(max_length=100)
@@ -99,7 +114,7 @@ class Event(models.Model):
     endTime = models.TimeField()
     image = models.ImageField(null=True, blank=True)
     description = models.CharField(max_length=500)
-    status = models.CharField(max_length=10)
+    status = models.CharField(max_length=9, choices=STATUS, default="Draft")
 
     def __str__(self):
         return self.title
@@ -116,10 +131,15 @@ class TicketType(models.Model):
         return "%s:%s" % (self.eventId, self.name)
 
 class Registration(models.Model):
+    STATUS = (
+        ("Active", "Active"),
+        ("Completed", "Completed"),
+    )
+
     id = models.AutoField(primary_key=True)
     userId = models.ForeignKey(User, on_delete=models.CASCADE, related_name="registration")
     eventId = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="registration")
-    status = models.CharField(max_length=10)
+    status = models.CharField(max_length=9, choices=STATUS)
 
     def __str__(self):
         return "%s:%s" % (self.userId, self.eventId)
@@ -128,7 +148,7 @@ class Ticket(models.Model):
     id = models.AutoField(primary_key=True)
     ticketType = models.ForeignKey(TicketType, on_delete=models.CASCADE, related_name="ticket")
     registration = models.ForeignKey(Registration, on_delete=models.CASCADE, related_name="ticket")
-    status = models.CharField(max_length=10)
+    status = models.BooleanField(default=False)
 
     def __str__(self):
         return "%s %s" % (self.registration, self.ticketType)    
