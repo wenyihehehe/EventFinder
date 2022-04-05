@@ -1,13 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User
+from .models import *
 from .forms import CustomUserCreationForm
 
 class CustomUserAdmin(UserAdmin):
     model = User
     add_form = CustomUserCreationForm
 
-    list_display = ('id', 'email', 'firstName','lastName','contactNumber')
+    list_display = ('id', 'email', 'firstName','lastName','contactNumber','address')
 
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
@@ -19,7 +19,7 @@ class CustomUserAdmin(UserAdmin):
                     'firstName',
                     'lastName',
                     'contactNumber',
-                    'photo',
+                    'profileImage',
                 )
             }
         ),
@@ -33,5 +33,37 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('email',)
     ordering = ('email',)
 
+    def address(self, x):
+        return x.address
+
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ('id', 'address', 'address2', 'userId')
+
+class OrganizerProfileAdmin(admin.ModelAdmin):
+    list_display = ('id', 'organizerName', 'userId')
+
+class EventAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'organizerId', 'status')
+
+class TicketTypeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'eventId', 'name')
+
+class RegistrationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'userId', 'eventId')
+
+class TicketAdmin(admin.ModelAdmin):
+    list_display = ('id', 'ticketType', 'registration')
+
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('id', 'userId', 'eventId', 'rating', 'comment')
+
+
 # Register your models here.
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(Address, AddressAdmin)
+admin.site.register(OrganizerProfile, OrganizerProfileAdmin)
+admin.site.register(Event, EventAdmin)
+admin.site.register(TicketType, TicketTypeAdmin)
+admin.site.register(Registration, RegistrationAdmin)
+admin.site.register(Ticket, TicketAdmin)
+admin.site.register(Review, ReviewAdmin)
