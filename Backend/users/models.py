@@ -60,7 +60,7 @@ class Address(models.Model):
     )
 
     id = models.AutoField(primary_key=True)
-    userId = models.OneToOneField(User, on_delete=models.CASCADE)
+    userId = models.OneToOneField(User, on_delete=models.CASCADE, related_name="address")
     address = models.CharField(max_length=100)
     address2 = models.CharField(max_length=100)
     city = models.CharField(max_length=50)
@@ -76,7 +76,7 @@ Extended from User
 '''
 class OrganizerProfile(models.Model):
     id = models.AutoField(primary_key=True)
-    userId = models.OneToOneField(User, on_delete=models.CASCADE)
+    userId = models.OneToOneField(User, on_delete=models.CASCADE, related_name="organizerProfile")
     organizerName = models.CharField(max_length=50)
     profileImage = models.ImageField(null=True, blank=True)
     contactNumber = models.CharField(max_length=11)
@@ -87,7 +87,7 @@ class OrganizerProfile(models.Model):
 
 class Event(models.Model):
     id = models.AutoField(primary_key=True)
-    organizerId = models.ForeignKey(OrganizerProfile, on_delete=models.CASCADE)    
+    organizerId = models.ForeignKey(OrganizerProfile, on_delete=models.CASCADE, related_name="event")    
     title = models.CharField(max_length=100)
     coverImage = models.ImageField(null=True, blank=True)
     type = models.CharField(max_length=10)
@@ -113,13 +113,16 @@ class TicketType(models.Model):
     price = models.CharField(max_length=10)
 
     def __str__(self):
-        return "%s %s" % (self.eventId, self.name)
+        return "%s:%s" % (self.eventId, self.name)
 
 class Registration(models.Model):
     id = models.AutoField(primary_key=True)
-    userId = models.ForeignKey(User, on_delete=models.CASCADE)
-    eventId = models.ForeignKey(Event, on_delete=models.CASCADE)
+    userId = models.ForeignKey(User, on_delete=models.CASCADE, related_name="registration")
+    eventId = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="registration")
     status = models.CharField(max_length=10)
+
+    def __str__(self):
+        return "%s:%s" % (self.userId, self.eventId)
 
 class Ticket(models.Model):
     id = models.AutoField(primary_key=True)
@@ -127,10 +130,16 @@ class Ticket(models.Model):
     registration = models.ForeignKey(Registration, on_delete=models.CASCADE, related_name="ticket")
     status = models.CharField(max_length=10)
 
+    def __str__(self):
+        return "%s %s" % (self.registration, self.ticketType)    
+
 class Review(models.Model):
     id = models.AutoField(primary_key=True)
-    userId = models.ForeignKey(User, on_delete=models.CASCADE)
-    eventId = models.ForeignKey(Event, on_delete=models.CASCADE)
+    userId = models.ForeignKey(User, on_delete=models.CASCADE, related_name="review")
+    eventId = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="review")
     rating = models.SmallIntegerField()
     comment = models.CharField(max_length=200)
     postedDate = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return "%s:%s" % (self.userId, self.comment)    
