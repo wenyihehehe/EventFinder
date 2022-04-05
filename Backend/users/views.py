@@ -1,10 +1,29 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.response import Response
 from .models import *
 from .serializers import *
 
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserProfileSerializer
+
+    def partial_update(self, request, pk=None):
+        user = User.objects.get(pk=pk)
+        serializer = UserProfileUpdateSerializer(user, data=request.data, partial=True)
+        if not serializer.is_valid():
+            return Response({"status": "ERROR", "detail": "Unable to update record"})
+        serializer.save()
+        return Response({"status": "OK", "data": serializer.data})
+
+    def create(self, request, *args, **kwargs):
+        serializer = CreateUserSerializer(data=request.data)
+        if not serializer.is_valid():
+            print(serializer.errors)
+            return Response(
+                {"status": "ERROR", "detail": "Unable to create user"}
+            )
+        serializer.save()
+        return Response({"status": "OK", "data": serializer.data})
 
 class AddressViewSet(ModelViewSet):
     queryset = Address.objects.all()

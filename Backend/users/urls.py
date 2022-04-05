@@ -6,11 +6,11 @@ router = DefaultRouter()
 
 router.register(r"user", UserViewSet, basename="user")
 router.register(r"address", AddressViewSet, basename="address")
-router.register(r"organizerProfile", OrganizerProfileViewSet, basename="organizerProfile")
+router.register(r"organizerprofile", OrganizerProfileViewSet, basename="organizerProfile")
 router.register(r"event", EventViewSet, basename="event")
-router.register(r"ticketType", TicketTypeViewSet, basename="ticketType")
+router.register(r"tickettype", TicketTypeViewSet, basename="ticketType")
 router.register(r"registration", RegistrationViewSet, basename="registration")
-router.register(r"Ticket", TicketViewSet, basename="ticket")
+router.register(r"ticket", TicketViewSet, basename="ticket")
 router.register(r"review", ReviewViewSet, basename="review")
 
 urlpatterns = [
