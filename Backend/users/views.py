@@ -1,14 +1,17 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
+
+from .permissions import *
 from .models import *
 from .serializers import *
 
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserProfileSerializer
+    permission_classes = [UserProfilePermission]
 
     def partial_update(self, request, pk=None):
-        user = User.objects.get(pk=pk)
+        user = self.get_object()
         serializer = UserProfileUpdateSerializer(user, data=request.data, partial=True)
         if not serializer.is_valid():
             return Response({"status": "ERROR", "detail": "Unable to update record"})
@@ -47,9 +50,10 @@ class AddressViewSet(ModelViewSet):
 class OrganizerProfileViewSet(ModelViewSet):
     queryset = OrganizerProfile.objects.all()
     serializer_class = OrganizerProfileSerializer
+    permission_classes = [OrganizerProfilePermission]
 
     def partial_update(self, request, pk=None):
-        organizerProfile = OrganizerProfile.objects.get(pk=pk)
+        organizerProfile = self.get_object()
         serializer = OrganizerProfileUpdateSerializer(organizerProfile, data=request.data, partial=True)
         if not serializer.is_valid():
             return Response({"status": "ERROR", "detail": "Unable to update record"})
@@ -72,6 +76,15 @@ class OrganizerProfileViewSet(ModelViewSet):
 class EventViewSet(ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    permission_classes = [EventPermission]
+
+    def partial_update(self, request, pk=None):
+        event = self.get_object()
+        serializer = EventUpdateSerializer(event, data=request.data, partial=True)
+        if not serializer.is_valid():
+            return Response({"status": "ERROR", "detail": "Unable to update record"})
+        serializer.save()
+        return Response({"status": "OK", "data": serializer.data})
 
 class TicketTypeViewSet(ModelViewSet):
     queryset = TicketType.objects.all()

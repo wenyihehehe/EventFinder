@@ -44,6 +44,11 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = "__all__"
 
+class EventUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ['title','coverImage','type','category','location','startDate','startTime','endDate','endTime','image','description','status']
+
 class TicketTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = TicketType
