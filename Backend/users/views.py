@@ -15,7 +15,7 @@ class UserViewSet(ModelViewSet):
         serializer.save()
         return Response({"status": "OK", "data": serializer.data})
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request):
         serializer = CreateUserSerializer(data=request.data)
         if not serializer.is_valid():
             print(serializer.errors)
@@ -28,6 +28,21 @@ class UserViewSet(ModelViewSet):
 class AddressViewSet(ModelViewSet):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
+
+    def create(self, request):
+        address = Address.objects.filter(userId=request.data['userId']).first()
+        print(address)
+        if(address):
+            serializer = self.get_serializer(address, data=request.data)
+        else: 
+            serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+            print(serializer.errors)
+            return Response(
+                {"status": "ERROR", "detail": "Unable to update/create address"}
+            )
+        serializer.save()
+        return Response({"status": "OK", "data": serializer.data})
 
 class OrganizerProfileViewSet(ModelViewSet):
     queryset = OrganizerProfile.objects.all()
