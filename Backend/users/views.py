@@ -48,6 +48,27 @@ class OrganizerProfileViewSet(ModelViewSet):
     queryset = OrganizerProfile.objects.all()
     serializer_class = OrganizerProfileSerializer
 
+    def partial_update(self, request, pk=None):
+        organizerProfile = OrganizerProfile.objects.get(pk=pk)
+        serializer = OrganizerProfileUpdateSerializer(organizerProfile, data=request.data, partial=True)
+        if not serializer.is_valid():
+            return Response({"status": "ERROR", "detail": "Unable to update record"})
+        serializer.save()
+        return Response({"status": "OK", "data": serializer.data})
+
+    def create(self, request):
+        request.data['userId'] = request.user.id
+        if(OrganizerProfile.objects.filter(userId=request.user.id).first()):
+            return Response({"status": "ERROR", "detail": "Organizer profile exists for this user"})
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+            print(serializer.errors)
+            return Response(
+                {"status": "ERROR", "detail": "Unable to create record"}
+            )
+        serializer.save()
+        return Response({"status": "OK", "data": serializer.data})
+
 class EventViewSet(ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
