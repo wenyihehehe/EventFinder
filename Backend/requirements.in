@@ -1,8 +1,9 @@
 Django
 djangorestframework
-djangorestframework-filters
+djangorestframework-filters==1.0.0.dev1
 django-extensions
 django-cors-headers
 django-rest-passwordreset
 django-filter
 Pillow
+django-utils-six

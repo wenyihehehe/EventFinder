@@ -19,17 +19,19 @@ django-cors-headers==3.11.0
     # via -r requirements.in
 django-extensions==3.1.5
     # via -r requirements.in
-django-filter==1.1.0
+django-filter==2.4.0
     # via
     #   -r requirements.in
     #   djangorestframework-filters
 django-rest-passwordreset==1.2.1
     # via -r requirements.in
+django-utils-six==2.0
+    # via -r requirements.in
 djangorestframework==3.13.1
     # via
     #   -r requirements.in
     #   djangorestframework-filters
-djangorestframework-filters==0.11.1
+djangorestframework-filters==1.0.0.dev1
     # via -r requirements.in
 pillow==9.0.1
     # via -r requirements.in

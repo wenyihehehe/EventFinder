@@ -23,11 +23,15 @@ class CustomUserManager(BaseUserManager):
             raise ValueError(("Superuser must have is_superuser=True."))
         return self.create_user(email, password, **extra_fields)
 
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT user_photo/ user_<id>/<filename>
+    return "user_photo/user_{0}/{1}".format(instance.id, filename)
+
 class User(AbstractUser):
     id = models.AutoField(primary_key=True)
     username = None
     email = models.EmailField(("email address"), unique=True)
-    profileImage = models.ImageField(null=True, blank=True)
+    profileImage = models.ImageField(null=True, blank=True,upload_to=user_directory_path)
     firstName = models.CharField(max_length=50, default="-", null=True, blank=True)
     lastName = models.CharField(max_length=250, default="-", null=True, blank=True)
     contactNumber = models.CharField(max_length=11, null=True, blank=True)
