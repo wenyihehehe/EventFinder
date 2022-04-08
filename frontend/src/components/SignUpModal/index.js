@@ -1,41 +1,98 @@
 import './index.css';
+import React from 'react'
 
-export default function SignUpModal(){
-    return (
-        <div class="d-flex justify-content-center mt-2">
-            <div class="content">
-            <div class="title">Sign up with email</div>
-            <div class="description mt-1 mb-2">Already have an account? Sign In</div>
-            <form>
-                <label for="firstname" class="form-label label">First Name</label>
-                <div class="input-group mb-3">
-                <input type="text" class="form-control" id="firstname" />
-                </div>
-                <label for="lastname" class="form-label label">Last Name</label>
-                <div class="input-group mb-3">
-                <input type="text" class="form-control" id="lastname" />
-                </div>
-                <label for="contactnumber" class="form-label label">Contact Number</label>
-                <div class="input-group mb-3">
-                <input type="text" class="form-control" id="contactnumber" />
-                </div>
-                <label for="email" class="form-label label">Email Address</label>
-                <div class="input-group mb-3">
-                <input type="email" class="form-control" id="email" />
-                </div>
-                <label for="password" class="form-label label">Password</label>
-                <div class="input-group mb-3">
-                <input type="password" class="form-control" id="password" />
-                </div>
-            </form>
-            <div class="form-check mt-1 mb-1">
-                <input class="form-check-input" type="checkbox" value="" id="privacy"/>
-                <label class="form-check-label policy" for="privacy">
-                I agree to the Terms of Service and Privacy Policy
+class SignUpModal extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            firstname: "",
+            lastname: "",
+            contactnumber: "",
+            email: "",
+            password: "",
+            privacy: false
+        };
+
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleInputChange(event){
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+    }
+
+    handleSubmit(event){
+        
+        this.validateForm();  
+        console.log(this.state);
+    }
+
+    validateForm(){
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+            });
+        
+        if(!this.state.privacy){
+            document.querySelector(".checkmark").classList.add('invalid');
+        }
+    }
+    
+
+    render(){
+        return (
+        <div className="d-flex justify-content-center mt-2">
+            <div className="content">
+                <div className="title">Sign up with email</div>
+                <div className="description mt-1 mb-2">Already have an account? Sign In</div>
+                <form className="needs-validation" noValidate>
+                    <label htmlFor="firstname" className="form-label label">First Name</label>
+                    <div className="input-group mb-3">
+                        <input type="text" className="form-control" name="firstname" value={this.state.firstname} onChange={this.handleInputChange} required />
+                    </div>
+                    <label htmlFor="lastname" className="form-label label">Last Name</label>
+                    <div className="input-group mb-3">
+                        <input type="text" className="form-control" name="lastname" value={this.state.lastname} onChange={this.handleInputChange} required/>
+                    </div>
+                    <label htmlFor="contactnumber" className="form-label label">Contact Number</label>
+                    <div className="input-group mb-3">
+                        <input type="text" className="form-control" name="contactnumber" value={this.state.contactnumber} onChange={this.handleInputChange} required/>
+                    </div>
+                    <label htmlFor="email" className="form-label label">Email Address</label>
+                    <div className="input-group mb-3">
+                        <input type="email" className="form-control" name="email" value={this.state.email} onChange={this.handleInputChange} required/>
+                    </div>
+                    <label htmlFor="password" className="form-label label">Password</label>
+                    <div className="input-group mb-3">
+                        <input type="password" className="form-control" name="password" value={this.state.password} onChange={this.handleInputChange} required/>
+                    </div>
+                <label className="checkboxcontainer">
+                    I agree to the Terms of Service and Privacy Policy
+                    <input type="checkbox" name="privacy" checked={this.state.privacy} onChange={this.handleInputChange} required/>
+                <span className="checkmark"></span>
                 </label>
-            </div>
-            <button type="submit" class="btn primaryButton mt-1" style={{width:"100%"}}>Submit</button>
+                <button type="submit" className="btn primaryButton mt-1" style={{width:"100%"}} onClick={this.handleSubmit}>Submit</button>
+                </form>
             </div>
         </div>
-    )
+        )
+    }
 }
+
+export default SignUpModal;
