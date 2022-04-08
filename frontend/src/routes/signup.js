@@ -1,7 +1,10 @@
+import SignUpModal from "../components/SignUpModal";
+
 export default function SignUp() {
     return (
-      <main style={{ padding: "1rem 0" }}>
-        <h2>Sign Up</h2>
+      <main class="container">
+        <img class="logo mt-2" src="logo.png" alt="logo"></img>
+        <SignUpModal />
       </main>
     );
   }
