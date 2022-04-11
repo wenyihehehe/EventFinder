@@ -33,7 +33,7 @@ class User(AbstractUser):
     email = models.EmailField(("email address"), unique=True)
     profileImage = models.ImageField(null=True, blank=True,upload_to=user_directory_path)
     firstName = models.CharField(max_length=50, default="-", null=True, blank=True)
-    lastName = models.CharField(max_length=250, default="-", null=True, blank=True)
+    lastName = models.CharField(max_length=50, default="-", null=True, blank=True)
     contactNumber = models.CharField(max_length=11, null=True, blank=True)
 
     USERNAME_FIELD = "email"
