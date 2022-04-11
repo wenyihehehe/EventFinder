@@ -38,11 +38,11 @@ html{
 }
 
 .form-control:focus {
-  border-color: #F27B66;
+  border-color: #F58444;
   box-shadow: 0 0 0 0.2rem rgba(250, 186, 64, 0.25);
 } 
 
-.primaryButton{
+.primaryButton, .swal-button{
   background: #FABA40;
   border-radius: 5px;
   color: #FFFFFF;
@@ -52,9 +52,13 @@ html{
   height: 40px;
 }
 
-.primaryButton:focus{
-  border-color: #F27B66;
+.primaryButton:focus, .swal-button:focus{
+  border-color: #F58444;
   box-shadow: 0 0 0 0.2rem rgba(250, 186, 64, 0.25);
+}
+
+.primaryButton:hover, .swal-button:hover, .swal-button:not([disabled]):hover{
+  background: rgba(250, 186, 64, 0.85);
 }
 
 /* Custom checkbox */
@@ -92,12 +96,12 @@ html{
 
 /* On mouse-over, add a grey background color */
 .checkboxcontainer:hover input ~ .checkmark {
-  border-color: #F27B66;
+  border-color: #F58444;
 }
 
 /* On mouse-over, add a grey background color */
 .checkboxcontainer input:focus ~ .checkmark {
-  border-color: #F27B66;
+  border-color: #F58444;
   box-shadow: 0 0 0 0.2rem rgba(250, 186, 64, 0.25);
 }
 
