@@ -1,7 +1,11 @@
+import SignUpModal from "../components/SignUpModal";
+import { Link } from "react-router-dom";
+
 export default function SignUp() {
     return (
-      <main style={{ padding: "1rem 0" }}>
-        <h2>Sign Up</h2>
+      <main className="container">
+        <Link to="/"><img className="logo mt-2" src="logo.png" alt="logo"></img></Link>
+        <SignUpModal />
       </main>
     );
   }
