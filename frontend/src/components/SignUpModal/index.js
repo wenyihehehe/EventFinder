@@ -41,6 +41,7 @@ class SignUpModal extends React.Component{
                 contactNumber: this.state.contactNumber
             });
             if (signup.status === "OK"){
+                // TODO: Sign in user and send back to previous location
                 console.log("sign up successfully")
             } else {
                 let errorMessage = Object.values(signup.detail)[0][0];
