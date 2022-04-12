@@ -3,7 +3,7 @@ import * as Network from "./network"
 
 async function login({ email, password }){
     let res = await Network.post({
-        path: "api/auth/",
+        path: "auth/",
         body: {
             username: email,
             password
@@ -26,7 +26,7 @@ async function signup({ firstName, lastName, contactNumber, email, password }){
     return res;
 };
 
-function storeTokenInCookie({ token, expiry }) {
+function storeTokenInCookie({ token, expiry = 7 }) {
     Cookie.set("token", token, { expires: expiry });
 };
 

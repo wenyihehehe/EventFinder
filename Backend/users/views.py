@@ -1,5 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
 
 from .permissions import *
 from .models import *
@@ -25,8 +26,9 @@ class UserViewSet(ModelViewSet):
             return Response(
                 {"status": "ERROR", "detail": serializer.errors}
             )
-        serializer.save()
-        return Response({"status": "OK", "data": serializer.data})
+        user = serializer.save()
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({"status": "OK", "data": serializer.data, "token": token.key})
 
 class AddressViewSet(ModelViewSet):
     queryset = Address.objects.all()
