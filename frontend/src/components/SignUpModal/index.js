@@ -1,5 +1,5 @@
-import './index.css';
-import React from 'react'
+import style from './index.module.css';
+import React from 'react';
 import * as Auth from '../../services/auth';
 import swal from 'sweetalert';
 
@@ -41,11 +41,13 @@ class SignUpModal extends React.Component{
                 contactNumber: this.state.contactNumber
             });
             if (signup.status === "OK"){
+                let token = signup.token;
+                Auth.storeTokenInCookie({ token });
                 // TODO: Sign in user and send back to previous location
                 console.log("sign up successfully")
             } else {
                 let errorMessage = Object.values(signup.detail)[0][0];
-                if(signup.detail.email) swal("Error!", errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1), "error");
+                if(errorMessage) swal("Error!", errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1), "error");
             };
         } 
     }
@@ -73,42 +75,42 @@ class SignUpModal extends React.Component{
     render(){
         return (
         <div className="d-flex justify-content-center mt-2">
-            <div className="content">
-                <div className="title">Sign up with email</div>
-                <div className="description mt-1 mb-2">Already have an account? Sign In</div>
+            <div className={style.content}>
+                <div className="titleText">Sign up with email</div>
+                <div className="detailSubText mt-1 mb-2">Already have an account? Sign In</div>
                 <form className="needs-validation" noValidate>
-                    <label htmlFor="firstName" className="form-label label">First Name</label>
+                    <label htmlFor="firstName" className="form-label labelText">First Name</label>
                     <div className="input-group mb-3">
                         <input type="text" className="form-control" name="firstName" value={this.state.firstName} onChange={this.handleInputChange} required maxLength={50} />
                         <div className="invalid-feedback">This field is required.</div>
                     </div>
-                    <label htmlFor="lastName" className="form-label label">Last Name</label>
+                    <label htmlFor="lastName" className="form-label labelText">Last Name</label>
                     <div className="input-group mb-3">
                         <input type="text" className="form-control" name="lastName" value={this.state.lastName} onChange={this.handleInputChange} required maxLength={50}/>
                         <div className="invalid-feedback">This field is required.</div>
                     </div>
-                    <label htmlFor="contactNumber" className="form-label label">Contact Number</label>
+                    <label htmlFor="contactNumber" className="form-label labelText">Contact Number</label>
                     <div className="input-group mb-3">
                         <input type="text" className="form-control" name="contactNumber" value={this.state.contactNumber} onChange={this.handleInputChange} required maxLength={11}/>
                         <div className="invalid-feedback">This field is required.</div>
                     </div>
-                    <label htmlFor="email" className="form-label label">Email Address</label>
+                    <label htmlFor="email" className="form-label labelText">Email Address</label>
                     <div className="input-group mb-3">
                         <input type="email" className="form-control" name="email" value={this.state.email} onChange={this.handleInputChange} required/>
                         <div className="invalid-feedback">Please provide a valid email.</div>
                     </div>
-                    <label htmlFor="password" className="form-label label">Password</label>
+                    <label htmlFor="password" className="form-label labelText">Password</label>
                     <div className="input-group mb-3">
                         <input type="password" className="form-control" name="password" value={this.state.password} onChange={this.handleInputChange} required minLength={8}/>
                         <div className="invalid-feedback">Password should be at least 8 characters.</div>
                     </div>
                 <label className="checkboxcontainer">
-                    I agree to the Terms of Service and Privacy Policy
+                    <span className="detailSubText">I agree to the Terms of Service and Privacy Policy</span>
                     <input type="checkbox" className="form-control" name="privacy" checked={this.state.privacy} onChange={this.handleInputChange} required/>
                     <div className="invalid-feedback">You must agree to Terms of Service and Privacy Policy.</div>
                 <span className="checkmark"></span>
                 </label>
-                <button type="submit" className="btn primaryButton mt-1" style={{width:"100%"}} onClick={this.handleSubmit}>Submit</button>
+                <button type="submit" className="btn primaryButton mt-1" style={{width:"100%"}} onClick={this.handleSubmit}>Sign Up</button>
                 </form>
             </div>
         </div>
