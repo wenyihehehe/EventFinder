@@ -43,8 +43,8 @@ async function post({ path = null, url = null, body }){
 				if (response.ok) {
 					return response
 				} else {
-					console.log(response)
-					throw new Error('Something went wrong');
+					console.error('Something went wrong')
+					return response
 				}
 			})
 			.then((responseJson) => {
@@ -57,7 +57,6 @@ async function post({ path = null, url = null, body }){
 		let data = await response.json();
 		return data
 	} catch(err){
-		console.log(err)
 		throw err;
 	}
 };
