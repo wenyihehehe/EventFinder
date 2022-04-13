@@ -15,6 +15,7 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #241C33;
 }
 
 code {
@@ -142,7 +143,6 @@ html{
 
 /* typography */
 .titleText{
-  font-style: normal;
   font-weight: 600;
   font-size: 26px;
   line-height: 32px;
@@ -157,4 +157,40 @@ html{
   font-weight: 500;
   font-size: 16px;
   line-height: 20px;
+}
+
+.secondaryTitleText{
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 27px;
+}
+
+.headingText{
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.detailMainText{
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+/* Text color */
+.importantTextColor{
+  color: #170D2C;
+}
+
+.subTextColor{
+  color: #797383
+}
+
+.tonedTextOrange{
+  color: #F58444
+}
+
+/* Background */
+.backgroundWhite{
+  background-color: #FDFDFD;
 }
