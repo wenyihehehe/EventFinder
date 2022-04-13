@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import swal from 'sweetalert';
 import * as Auth from '../../services/auth';
-import style from '../LoginModal/index.module.css';
+import style from './index.module.css';
 
 class LoginModal extends React.Component{
     constructor(props){
