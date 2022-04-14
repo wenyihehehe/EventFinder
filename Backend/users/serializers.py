@@ -114,21 +114,6 @@ class ShortEventSerializer(serializers.ModelSerializer):
         model = Event
         fields = ['title','organizer','startDateTime','endDateTime']
 
-class ShortTicketSerializer(serializers.ModelSerializer):
-    ticket = serializers.SerializerMethodField()
-    amount = serializers.CharField()
-
-    def get_ticket(self, ticket):
-        # name = Ticket.objects.get(pk=ticket.ticketType).name
-        print(ticket)
-        # print(ticket.amount)
-        # print(name)
-        return ""
-
-    class Meta:
-        model = Ticket
-        fields = ['ticket','amount']
-
 class GetRegistrationsSerializer(serializers.ModelSerializer):
     event = ShortEventSerializer(source='eventId', read_only=True)
     ticketInfo = serializers.SerializerMethodField()
