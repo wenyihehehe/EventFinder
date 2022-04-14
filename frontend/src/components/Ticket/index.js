@@ -1,22 +1,14 @@
 import React from 'react';
 import style from './index.module.css';
+import moment from 'moment'
 
 class UserProfile extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            eventTitle: "How To DO THIS?",
-            organizer: "Memory Malaysia",
-            dateTime: "Nov 28th, Sun at 10.30am",
-            BigDateTime: "Nov 28",
-            orderId: "123456",
-            orderTime: "Nov 11st, Thurs, 10.30am",
-            tickets: {
-                "normal entry" : 1,
-                "special entry" : 1
-            }
+            orderDate: new Date(this.props.ticket.orderDateTime),
+            eventStartDateTime: new Date(this.props.ticket.event.startDateTime),
         };
-
     }
 
     render(){
@@ -24,29 +16,29 @@ class UserProfile extends React.Component{
         <div className={`${this.props.className} container row ${style.ticketBox} mb-5`} style={{marginLeft: "5rem"}}>
             <div className={`${style.topSection} col-12 row justify-content-between`}>
                 <div className="col-10">
-                    <p className="labelText">{this.state.eventTitle}</p>
-                    <p className="detailSubText">{this.state.organizer}</p>
-                    <p className="detailSubText tonedTextOrange">{this.state.dateTime}</p>
+                    <p className="labelText">{this.props.ticket.event.title}</p>
+                    <p className="detailSubText">{this.props.ticket.event.organizer}</p>
+                    <p className="detailSubText tonedTextOrange">{moment(this.state.eventStartDateTime).format('MMM Do, dddd, LT')}</p>
                 </div>
-                <p className={`col-2 titleText ${style.date} tonedTextOrange `}>{this.state.BigDateTime}</p>
+                <p className={`col-2 titleText ${style.date} tonedTextOrange `}>{moment(this.state.eventStartDateTime).format('MMM DD')}</p>
             </div>
             <div className={`${style.bottomSection} col-12 row`}>
                 <div className={`${style.borderRight} col-2`}>
                     <p className={`detailMainText`}>OrderID:</p>
-                    <p className={`detailSubText`}>#{this.state.orderId}</p>
+                    <p className={`detailSubText`}>#{this.props.ticket.id}</p>
                 </div>
                 <div className={`${style.borderRight} col-4`}>
                     <p className={`detailMainText`}>Ordered at:</p>
-                    <p className={`detailSubText`}>{this.state.orderTime}</p>
+                    <p className={`detailSubText`}>{moment(this.state.orderDate).format('MMM Do, dddd, LT')}</p>
                 </div>
                 <div className={`${style.borderRight} col-4`}>
                     <p className={`detailMainText`}>Tickets:</p>
-                    <p className={`detailSubText ${style.ticketDetail}`}>Normal Entry <span>x1</span></p>
-                    <p className={`detailSubText ${style.ticketDetail}`}>Special Entry <span>x1</span></p>
-                    
+                    {this.props.ticket.ticketInfo.map(ticket => (
+                        <p className={`detailSubText ${style.ticketDetail}`} key={ticket.name}>{ticket.name} <span>x{ticket.amount}</span></p>
+                    ))}
                 </div>
                 <div className={`col-2`}>
-                    <button type="button" class="btn primaryButton" style={{borderRadius: "0px"}}>More Info</button>
+                    <button type="button" className="btn primaryButton" style={{borderRadius: "0px"}}>More Info</button>
                 </div>
             </div>
         </div>
