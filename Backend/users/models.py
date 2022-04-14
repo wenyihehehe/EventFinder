@@ -44,6 +44,20 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
+    def has_organizerprofile(self):
+        try:
+            self.organizerprofile
+            return True
+        except:
+            return False
+
+    def has_registration(self):
+        try:
+            self.registration
+            return True
+        except:
+            return False
+
 '''
 Extended from User
 '''
@@ -111,10 +125,8 @@ class Event(models.Model):
     type = models.CharField(max_length=10)
     category = models.CharField(max_length=20)
     location = models.CharField(max_length=50)
-    startDate = models.DateField()
-    startTime = models.TimeField()
-    endDate = models.DateField()
-    endTime = models.TimeField()
+    startDateTime = models.DateTimeField()
+    endDateTime = models.DateTimeField()
     image = models.ImageField(null=True, blank=True)
     description = models.CharField(max_length=500)
     status = models.CharField(max_length=9, choices=STATUS, default="Draft")
@@ -131,7 +143,7 @@ class TicketType(models.Model):
     price = models.CharField(max_length=10)
 
     def __str__(self):
-        return "%s:%s" % (self.eventId, self.name)
+        return "%s" % (self.name)
 
 class Registration(models.Model):
     STATUS = (
@@ -142,8 +154,9 @@ class Registration(models.Model):
     id = models.AutoField(primary_key=True)
     userId = models.ForeignKey(User, on_delete=models.CASCADE, related_name="registration")
     eventId = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="registration")
+    orderDateTime = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=9, choices=STATUS)
-
+    
     def __str__(self):
         return "%s:%s" % (self.userId, self.eventId)
 

@@ -14,5 +14,7 @@ router.register(r"ticket", TicketViewSet, basename="ticket")
 router.register(r"review", ReviewViewSet, basename="review")
 
 urlpatterns = [
-    path("",include(router.urls))
+    path("",include(router.urls)),
+    path("getuserprofile/", GetUserProfileView.as_view()),
+    path("getregistrations/", GetRegistrationsView.as_view()),
 ]

@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from rest_framework.views import APIView
 
 from .permissions import *
 from .models import *
@@ -103,3 +104,16 @@ class TicketViewSet(ModelViewSet):
 class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
+class GetUserProfileView(APIView):
+
+    def get(self, request):
+        user = User.objects.filter(pk=request.user.id)
+        serializer = GetProfileSerializer(instance=user, many=True, context={"request": request})
+        return Response({"data": serializer.data})
+
+class GetRegistrationsView(APIView):
+    def get(self, request):
+        registrations = Registration.objects.filter(userId=request.user.id)
+        serializer = GetRegistrationsSerializer(instance=registrations, many=True, context={"request": request})
+        return Response({"data": serializer.data})

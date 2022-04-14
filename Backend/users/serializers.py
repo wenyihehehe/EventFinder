@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.db.models import F
 from .models import *
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -47,7 +48,7 @@ class EventSerializer(serializers.ModelSerializer):
 class EventUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['title','coverImage','type','category','location','startDate','startTime','endDate','endTime','image','description','status']
+        fields = ['title','coverImage','type','category','location','startDateTime','endDateTime','image','description','status']
 
 class TicketTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,6 +61,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class TicketSerializer(serializers.ModelSerializer):
+    ticketType = serializers.StringRelatedField()
+
     class Meta:
         model = Ticket
         fields = "__all__"
@@ -69,3 +72,72 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = "__all__"
 
+class OrganizerEventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrganizerProfile
+        fields = ['event']
+
+from django.db.models import Count
+
+# q = A.objects.select_related('B').annotate(num_B=Count('B'))
+
+class GetProfileSerializer(serializers.ModelSerializer):
+    profileImage = serializers.SerializerMethodField()
+    events = serializers.SerializerMethodField()
+    registrations = serializers.SerializerMethodField()
+
+    def get_registrations(self, user):
+        if(user.has_registration):
+            registrations = Registration.objects.filter(userId=user).count()
+            return "%s" % (registrations)
+        return "0"
+    
+    def get_events(self, user):
+        if(user.has_organizerprofile()):
+            events = Event.objects.filter(organizerId=user.organizerprofile).count()
+            return "%s" % (events)
+        return "0"
+
+    def get_profileImage(self, user):
+        request = self.context.get('request')
+        profileImage = user.profileImage.url
+        return request.build_absolute_uri(profileImage)
+
+    class Meta:
+        model = User
+        fields = ['profileImage','firstName','lastName','email','registrations','events']
+
+class ShortEventSerializer(serializers.ModelSerializer):
+    organizer = serializers.StringRelatedField(source='organizerId')
+
+    class Meta:
+        model = Event
+        fields = ['title','organizer','startDateTime','endDateTime']
+
+class ShortTicketSerializer(serializers.ModelSerializer):
+    ticket = serializers.SerializerMethodField()
+    amount = serializers.CharField()
+
+    def get_ticket(self, ticket):
+        # name = Ticket.objects.get(pk=ticket.ticketType).name
+        print(ticket)
+        # print(ticket.amount)
+        # print(name)
+        return ""
+
+    class Meta:
+        model = Ticket
+        fields = ['ticket','amount']
+
+class GetRegistrationsSerializer(serializers.ModelSerializer):
+    event = ShortEventSerializer(source='eventId', read_only=True)
+    ticketInfo = serializers.SerializerMethodField()
+
+    def get_ticketInfo(self, registration):
+        ticketInfo = Ticket.objects.filter(registration=registration).values(name=F('ticketType__name')).annotate(amount=Count('registration'))
+        print(ticketInfo)
+        return ticketInfo
+
+    class Meta:
+        model = Registration
+        fields = ['id', 'orderDateTime','event','ticketInfo']
