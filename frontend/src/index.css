@@ -38,6 +38,11 @@ html{
   background-color: #F8F8FA;
 }
 
+a:hover{
+  color:#FFFFFF;
+}
+
+/* Form and Button */
 .form-control:focus {
   border-color: #FABA40;
   box-shadow: 0 0 0 0.2rem rgba(250, 186, 64, 0.25);
@@ -177,17 +182,26 @@ html{
   line-height: 17px;
 }
 
+.smallText{
+  font-size: 12px;
+  line-height: 15px;
+}
+
 /* Text color */
 .importantTextColor{
   color: #170D2C;
 }
 
 .subTextColor{
-  color: #797383
+  color: #797383;
 }
 
 .tonedTextOrange{
-  color: #F58444
+  color: #F58444;
+}
+
+.mainYellow{
+  color: #FABA40;
 }
 
 /* Background */
