@@ -1,0 +1,13 @@
+.box{
+    background-color: #FDFDFD;
+    padding: 1.5rem 2.5rem;
+    margin-bottom: 2rem;
+}
+
+input[type=file]{
+    border: none;
+}
+
+input[type=file]:focus{
+    box-shadow: none;
+}

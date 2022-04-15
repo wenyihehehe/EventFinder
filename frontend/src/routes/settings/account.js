@@ -1,7 +1,14 @@
+import UserProfileForm from '../../components/SettingsForm/UserProfileForm';
+import PasswordForm from '../../components/SettingsForm/PasswordForm';
+import AddressForm from '../../components/SettingsForm/AddressForm';
+
 export default function Account() {
     return (
-      <main style={{ padding: "1rem 0" }}>
-        <h2>Account</h2>
+      <main className="col-6">
+        <p className="titleText">User Account Settings</p>
+        <UserProfileForm />
+        <PasswordForm />
+        <AddressForm />
       </main>
     );
   }
