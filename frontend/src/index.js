@@ -20,7 +20,7 @@ import Search from "./routes/search";
 import Event from "./routes/event";
 import Ticket from "./routes/ticket";
 import UserProfilePage from "./routes/profile/userprofile";
-import OrganizerProfile from "./routes/profile/organizerprofile";
+import OrganizerProfilePage from "./routes/profile/organizerprofile";
 import Account from "./routes/settings/account";
 import OrganizerAccount from "./routes/settings/organizeraccount";
 import Dashboard from "./routes/dashboard/main";
@@ -34,7 +34,7 @@ import NotFound from "./routes/notfound";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="login" element={<LoginPage />} />
@@ -46,7 +46,7 @@ root.render(
           <Route path="ticket/:registrationId" element={<Ticket />} />
           <Route path="profile">
             <Route path="user/view" element={<UserProfilePage />}/>
-            <Route path="organizer/view" element={<OrganizerProfile />}/>
+            <Route path="organizer/view" element={<OrganizerProfilePage />}/>
           </Route>
           <Route path="settings">
             <Route path="account" element={<Account />}/>
@@ -67,7 +67,7 @@ root.render(
         </Route>
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
