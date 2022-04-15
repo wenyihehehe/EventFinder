@@ -52,11 +52,8 @@ class User(AbstractUser):
             return False
 
     def has_registration(self):
-        try:
-            self.registration
-            return True
-        except:
-            return False
+        return self.registration.exists()
+
 
 '''
 Extended from User
@@ -133,6 +130,9 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+    def has_ticketType(self):
+        return self.ticketType.exists()
 
 class TicketType(models.Model):
     id = models.AutoField(primary_key=True)
