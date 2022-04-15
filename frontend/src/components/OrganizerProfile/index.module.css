@@ -1,0 +1,14 @@
+.box{
+    min-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profileImage{
+    border-radius: 100%;
+    width: 150px;
+    height: 150px;
+    object-position: 0px -3px;
+    object-fit: cover;
+    box-sizing: content-box;
+}

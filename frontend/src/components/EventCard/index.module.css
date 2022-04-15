@@ -1,0 +1,28 @@
+.card{
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.05);
+    border-width: 0.5px;
+    border-radius: 0px;
+    min-height: 370px;
+    min-width: 285px;
+}
+
+.card > img {
+    max-height: 170px;
+}
+
+.cardTitle {
+    max-height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.cardDetail {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}

@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from rest_framework.views import APIView
 
 from .permissions import *
 from .models import *
@@ -103,3 +104,45 @@ class TicketViewSet(ModelViewSet):
 class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        organizerProfile = OrganizerProfile.objects.get(userId=self.request.user)
+        events = Event.objects.filter(organizerId=organizerProfile).values_list('id', flat=True)
+        queryset = Review.objects.filter(eventId__in=events)
+        return queryset
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = GetOrganizerReviewsSerializer(queryset, many=True, context={"request": request})
+        return Response(serializer.data)
+
+class GetUserProfileView(APIView):
+    def get(self, request):
+        user = User.objects.filter(pk=request.user.id)
+        serializer = GetUserProfileSerializer(instance=user, many=True, context={"request": request})
+        return Response({"data": serializer.data})
+
+class GetRegistrationsView(APIView):
+    def get(self, request):
+        registrations = Registration.objects.filter(userId=request.user.id)
+        serializer = GetRegistrationsSerializer(instance=registrations, many=True, context={"request": request})
+        return Response({"data": serializer.data})
+    
+class GetOrganizerProfileView(APIView):
+    def get(self, request):
+        user = OrganizerProfile.objects.filter(userId=request.user.id)
+        serializer = GetOrganizerProfileSerializer(instance=user, many=True, context={"request": request})
+        return Response({"data": serializer.data})
+
+class GetOrganizingEventView(APIView):
+    def get(self, request):
+        organizerProfile = OrganizerProfile.objects.get(userId=request.user)
+        event = Event.objects.filter(organizerId=organizerProfile)
+        serializer = GetOrganizingEventsSerializer(instance=event, many=True, context={"request": request})
+        return Response({"data": serializer.data})

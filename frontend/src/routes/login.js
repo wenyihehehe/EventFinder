@@ -1,7 +1,7 @@
 import LoginModal from "../components/LoginModal";
 import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
+export default function LoginPage() {
     let navigate = useNavigate();
     return (
       <main className="container-fluid row" style={{minHeight: "100vh"}}>

@@ -13,14 +13,14 @@ import {
 import NavTemplate from './templates/navTemplate';
 
 // Import routes
-import Login from "./routes/login";
-import SignUp from "./routes/signup";
+import LoginPage from "./routes/login";
+import SignUpPage from "./routes/signup";
 import Home from "./routes/home";
 import Search from "./routes/search";
 import Event from "./routes/event";
 import Ticket from "./routes/ticket";
-import UserProfile from "./routes/profile/userprofile";
-import OrganizerProfile from "./routes/profile/organizerprofile";
+import UserProfilePage from "./routes/profile/userprofile";
+import OrganizerProfilePage from "./routes/profile/organizerprofile";
 import Account from "./routes/settings/account";
 import OrganizerAccount from "./routes/settings/organizeraccount";
 import Dashboard from "./routes/dashboard/main";
@@ -34,19 +34,19 @@ import NotFound from "./routes/notfound";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<SignUp />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="signup" element={<SignUpPage />} />
         <Route path="/" element={<NavTemplate />}>
           <Route index element={<Home />} />
           <Route path="search" element={<Search />} />
           <Route path="event/:eventId" element={<Event />} />
           <Route path="ticket/:registrationId" element={<Ticket />} />
           <Route path="profile">
-            <Route path="user/view" element={<UserProfile />}/>
-            <Route path="organizer/view" element={<OrganizerProfile />}/>
+            <Route path="user/view" element={<UserProfilePage />}/>
+            <Route path="organizer/view" element={<OrganizerProfilePage />}/>
           </Route>
           <Route path="settings">
             <Route path="account" element={<Account />}/>
@@ -67,7 +67,7 @@ root.render(
         </Route>
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
