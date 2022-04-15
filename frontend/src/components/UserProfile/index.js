@@ -35,7 +35,7 @@ class UserProfile extends React.Component{
 
     render(){
         return (
-        <div className={`${this.props.className } ${style.box} container row mt-5 pb-3`}>
+        <div className={`${this.props.className } ${style.box} container row mt-5 pb-3`} style={{width: "85%"}}>
             <img className={`${style.profileImage} col-auto`} src={this.state.profileImage} alt="illustration"></img>
             <div className={`col-auto align-self-center`}>
                 <p className="secondaryTitleText importantTextColor mb-1">{this.state.firstName} {this.state.lastName}</p>
