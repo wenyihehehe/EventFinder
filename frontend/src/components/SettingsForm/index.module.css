@@ -20,4 +20,5 @@ input[type=file]:focus{
     object-position: 0px -3px;
     object-fit: cover;
     box-sizing: content-box;
+    margin-bottom: 0.5rem;
 }

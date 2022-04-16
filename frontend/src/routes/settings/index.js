@@ -16,7 +16,7 @@ export default function SettingPage() {
 
     return (
       <main className="container-fluid row justify-content-center mt-4">
-        <nav className="col-2 mr-5" style={navStyle}>
+        <nav className="col-lg-2 mr-5 mb-3 ml-3" style={navStyle}>
             {navs.map((nav) => (
             <NavLink
                 className="headingText"

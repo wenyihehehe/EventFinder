@@ -2,7 +2,7 @@ import OrganizerProfileForm from '../../components/SettingsForm/OrganizerProfile
 
 export default function OrganizerAccount() {
     return (
-      <main className="col-6">
+      <main className="col-lg-6">
         <p className="titleText">Organizer Account Settings</p>
         <OrganizerProfileForm />
       </main>
