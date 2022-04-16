@@ -15,8 +15,11 @@ router.register(r"review", ReviewViewSet, basename="review")
 
 urlpatterns = [
     path("",include(router.urls)),
-    path("getuserprofile/", GetUserProfileView.as_view()),
+    path("getuserprofileeventregistrations/", GetUserProfileEventRegistrationsView.as_view()),
     path("getregistrations/", GetRegistrationsView.as_view()),
-    path("getorganizerprofile/", GetOrganizerProfileView.as_view()),
+    path("getorganizerprofileeventregistrations/", GetOrganizerProfileEventRegistrationsView.as_view()),
     path("getorganizingevent/", GetOrganizingEventView.as_view()),
+    path("updateuserprofile/", UpdateUserProfileView.as_view()),
+    path("updateorganizerprofile/", UpdateOrganizerProfileView.as_view()),
+    path("changepassword/", ChangePasswordView.as_view()),
 ]

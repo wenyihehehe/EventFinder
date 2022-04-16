@@ -77,7 +77,7 @@ class OrganizerEventSerializer(serializers.ModelSerializer):
         model = OrganizerProfile
         fields = ['event']
 
-class GetUserProfileSerializer(serializers.ModelSerializer):
+class GetUserProfileEventRegistrationsSerializer(serializers.ModelSerializer):
     profileImage = serializers.SerializerMethodField()
     events = serializers.SerializerMethodField()
     registrations = serializers.SerializerMethodField()
@@ -122,7 +122,7 @@ class GetRegistrationsSerializer(serializers.ModelSerializer):
         model = Registration
         fields = ['id', 'orderDateTime','event','ticketInfo']
 
-class GetOrganizerProfileSerializer(serializers.ModelSerializer):
+class GetOrganizerProfileEventRegistrationsSerializer(serializers.ModelSerializer):
     profileImage = serializers.SerializerMethodField()
     events = serializers.SerializerMethodField()
     registrations = serializers.SerializerMethodField()
@@ -199,3 +199,12 @@ class GetOrganizerReviewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['profileImage','firstName','lastName','postedDate','rating','event','comment']
+
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
+
+    """
+    Serializer for password change endpoint.
+    """
+    currentPassword = serializers.CharField(required=True)
+    newPassword = serializers.CharField(required=True)
