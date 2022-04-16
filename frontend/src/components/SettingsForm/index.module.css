@@ -6,8 +6,18 @@
 
 input[type=file]{
     border: none;
+    padding: 0;
 }
 
 input[type=file]:focus{
     box-shadow: none;
+}
+
+.profileImage{
+    border-radius: 100%;
+    width: 150px;
+    height: 150px;
+    object-position: 0px -3px;
+    object-fit: cover;
+    box-sizing: content-box;
 }
