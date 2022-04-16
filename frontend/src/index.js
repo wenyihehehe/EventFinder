@@ -22,6 +22,7 @@ import Ticket from "./routes/ticket";
 import UserProfilePage from "./routes/profile/userprofile";
 import OrganizerProfilePage from "./routes/profile/organizerprofile";
 import Account from "./routes/settings/account";
+import SettingPage from "./routes/settings/index";
 import OrganizerAccount from "./routes/settings/organizeraccount";
 import Dashboard from "./routes/dashboard/main";
 import CreateEvent from "./routes/dashboard/create";
@@ -48,7 +49,7 @@ root.render(
             <Route path="user/view" element={<UserProfilePage />}/>
             <Route path="organizer/view" element={<OrganizerProfilePage />}/>
           </Route>
-          <Route path="settings">
+          <Route path="settings" element={<SettingPage />}>
             <Route path="account" element={<Account />}/>
             <Route path="organizeraccount" element={<OrganizerAccount />}/>
           </Route>

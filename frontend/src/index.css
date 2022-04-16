@@ -38,8 +38,13 @@ html{
   background-color: #F8F8FA;
 }
 
+a {
+  color: #241C33;
+}
+
 a:hover{
-  color:#FFFFFF;
+  color:#241C33;
+  text-decoration: none;
 }
 
 /* Form and Button */

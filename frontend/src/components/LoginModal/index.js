@@ -14,6 +14,7 @@ class LoginModal extends React.Component{
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.validateForm = this.validateForm.bind(this);
     }
 
     handleInputChange(event){

@@ -2,6 +2,8 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated   
 
 from .permissions import *
 from .models import *
@@ -11,6 +13,17 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = [UserProfilePermission]
+    
+    def list(self, request, *args, **kwargs):
+        queryset = User.objects.filter(id=self.request.user.id)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     def partial_update(self, request, pk=None):
         user = self.get_object()
@@ -35,9 +48,19 @@ class AddressViewSet(ModelViewSet):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
 
+    def list(self, request, *args, **kwargs):
+        queryset = Address.objects.filter(userId=request.user.id)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
     def create(self, request):
-        address = Address.objects.filter(userId=request.data['userId']).first()
-        print(address)
+        request.data['userId'] = request.user.id
+        address = Address.objects.filter(userId=request.user.id).first()
         if(address):
             serializer = self.get_serializer(address, data=request.data)
         else: 
@@ -54,6 +77,17 @@ class OrganizerProfileViewSet(ModelViewSet):
     queryset = OrganizerProfile.objects.all()
     serializer_class = OrganizerProfileSerializer
     permission_classes = [OrganizerProfilePermission]
+
+    def list(self, request, *args, **kwargs):
+        queryset = OrganizerProfile.objects.filter(userId=self.request.user.id)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     def partial_update(self, request, pk=None):
         organizerProfile = self.get_object()
@@ -122,10 +156,10 @@ class ReviewViewSet(ModelViewSet):
         serializer = GetOrganizerReviewsSerializer(queryset, many=True, context={"request": request})
         return Response(serializer.data)
 
-class GetUserProfileView(APIView):
+class GetUserProfileEventRegistrationsView(APIView):
     def get(self, request):
         user = User.objects.filter(pk=request.user.id)
-        serializer = GetUserProfileSerializer(instance=user, many=True, context={"request": request})
+        serializer = GetUserProfileEventRegistrationsSerializer(instance=user, many=True, context={"request": request})
         return Response({"data": serializer.data})
 
 class GetRegistrationsView(APIView):
@@ -134,10 +168,10 @@ class GetRegistrationsView(APIView):
         serializer = GetRegistrationsSerializer(instance=registrations, many=True, context={"request": request})
         return Response({"data": serializer.data})
     
-class GetOrganizerProfileView(APIView):
+class GetOrganizerProfileEventRegistrationsView(APIView):
     def get(self, request):
         user = OrganizerProfile.objects.filter(userId=request.user.id)
-        serializer = GetOrganizerProfileSerializer(instance=user, many=True, context={"request": request})
+        serializer = GetOrganizerProfileEventRegistrationsSerializer(instance=user, many=True, context={"request": request})
         return Response({"data": serializer.data})
 
 class GetOrganizingEventView(APIView):
@@ -146,3 +180,35 @@ class GetOrganizingEventView(APIView):
         event = Event.objects.filter(organizerId=organizerProfile)
         serializer = GetOrganizingEventsSerializer(instance=event, many=True, context={"request": request})
         return Response({"data": serializer.data})
+
+class UpdateUserProfileView(APIView):
+    def patch(self, request):
+        user = request.user
+        serializer = UserProfileUpdateSerializer(user, data=request.data, partial=True)
+        if not serializer.is_valid():
+            return Response({"status": "ERROR", "detail": "Unable to update record"})
+        serializer.save()
+        return Response({"status": "OK", "data": serializer.data})
+
+class UpdateOrganizerProfileView(APIView):
+    def patch(self, request):
+        organizerProfile = OrganizerProfile.objects.get(userId=request.user)
+        serializer = OrganizerProfileUpdateSerializer(organizerProfile, data=request.data, partial=True)
+        if not serializer.is_valid():
+            return Response({"status": "ERROR", "detail": "Unable to update record"})
+        serializer.save()
+        return Response({"status": "OK", "data": serializer.data})
+
+class ChangePasswordView(generics.UpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def update(self, request, *args, **kwargs):
+        user = request.user
+        serializer = ChangePasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            if not user.check_password(serializer.data.get("currentPassword")):
+                return Response({"status": "ERROR", "detail": "Wrong password."})
+            user.set_password(serializer.data.get("newPassword"))
+            user.save()
+            return Response({"status": "OK"})
+        return Response({"status": "ERROR", "detail": "Unable to change password"})

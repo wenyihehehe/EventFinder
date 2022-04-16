@@ -17,7 +17,7 @@ class UserProfile extends React.Component{
     }
 
     async getData(){
-        let userProfile = await User.getUserProfile()
+        let userProfile = await User.getUserProfileEventRegistrations()
         let data = userProfile.data[0]
         this.setState({
             profileImage: data.profileImage,

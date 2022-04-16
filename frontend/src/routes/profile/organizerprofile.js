@@ -41,8 +41,8 @@ export default function OrganizerProfilePage() {
   }
 
   return (
-    <main className="container-fluid row justify-content-center" >
-      <div className="backgroundWhite mt-4" style={{width: "85%", height: "fit-content", minHeight: "500px"}}>
+    <main className="container-fluid row justify-content-center mt-4" >
+      <div className="backgroundWhite" style={{width: "85%", height: "fit-content", minHeight: "500px"}}>
         <OrganizerProfile />
         <hr/>
         <section className="pt-3">
