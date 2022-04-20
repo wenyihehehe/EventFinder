@@ -28,6 +28,13 @@ async function getOrganizingEvents(){
     return res;
 };
 
+async function getOrganizingEventsSearchPage({searchParams, page}){
+    let res = await Network.authGet({
+        path: `api/getorganizingeventsearchpage?page=${page}&search=${searchParams}`,
+    });
+    return res;
+};
+
 async function getReviews(){
     let res = await Network.authGet({
         path: "api/review",
@@ -114,7 +121,7 @@ async function changePassword({currentPassword, newPassword}){
 
 export { 
     getUserProfileEventRegistrations, getRegistrations, getOrganizerProfileEventRegistrations, getOrganizingEvents, 
-    getReviews, getUserProfile, getOrganizerProfile, getAddress, 
+    getOrganizingEventsSearchPage, getReviews, getUserProfile, getOrganizerProfile, getAddress, 
     updateUserProfile, updateOrganizerProfile, createUpdateAddress, changePassword
 }
 

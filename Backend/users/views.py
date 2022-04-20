@@ -3,11 +3,13 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated   
+from rest_framework.permissions import IsAuthenticated 
+from rest_framework import filters
 
 from .permissions import *
 from .models import *
 from .serializers import *
+from .pagination import *
 
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
@@ -212,3 +214,37 @@ class ChangePasswordView(generics.UpdateAPIView):
             user.save()
             return Response({"status": "OK"})
         return Response({"status": "ERROR", "detail": "Unable to change password"})
+
+class DeleteEventView(generics.DestroyAPIView):
+    permission_classes = (IsAuthenticated, EventPermission)
+
+    def delete(self, request):
+        event = Event.objects.get(id=request.data["id"])
+        serializer = DeleteEventSerializer(event, data=request.data)
+        if not serializer.is_valid():
+            print(serializer.errors)
+            return Response(
+                {"status": "ERROR", "detail": "Unable to delete event"}
+            )
+        serializer.save()
+        return Response({"status": "OK", "data": serializer.data})
+
+class GetOrganizingEventSearchPageView(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title', 'location']
+    pagination_class = BasicPagination
+
+    def get_queryset(self):
+        organizerProfile = OrganizerProfile.objects.get(userId=self.request.user)
+        event = Event.objects.filter(organizerId=organizerProfile)
+        return event
+
+    def get(self, request, *args, **kwargs):
+        event = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(event)
+        if page is not None:
+            serializer = GetOrganizingEventsSerializer(page, many=True, context={"request": request})
+            return self.get_paginated_response(serializer.data)
+        serializer = GetOrganizingEventsSerializer(instance=event, many=True, context={"request": request})
+        return Response({"data": serializer.data})

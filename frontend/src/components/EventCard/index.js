@@ -20,7 +20,7 @@ class EventCard extends React.Component{
                     <p className={`card-title headingText mb-1 ${style.cardTitle}`}>{this.props.event.title}</p>
                     <p className={`card-text detailSubText subTextColor mb-1 ${style.cardDetail}`}>{this.props.event.location}</p>
                     <p className="card-text detailSubText subTextColor">{this.props.event.pricing}</p>
-                    <button href="/" className="btn primaryButton" style={{borderRadius: "0px"}}>More info</button>
+                    <Link to={`/event/${this.props.event.id}`}><button href="/" className="btn primaryButton" style={{borderRadius: "0px"}}>More info</button></Link>
                 </div>
             </div>
         )

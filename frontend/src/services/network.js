@@ -234,15 +234,17 @@ async function authPostWithFormData({ path = null, url = null, formData }) {
 	return { data, response };
 };
 
-async function authDelete({ path = null, url = null }) {
+async function authDelete({ path = null, url = null, body}) {
 	url = url || Domain + path;
 	let response = await fetch(url, {
 		method: "DELETE",
 		headers: {
 			Authorization: `Token ${Cookie.get("token")}`,
+			"Content-Type": "application/json",
 		},
+		body:  JSON.stringify(body),
 	});
-	let data = await response.text();
+	let data = await response.json();
 	return { data, response };
 };
 

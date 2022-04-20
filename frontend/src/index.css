@@ -72,6 +72,16 @@ a:hover{
   background: rgba(250, 186, 64, 0.85);
 }
 
+.page-link{
+  background: #FABA40;
+  color: #FFFFFF;
+}
+
+.page-link:hover, .page-link:focus{
+  background: rgba(250, 186, 64, 0.85);
+  box-shadow: 0 0 0 0.2rem rgba(250, 186, 64, 0.25);
+}
+
 /* Custom checkbox */
 .checkboxcontainer {
   display: block;
