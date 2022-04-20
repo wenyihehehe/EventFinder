@@ -22,4 +22,6 @@ urlpatterns = [
     path("updateuserprofile/", UpdateUserProfileView.as_view()),
     path("updateorganizerprofile/", UpdateOrganizerProfileView.as_view()),
     path("changepassword/", ChangePasswordView.as_view()),
+    path("deleteevent/", DeleteEventView.as_view()),
+    path("getorganizingeventsearchpage/", GetOrganizingEventSearchPageView.as_view()),
 ]

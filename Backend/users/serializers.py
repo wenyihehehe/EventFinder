@@ -171,7 +171,7 @@ class GetOrganizingEventsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['coverImage','title','startDateTime','location','pricing']
+        fields = ['id','coverImage','title','startDateTime','location','pricing','status']
 
 class GetOrganizerReviewsSerializer(serializers.ModelSerializer):
     profileImage = serializers.SerializerMethodField()
@@ -208,3 +208,8 @@ class ChangePasswordSerializer(serializers.Serializer):
     """
     currentPassword = serializers.CharField(required=True)
     newPassword = serializers.CharField(required=True)
+
+class DeleteEventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ['id','soft_delete']
