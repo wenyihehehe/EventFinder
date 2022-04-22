@@ -48,7 +48,7 @@ class EventSerializer(serializers.ModelSerializer):
 class EventUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['title','coverImage','type','category','location','startDateTime','endDateTime','image','description','status']
+        fields = ['title','coverImage','type','category','location','startDateTime','endDateTime','description','status']
 
 class TicketTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -213,3 +213,8 @@ class DeleteEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ['id','soft_delete']
+
+class CreateEventImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventImage
+        fields = ['eventId','image']

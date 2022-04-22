@@ -8,11 +8,15 @@ def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT user_photo/ user_<id>/<filename>
     return "user_photo/user_{0}/{1}".format(instance.id, filename)
 
+def event_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT user_photo/ user_<id>/<filename>
+    return "event_photo/event_{0}/{1}".format(instance.id, filename)
+
 class User(AbstractUser):
     id = models.AutoField(primary_key=True)
     username = None
     email = models.EmailField(("email address"), unique=True)
-    profileImage = models.ImageField(null=True, blank=True,upload_to=user_directory_path)
+    profileImage = models.ImageField(null=True, blank=True, upload_to=user_directory_path)
     firstName = models.CharField(max_length=50, default="-", null=True, blank=True)
     lastName = models.CharField(max_length=50, default="-", null=True, blank=True)
     contactNumber = models.CharField(max_length=11, null=True, blank=True)
@@ -98,15 +102,14 @@ class Event(models.Model):
 
     id = models.AutoField(primary_key=True)
     organizerId = models.ForeignKey(OrganizerProfile, on_delete=models.CASCADE, related_name="event")    
-    title = models.CharField(max_length=100)
-    coverImage = models.ImageField(null=True, blank=True)
-    type = models.CharField(max_length=10)
-    category = models.CharField(max_length=20)
-    location = models.CharField(max_length=50)
-    startDateTime = models.DateTimeField()
-    endDateTime = models.DateTimeField()
-    image = models.ImageField(null=True, blank=True)
-    description = models.CharField(max_length=500)
+    title = models.CharField(null=True, blank=True, max_length=100)
+    coverImage = models.ImageField(null=True, blank=True, upload_to=event_directory_path, default="DefaultCoverImage.png")
+    type = models.CharField(null=True, blank=True, max_length=10)
+    category = models.CharField(null=True, blank=True, max_length=20)
+    location = models.CharField(null=True, blank=True, max_length=50)
+    startDateTime = models.DateTimeField(null=True, blank=True)
+    endDateTime = models.DateTimeField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True, max_length=500)
     status = models.CharField(max_length=9, choices=STATUS, default="Draft")
 
     # Handle soft deletion
@@ -114,10 +117,18 @@ class Event(models.Model):
     objects = EventManager()
 
     def __str__(self):
-        return self.title
+        return self.title if self.title else ""
 
     def has_ticketType(self):
         return self.ticketType.exists()
+
+    def has_eventImage(self):
+        return self.image.exists()
+
+class EventImage(models.Model):
+    id = models.AutoField(primary_key=True)
+    eventId = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="image")
+    image = models.ImageField(null=True, blank=True)
 
 class TicketType(models.Model):
     id = models.AutoField(primary_key=True)

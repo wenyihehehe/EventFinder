@@ -57,6 +57,9 @@ class TicketAdmin(admin.ModelAdmin):
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('id', 'userId', 'eventId', 'rating', 'comment')
 
+class EventImageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'eventId', 'image')
+
 
 # Register your models here.
 admin.site.register(User, CustomUserAdmin)
@@ -67,3 +70,4 @@ admin.site.register(TicketType, TicketTypeAdmin)
 admin.site.register(Registration, RegistrationAdmin)
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(Review, ReviewAdmin)
+admin.site.register(EventImage, EventImageAdmin)
