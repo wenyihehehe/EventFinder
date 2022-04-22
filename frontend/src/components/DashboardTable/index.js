@@ -10,13 +10,35 @@ class DashboardTable extends React.Component{
         this.state = {
             events: [],
         };
+        this.deleteEvent = this.deleteEvent.bind(this);
         this.handleDeleteEvent = this.handleDeleteEvent.bind(this);
+    }
+
+    deleteEvent(id){
+        swal("Confirm delete event?", {
+            buttons: {
+              cancel: "Cancel",
+              confirm: {
+                  text: "Confirm",
+                  value: "confirm"
+              },
+            },
+          })
+          .then((value) => {
+            switch (value) {
+              case "confirm":
+                this.handleDeleteEvent(id)
+                break;
+              default:
+                swal.close()
+            }
+          });
     }
 
     async handleDeleteEvent(id){
         let event = await Event.deleteEvent({id});
         if (event.data.status === "OK"){
-            this.getData();
+            this.props.getData();
         } else {
             let errorMessage = event.data.detail;
             swal("Error!", errorMessage,  "error");
@@ -26,7 +48,7 @@ class DashboardTable extends React.Component{
     render(){
         const events = this.props.organizingEvents;
         return (
-        <div className={`this.props.className ${style.box} backgroundWhite`}>
+        <div className={`${this.props.className} backgroundWhite`}>
             <table className={`table ${style.table} table-borderless`}>
                 <thead>
                     <tr className="headingText" style={{boxShadow: "inset 0px -0.5px 0px #CCCCCC"}}>
@@ -41,15 +63,15 @@ class DashboardTable extends React.Component{
                         <tr key={event.id} style={{boxShadow: "inset 0px -0.5px 0px #E5E5E5"}}>
                             <td className={`row justify-content-start ${style.verticalCenter}`}>
                                 <div className="col-auto">
-                                    <p className={`titleText ${style.date} tonedTextOrange `}>{moment(event.startDateTime).format('MMM DD')}</p>
+                                    <p className={`titleText ${style.date} tonedTextOrange `}>{event.startDateTime ? moment(event.startDateTime).format('MMM DD') : "NA"}</p>
                                 </div>
                                 <div className="col-auto">
                                     <img className={`${style.image}`} src={event.coverImage} alt="event"/>
                                 </div>
                                 <div className="col-auto">
-                                    <p className="labelText">{event.title}</p>
-                                    <p className="detailSubText subTextColor mb-1">{moment(event.startDateTime).format('MMM Do, dddd, LT')}</p>
-                                    <p className="detailSubText subTextColor">{event.location}</p>
+                                    <p className="labelText">{event.title ? event.title : "NA"}</p>
+                                    <p className="detailSubText subTextColor mb-1">{event.startDateTime ? moment(event.startDateTime).format('MMM Do, dddd, LT') : "NA"}</p>
+                                    <p className="detailSubText subTextColor">{event.location ? event.location : "NA"}</p>
                                 </div>
                             </td>
                             <td className={`${style.verticalCenter}`}>
@@ -62,7 +84,8 @@ class DashboardTable extends React.Component{
                                     </button>
                                     <ul className={`dropdown-menu ${style.dropDownMenu}`} aria-labelledby='dropdownMenu'>
                                         <li><button className="dropdown-item detailMainText" type="button" onClick={()=>this.props.navigate('/dashboard/manage/' + event.id)}>Edit</button></li>
-                                        <li><button className="dropdown-item detailMainText" type="button" onClick={()=>this.handleDeleteEvent(event.id)}>Delete</button></li>
+                                        <li><button className="dropdown-item detailMainText" type="button" onClick={()=>this.deleteEvent(event.id)}>Delete</button></li>
+                                         {/*TODO: Add delete confirmation */}
                                     </ul>
                                 </div>
                             </td>

@@ -8,6 +8,7 @@
 
 .card > img {
     max-height: 170px;
+    object-fit: cover;
 }
 
 .cardTitle {

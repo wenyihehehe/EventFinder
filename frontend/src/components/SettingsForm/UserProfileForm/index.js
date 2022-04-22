@@ -103,7 +103,7 @@ class UserProfileForm extends React.Component{
                     <div className="col-12" style={{padding: "0"}}>
                         <img className={`${style.profileImage} img`} src={this.state.profileImage} alt="profileimage"></img>
                     </div>
-                    <input type="file" className="form-control" name="profileImage" accept="image/*" onChange={this.onFileSelected} />
+                    <input type="file" className="form-control-file" name="profileImage" accept="image/*" onChange={this.onFileSelected} />
                 </div>
                 <label htmlFor="firstName" className="form-label labelText">First Name</label>
                 <div className="input-group mb-3">

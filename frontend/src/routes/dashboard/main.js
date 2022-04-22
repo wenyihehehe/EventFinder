@@ -15,12 +15,7 @@ export default function DashboardPage() {
     let organizingEvents = await User.getOrganizingEventsSearchPage({searchParams, page});
     let data = organizingEvents.data;
     setMaxPage(organizingEvents.max)
-    let eventsArray = organizingEvents;
-    eventsArray = [];
-    data.forEach((item) => {
-      eventsArray.push(item);
-    })
-    setOrganizingEvents(eventsArray);
+    setOrganizingEvents(data);
   }
 
   useEffect(() => {
@@ -38,7 +33,7 @@ export default function DashboardPage() {
           <span className="bi bi-search" style={{position:"absolute", top: "0.5rem", left:"1rem"}}></span>
           <input type="text" className="form-control detailMainText" placeholder="Search events" style={{textIndent:"2rem", height:"40px"}} value={searchParams} onChange={(e)=> setSearchParams(e.target.value)}></input>
         </div>
-        <DashboardTable className="col-12" navigate={navigate} organizingEvents={organizingEvents}/>
+        <DashboardTable className="col-12" navigate={navigate} organizingEvents={organizingEvents} getData={getData}/>
         <nav aria-label="Page navigation">
         <ul className="pagination detailMainText justify-content-center">
           <li className="page-item">
