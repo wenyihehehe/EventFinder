@@ -124,10 +124,37 @@ class EventViewSet(ModelViewSet):
             return Response({"status": "ERROR", "detail": "Unable to update record"})
         serializer.save()
         return Response({"status": "OK", "data": serializer.data})
+    
+    def create(self, request):
+        data = request.data.copy()
+        organizerProfile = OrganizerProfile.objects.get(userId=request.user)
+        data['organizerId'] = organizerProfile.id
+        serializer = self.get_serializer(data=data, partial=True)
+        if not serializer.is_valid():
+            print(serializer.errors)
+            return Response(
+                {"status": "ERROR", "detail": "Unable to create record"}
+            )
+        serializer.save()
+        return Response({"status": "OK", "data": serializer.data})
 
 class TicketTypeViewSet(ModelViewSet):
     queryset = TicketType.objects.all()
     serializer_class = TicketTypeSerializer
+
+    def create(self, request):
+        if ("id" in request.data):
+            instance = TicketType.objects.get(id=request.data["id"])
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+        else:
+            serializer = self.get_serializer(data=request.data, partial=True)
+        if not serializer.is_valid():
+            print(serializer.errors)
+            return Response(
+                {"status": "ERROR", "detail": "Unable to create record"}
+            )
+        serializer.save()
+        return Response({"status": "OK", "data": serializer.data})
 
 class RegistrationViewSet(ModelViewSet):
     queryset = Registration.objects.all()
@@ -248,3 +275,28 @@ class GetOrganizingEventSearchPageView(generics.ListAPIView):
             return self.get_paginated_response(serializer.data)
         serializer = GetOrganizingEventsSerializer(instance=event, many=True, context={"request": request})
         return Response({"data": serializer.data})
+
+class CreateEventImage(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request, *args, **kwargs):
+        event = Event.objects.get(pk=int(request.data['eventId']))
+        # Use later when updating event
+        # if(event.has_eventImage()):
+        #     event.image.all().delete()
+        data = []
+        images= request.data.getlist('image').copy()
+        for image in images:
+            item = {
+                'eventId': request.data['eventId'],
+                'image': image
+            }
+            data.append(item)
+        serializer = CreateEventImageSerializer(data=data, many=True)
+        if not serializer.is_valid():
+            print(serializer.errors)
+            return Response(
+                {"status": "ERROR", "detail": "Unable to save image"}
+            )
+        serializer.save()
+        return Response({"status": "OK", "data": serializer.data})

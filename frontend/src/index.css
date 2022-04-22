@@ -61,9 +61,10 @@ a:hover{
   font-size: 14px;
   line-height: 17px;
   height: 40px;
+  min-width: 40px;
 }
 
-.primaryButton:focus, .swal-button:focus{
+.primaryButton:focus, .swal-button:focus, .outlinedButton:focus, .secondaryButton:focus{
   border-color: #FABA40;
   box-shadow: 0 0 0 0.2rem rgba(250, 186, 64, 0.25);
 }
@@ -72,6 +73,31 @@ a:hover{
   background: rgba(250, 186, 64, 0.85);
 }
 
+.outlinedButton{
+  background: #FDFDFD;
+  border: 1px solid #F58444;
+  box-sizing: border-box;
+  border-radius: 5px;
+  color: #F58444;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  height: 40px;
+  min-width: 40px;
+}
+
+.secondaryButton{
+  background: #FDFDFD;
+  color:#FABA40;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  height: 40px;
+  min-width: 40px;
+}
+
+/* Pagination */
 .page-link{
   background: #FABA40;
   color: #FFFFFF;
@@ -222,4 +248,35 @@ a:hover{
 /* Background */
 .backgroundWhite{
   background-color: #FDFDFD;
+}
+
+/* Quill */
+.ql-toolbar.ql-snow{
+  background-color: #fff;
+  border: 0.5px solid rgba(0,0,0,.125);
+}
+
+.ql-container{
+  font-family: 'Montserrat', sans-serif !important;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1rem !important;
+  height: 400px !important;
+}
+
+.ql-editor{
+  line-height: 20px !important;
+}
+
+/* Custom Invalid feedback */
+.invalidFeedback{
+  display: none;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+}
+
+.invalidFeedback.invalid{
+  display: block
 }
