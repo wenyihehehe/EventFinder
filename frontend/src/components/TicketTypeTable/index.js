@@ -1,6 +1,7 @@
 import React from 'react';
 import style from './index.module.css';
 import Modal from 'react-bootstrap/Modal';
+import swal from 'sweetalert';
 
 class TicketTypeTable extends React.Component{
     constructor(props){
@@ -15,7 +16,8 @@ class TicketTypeTable extends React.Component{
             index: ""
         };
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleDeleteEvent = this.handleDeleteEvent.bind(this);
+        this.handleDeleteTicketType = this.handleDeleteTicketType.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
         this.addUpdateTicketType = this.addUpdateTicketType.bind(this);
         this.validateForm = this.validateForm.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -75,7 +77,33 @@ class TicketTypeTable extends React.Component{
         return error;
     }
 
-    handleDeleteEvent(deleteIndex){
+    handleDeleteTicketType(deleteIndex){
+        swal("Confirm delete this ticket type?", {
+            buttons: {
+              cancel: "Cancel",
+              confirm: {
+                  text: "Confirm",
+                  value: "confirm"
+              },
+            },
+          })
+          .then((value) => {
+            switch (value) {
+              case "confirm":
+                this.handleDelete(deleteIndex)
+                break;
+              default:
+                swal.close()
+            }
+          });
+        
+    }
+
+    handleDelete(deleteIndex){
+        // TODO: For edit event, not create event, delete ticket type should check if event is published and any ticket is sold before deleting 
+        // Delete ticket type for published event: remove from current ticket type, get ticketType and save to separate array, send delete request.
+        // Parent page should have state to keep track if any deleted tickettype, then create delete request upon saving.
+        // Else unsave and refresh page should return the original ticket type.
         const newTicketType = this.props.ticketType.filter((item, index) => index !== deleteIndex);
         this.props.handleTicketType(newTicketType)
     }
@@ -113,7 +141,7 @@ class TicketTypeTable extends React.Component{
         const ticketTypes = this.props.ticketType;
         return (
         <div className={`${this.props.className} row justify-content-end`} style={{marginLeft: "1rem", marginRight: "0"}}>
-            <table className={`table ${style.table} table-borderless backgroundWhite`}>
+            <table className={`table ${style.table} table-borderless backgroundWhite`} style={{border: "0.5px solid rgba(0,0,0,.1)"}}>
                 <thead>
                     <tr className="detailMainText" style={{boxShadow: "inset 0px -0.5px 0px #CCCCCC"}}>
                         <th scope="col" style={{paddingLeft: "1.5rem"}}>Ticket Name</th>
@@ -146,8 +174,7 @@ class TicketTypeTable extends React.Component{
                                     </button>
                                     <ul className={`dropdown-menu ${style.dropDownMenu}`} aria-labelledby='dropdownMenu'>
                                         <li><button className="dropdown-item detailMainText" type="button" onClick={()=>this.handleEditShow(ticket, index)}>Edit</button></li>
-                                        <li><button className="dropdown-item detailMainText" type="button" onClick={()=>this.handleDeleteEvent(index)}>Delete</button></li>
-                                         {/*TODO: Add edit and delete modal */}
+                                        <li><button className="dropdown-item detailMainText" type="button" onClick={()=>this.handleDeleteTicketType(index)}>Delete</button></li>
                                     </ul>
                                 </div>
                             </td>

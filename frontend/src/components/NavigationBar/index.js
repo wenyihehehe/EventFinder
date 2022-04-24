@@ -3,7 +3,7 @@ import './index.css';
 
 export default function NavigationBar() {
   return (
-    <div>
+    <div style={{height: "10vh", overflow:"hidden"}}> 
       EventFinder
       <nav
         style={{
@@ -22,7 +22,7 @@ export default function NavigationBar() {
         <Link to="/settings/organizeraccount">settings/organizeracccount</Link> |{" "}
         <Link to="/dashboard">dashboard</Link> |{" "}
         <Link to="/dashboard/create">dashboard/create</Link> |{" "}
-        <Link to="/dashboard/manage/1">dashboard/manage/1</Link> |{" "}
+        <Link to="/dashboard/manage/1/">dashboard/manage/1</Link> |{" "}
         <Link to="/dashboard/manage/1/edit">dashboard/manage/1/edit</Link> |{" "}
         <Link to="/dashboard/manage/1/registration">dashboard/manage/1/registration</Link> |{" "}
         <Link to="/dashboard/manage/1/attendee">dashboard/manage/1/attendee</Link> |{" "}

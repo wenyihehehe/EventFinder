@@ -18,7 +18,7 @@ class UserProfile extends React.Component{
                 <div className="col-4">
                     <p className="labelText">{this.props.ticket.event.title}</p>
                     <p className="detailSubText">{this.props.ticket.event.organizer}</p>
-                    <p className="detailSubText tonedTextOrange">{moment(this.state.eventStartDateTime).format('MMM Do, dddd, LT')}</p>
+                    <p className="detailSubText tonedTextOrange">{moment(this.state.eventStartDateTime).format('MMM Do, dddd [at] LT')}</p>
                 </div>
                 <p className={`col-4 titleText ${style.date} tonedTextOrange `}>{moment(this.state.eventStartDateTime).format('MMM DD')}</p>
             </div>
@@ -29,7 +29,7 @@ class UserProfile extends React.Component{
                 </div>
                 <div className={`${style.borderRight} col-lg-4`}>
                     <p className={`detailMainText`}>Ordered at:</p>
-                    <p className={`detailSubText`}>{moment(this.state.orderDate).format('MMM Do, dddd, LT')}</p>
+                    <p className={`detailSubText`}>{moment(this.state.orderDate).format('MMM Do, dddd [at] LT')}</p>
                 </div>
                 <div className={`${style.borderRight} col-lg-4`}>
                     <p className={`detailMainText`}>Tickets:</p>
