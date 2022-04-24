@@ -218,3 +218,10 @@ class CreateEventImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventImage
         fields = ['eventId','image']
+
+class GetEventDashboardSerializer(serializers.ModelSerializer):
+    ticketType = TicketTypeSerializer(many=True)
+
+    class Meta:
+        model = Event
+        fields = ['id','organizerId','title','startDateTime','type','status','ticketType']

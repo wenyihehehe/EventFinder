@@ -300,3 +300,12 @@ class CreateEventImage(generics.CreateAPIView):
             )
         serializer.save()
         return Response({"status": "OK", "data": serializer.data})
+
+class GetEventDashboardView(generics.RetrieveAPIView):
+    permission_classes = (IsAuthenticated, )
+    queryset = Event.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = GetEventDashboardSerializer(instance)
+        return Response({"data": serializer.data})
