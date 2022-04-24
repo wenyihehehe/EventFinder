@@ -37,7 +37,7 @@ async function createEventImage({eventId, images}){
         formData.append("image", image)
     }
     let res = await Network.authPostWithFormData({
-        path: "api/createEventImage/",
+        path: "api/createeventimage/",
         formData
     });
     return res;
@@ -56,6 +56,13 @@ async function createUpdateTicketType({eventId, ticketTypes}){
     }
 };
 
+async function getEventDashboard({eventId}){
+    let res = await Network.authGet({
+        path:  `api/geteventdashboard/${eventId}`
+    })
+    return res
+}
+
 export { 
-    deleteEvent, createEvent, createEventImage, createUpdateTicketType
+    deleteEvent, createEvent, createEventImage, createUpdateTicketType, getEventDashboard
 }

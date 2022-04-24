@@ -26,6 +26,7 @@ import SettingPage from "./routes/settings/index";
 import OrganizerAccount from "./routes/settings/organizeraccount";
 import DashboardPage from "./routes/dashboard/main";
 import CreateEvent from "./routes/dashboard/create";
+import EventDashboardTemplate from "./routes/dashboard/manage/index";
 import EventDashboardEdit from "./routes/dashboard/manage/edit";
 import EventDashboardAttendee from "./routes/dashboard/manage/attendee";
 import EventDashboardMain from "./routes/dashboard/manage/main";
@@ -56,7 +57,7 @@ root.render(
           <Route path="dashboard">
             <Route index element={<DashboardPage />} />
             <Route path="create" element={<CreateEvent />}/>
-            <Route path="manage">
+            <Route path="manage" element={<EventDashboardTemplate />}>
               <Route path=":eventId" element={<EventDashboardMain />}/>
               <Route path=":eventId/edit" element={<EventDashboardEdit />}/>
               <Route path=":eventId/registration" element={<EventDashboardRegistration />}/>
