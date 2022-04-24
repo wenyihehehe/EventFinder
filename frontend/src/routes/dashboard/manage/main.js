@@ -37,8 +37,8 @@ export default function EventDashboardMain() {
     <main className="pt-3 pl-5 col-10" style={{height: "90vh",overflowY: "scroll"}}>
       <div className="TopSection" style={sectionStyle}>
         <p className="titleText">{event.title ? event.title : 'NA'}</p>
-        <p className="headingText subTextColor">{event.startDateTime ?  moment(event.startDateTime).format('MMM Do, dddd [at] LT') : 'NA'}</p>
-        <p className="headingText subTextColor">{event.type ? event.type : 'NA'} event</p>
+        <p className="headingText subTextColor mb-1">{event.startDateTime ?  moment(event.startDateTime).format('MMM Do, dddd [at] LT') : 'NA'}</p>
+        <p className="headingText subTextColor mb-1">{event.type ? event.type : 'NA'} event</p>
         <p className="headingText tonedTextOrange">{event.status}</p>
       </div>
       <hr/>
