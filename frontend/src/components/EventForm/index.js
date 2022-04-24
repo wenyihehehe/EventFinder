@@ -19,7 +19,7 @@ class EventForm extends React.Component{
             description: "",
             images: [],
             imageInput: [],
-            type: "physical", //default
+            type: "Physical", //default
             location: "",
             startDateTime: "",
             endDateTime: "",
@@ -272,8 +272,8 @@ class EventForm extends React.Component{
                     <form className="needs-validation-event-form" noValidate>
                         <label htmlFor="type" className="form-label labelText">Type</label>
                         <div className="input-group mb-3">
-                            <button className={`btn ${this.state.type === "physical" ? "primaryButton" : "outlinedButton"} mr-3 ${style.typeButton}`} type="button" value="physical" onClick={(e)=> this.setState({type: e.target.value})}>Physical</button>
-                            <button className={`btn ${this.state.type === "online" ? "primaryButton" : "outlinedButton"} ${style.typeButton}`} type="button" value="online" onClick={(e)=> this.setState({type: e.target.value})}>Online</button>
+                            <button className={`btn ${this.state.type === "Physical" ? "primaryButton" : "outlinedButton"} mr-3 ${style.typeButton}`} type="button" value="Physical" onClick={(e)=> this.setState({type: e.target.value})}>Physical</button>
+                            <button className={`btn ${this.state.type === "Online" ? "primaryButton" : "outlinedButton"} ${style.typeButton}`} type="button" value="Online" onClick={(e)=> this.setState({type: e.target.value})}>Online</button>
                         </div>
                         <label htmlFor="location" className="form-label labelText">Location</label>
                         <div className="input-group mb-3">

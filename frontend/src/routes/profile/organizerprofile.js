@@ -29,7 +29,7 @@ export default function OrganizerProfilePage() {
           {
             events.slice(i, i + 3)
               .map(event => (
-                <EventCard event={event} key={event.coverImage}/>
+                <EventCard event={event} key={event.id}/>
                 ))
           }
         </div>

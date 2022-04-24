@@ -70,7 +70,7 @@ class DashboardTable extends React.Component{
                                 </div>
                                 <div className="col-auto">
                                     <p className="labelText">{event.title ? event.title : "NA"}</p>
-                                    <p className="detailSubText subTextColor mb-1">{event.startDateTime ? moment(event.startDateTime).format('MMM Do, dddd, LT') : "NA"}</p>
+                                    <p className="detailSubText subTextColor mb-1">{event.startDateTime ? moment(event.startDateTime).format('MMM Do, dddd [at] LT') : "NA"}</p>
                                     <p className="detailSubText subTextColor">{event.location ? event.location : "NA"}</p>
                                 </div>
                             </td>
@@ -83,7 +83,7 @@ class DashboardTable extends React.Component{
                                         <i className="bi bi-three-dots-vertical"></i>
                                     </button>
                                     <ul className={`dropdown-menu ${style.dropDownMenu}`} aria-labelledby='dropdownMenu'>
-                                        <li><button className="dropdown-item detailMainText" type="button" onClick={()=>this.props.navigate('/dashboard/manage/' + event.id)}>Edit</button></li>
+                                        <li><button className="dropdown-item detailMainText" type="button" onClick={()=>this.props.navigate('/dashboard/manage/' + event.id + '/')}>Edit</button></li>
                                         <li><button className="dropdown-item detailMainText" type="button" onClick={()=>this.deleteEvent(event.id)}>Delete</button></li>
                                          {/*TODO: Add delete confirmation */}
                                     </ul>
