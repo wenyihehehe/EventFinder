@@ -11,8 +11,9 @@ async function deleteEvent({id}){
     return res;
 };
 
-async function createEvent({title, coverImage, category, description, type, location, startDateTime, endDateTime, status}){
+async function createUpdateEvent({id, title, coverImage, category, description, type, location, startDateTime, endDateTime, status}){
     let formData = new FormData();
+    if (id) formData.append("id", id)
     if (title) formData.append("title", title)
     if (coverImage) formData.append("coverImage", coverImage)
     if (category) formData.append("category", category)
@@ -29,7 +30,7 @@ async function createEvent({title, coverImage, category, description, type, loca
     return res;
 };
 
-async function createEventImage({eventId, images}){
+async function createUpdateEventImage({eventId, images}){
     let formData = new FormData();
     formData.append("eventId", eventId)
     for (var i = 0; i < images.length; i++) {
@@ -37,7 +38,7 @@ async function createEventImage({eventId, images}){
         formData.append("image", image)
     }
     let res = await Network.authPostWithFormData({
-        path: "api/createeventimage/",
+        path: "api/createupdateeventimage/",
         formData
     });
     return res;
@@ -63,6 +64,13 @@ async function getEventDashboard({eventId}){
     return res
 }
 
+async function getEvent({eventId}){
+    let res = await Network.authGet({
+        path:  `api/event/${eventId}`
+    })
+    return res
+}
+
 export { 
-    deleteEvent, createEvent, createEventImage, createUpdateTicketType, getEventDashboard
+    deleteEvent, createUpdateEvent, createUpdateEventImage, createUpdateTicketType, getEventDashboard, getEvent
 }
