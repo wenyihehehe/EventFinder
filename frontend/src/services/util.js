@@ -14,6 +14,13 @@ async function getDefaultCoverImage(){
     return res;
 };
 
+async function fetchImage({imageUrl}){
+    let res = await fetch(imageUrl);
+    const blob = await res.blob()
+    const file = new File([blob], 'image.png')
+    return file
+}
+
 export { 
-    getCategory, getDefaultCoverImage
+    getCategory, getDefaultCoverImage, fetchImage
 }
