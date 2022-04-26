@@ -317,3 +317,11 @@ class GetEventDashboardView(generics.RetrieveAPIView):
         instance = self.get_object()
         serializer = GetEventDashboardSerializer(instance)
         return Response({"data": serializer.data})
+
+class GetTicketTypeStatusView(APIView):
+    def get(self, request, pk=None):
+        ticketType = TicketType.objects.get(pk=pk)
+        eventStatus = ticketType.eventId.status
+        if (eventStatus != "Draft" and ticketType.has_ticketSold()):
+            return Response({"canDelete": False})
+        return Response({"canDelete": True})
