@@ -114,7 +114,7 @@ class OrganizerProfileViewSet(ModelViewSet):
 
 class EventViewSet(ModelViewSet):
     queryset = Event.objects.all()
-    serializer_class = EventSerializer
+    serializer_class = GetEventSerializer
     permission_classes = [EventPermission]
 
     def partial_update(self, request, pk=None):
@@ -129,7 +129,11 @@ class EventViewSet(ModelViewSet):
         data = request.data.copy()
         organizerProfile = OrganizerProfile.objects.get(userId=request.user)
         data['organizerId'] = organizerProfile.id
-        serializer = self.get_serializer(data=data, partial=True)
+        if ("id" in request.data):
+            instance = Event.objects.get(id=request.data["id"])
+            serializer = CreateEventSerializer(instance, data=data, partial=True)
+        else:
+            serializer = CreateEventSerializer(data=data, partial=True)
         if not serializer.is_valid():
             print(serializer.errors)
             return Response(
@@ -137,6 +141,11 @@ class EventViewSet(ModelViewSet):
             )
         serializer.save()
         return Response({"status": "OK", "data": serializer.data})
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, context={"request": request} )
+        return Response(serializer.data)
 
 class TicketTypeViewSet(ModelViewSet):
     queryset = TicketType.objects.all()
@@ -276,14 +285,13 @@ class GetOrganizingEventSearchPageView(generics.ListAPIView):
         serializer = GetOrganizingEventsSerializer(instance=event, many=True, context={"request": request})
         return Response({"data": serializer.data})
 
-class CreateEventImage(generics.CreateAPIView):
+class CreateUpdateEventImage(generics.CreateAPIView):
     permission_classes = (IsAuthenticated, )
 
     def post(self, request, *args, **kwargs):
         event = Event.objects.get(pk=int(request.data['eventId']))
-        # Use later when updating event
-        # if(event.has_eventImage()):
-        #     event.image.all().delete()
+        if(event.has_eventImage()):
+            event.image.all().delete()
         data = []
         images= request.data.getlist('image').copy()
         for image in images:
@@ -309,3 +317,11 @@ class GetEventDashboardView(generics.RetrieveAPIView):
         instance = self.get_object()
         serializer = GetEventDashboardSerializer(instance)
         return Response({"data": serializer.data})
+
+class GetTicketTypeStatusView(APIView):
+    def get(self, request, pk=None):
+        ticketType = TicketType.objects.get(pk=pk)
+        eventStatus = ticketType.eventId.status
+        if (eventStatus != "Draft" and ticketType.has_ticketSold()):
+            return Response({"canDelete": False})
+        return Response({"canDelete": True})

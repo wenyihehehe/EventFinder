@@ -11,6 +11,7 @@ class EventForm extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            id: "",
             categoryOption: [],
             title: "",
             coverImage: "",
@@ -24,6 +25,7 @@ class EventForm extends React.Component{
             startDateTime: "",
             endDateTime: "",
             ticketType: [],
+            deleteTicketType : [],
         };
         this.getData = this.getData.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -35,6 +37,8 @@ class EventForm extends React.Component{
         this.handleTextEditor = this.handleTextEditor.bind(this);
         this.deleteFile = this.deleteFile.bind(this);
         this.handleTicketType = this.handleTicketType.bind(this);
+        this.handleDeleteTicketType = this.handleDeleteTicketType.bind(this);
+        this.getImagesToImageInput = this.getImagesToImageInput.bind(this);
     }
 
     async getData(){
@@ -49,6 +53,36 @@ class EventForm extends React.Component{
         this.setState({
             coverImage: data.data
         })
+        if(this.props.eventId){
+            const eventId = this.props.eventId
+            let event = await Event.getEvent({eventId})
+            console.log(event)
+            this.setState({
+                id: event.id,
+                title: event.title,
+                coverImage: event.coverImage,
+                category: event.category,
+                description: event.description,
+                images: event.images,
+                type: event.type,
+                location: event.location,
+                startDateTime: moment(event.startDateTime).format("YYYY-MM-DDThh:mm"),
+                endDateTime: moment(event.endDateTime).format("YYYY-MM-DDThh:mm"),
+                ticketType: event.ticketType,
+            }, () => {
+                this.getImagesToImageInput()
+            })
+        }
+    }
+
+    async getImagesToImageInput(){
+        const images= this.state.images
+        for (var i = 0; i < images.length; i++){
+            let image = await Util.fetchImage({imageUrl:images[i]})
+            this.setState(prevState => ({
+                imageInput: [...prevState.imageInput, image]
+            }))
+        }
     }
 
     handleInputChange(event){
@@ -65,7 +99,8 @@ class EventForm extends React.Component{
         event.preventDefault();
         let error = this.validateForm(); 
         if(!error){
-            let create = await Event.createEvent({
+            let create = await Event.createUpdateEvent({
+                id: this.state.id,
                 title: this.state.title,
                 coverImage: this.state.coverImageInput ? this.state.coverImageInput : "",
                 category: this.state.category,
@@ -78,7 +113,7 @@ class EventForm extends React.Component{
             });
             if (create.data.status === "OK"){
                 if(this.state.imageInput.length){
-                    let createEventImage = await Event.createEventImage({
+                    let createUpdateEventImage = await Event.createUpdateEventImage({
                         eventId: create.data.data.id,
                         images: this.state.imageInput
                     })
@@ -88,6 +123,11 @@ class EventForm extends React.Component{
                         eventId: create.data.data.id,
                         ticketTypes: this.state.ticketType
                     })
+                }
+                if(this.state.deleteTicketType.length){
+                    for (const id of this.state.deleteTicketType) { 
+                        let deleteTicketType = await Event.deleteTicketType({id})
+                    }
                 }
                 this.props.navigate('/dashboard/manage/' + create.data.data.id)
             } else {
@@ -107,7 +147,8 @@ class EventForm extends React.Component{
             });
         document.querySelector(".invalidFeedback").classList.remove('invalid');
         // Create event
-        let create = await Event.createEvent({
+        let create = await Event.createUpdateEvent({
+            id: this.state.id,
             title: this.state.title,
             coverImage: this.state.coverImageInput ? this.state.coverImageInput : "",
             category: this.state.category,
@@ -119,7 +160,7 @@ class EventForm extends React.Component{
         });
         if (create.data.status === "OK"){
             if(this.state.imageInput.length){
-                let createEventImage = await Event.createEventImage({
+                let createUpdateEventImage = await Event.createUpdateEventImage({
                     eventId: create.data.data.id,
                     images: this.state.imageInput
                 })
@@ -129,6 +170,11 @@ class EventForm extends React.Component{
                     eventId: create.data.data.id,
                     ticketTypes: this.state.ticketType
                 })
+            }
+            if(this.state.deleteTicketType.length){
+                for (const id of this.state.deleteTicketType) { 
+                    let deleteTicketType = await Event.deleteTicketType({id})
+                }
             }
             this.props.navigate('/dashboard/manage/' + create.data.data.id)
         } else {
@@ -206,6 +252,12 @@ class EventForm extends React.Component{
         document.querySelector(".invalidFeedback").classList.remove('invalid');
     }
 
+    handleDeleteTicketType(data){
+        this.setState(prevState => ({
+            deleteTicketType: [...prevState.deleteTicketType, data]
+        }))
+    }
+
     componentDidMount(){
         this.getData()
     }
@@ -261,8 +313,8 @@ class EventForm extends React.Component{
                                 })}
                             </div>
                             <div className="form-group col" style={{padding:"0", margin:"0"}}>
-                                <input type="file" disabled={this.state.images.length === 3} className=".form-control-file" accept="image/*"
-                                onChange={this.onEventsImageFileSelected} style={{backgroundColor: "transparent"}} multiple/>
+                                <input type="file" disabled={this.state.images.length >= 3} className=".form-control-file" accept="image/*"
+                                onChange={this.onEventsImageFileSelected} style={{backgroundColor: "transparent"}}/>
                             </div>
                         </div>
                     </form>
@@ -299,7 +351,7 @@ class EventForm extends React.Component{
                 </section>
                 <section className="mb-3">
                     <p className="secondaryTitleText">Ticket</p>
-                    <TicketTypeTable ticketType={this.state.ticketType} handleTicketType={this.handleTicketType}/>
+                    <TicketTypeTable ticketType={this.state.ticketType} handleTicketType={this.handleTicketType} handleDeleteTicketType={this.handleDeleteTicketType}/>
                     <div className="invalidFeedback" style={{marginLeft: "1rem"}}>At least one ticket type should be created.</div>
                 </section>
                 <button type="submit" className="btn secondaryButton mt-1 mr-3" onClick={this.handleSave}>Save as Draft</button>

@@ -140,6 +140,9 @@ class TicketType(models.Model):
 
     def __str__(self):
         return "%s" % (self.name)
+    
+    def has_ticketSold(self):
+        return self.ticket.exists()
 
 class Registration(models.Model):
     STATUS = (
