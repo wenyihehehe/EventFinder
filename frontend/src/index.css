@@ -86,6 +86,11 @@ a:hover{
   min-width: 40px;
 }
 
+.secondaryButton:hover{
+  background: #FDFDFD !important;
+  box-shadow: 0 0 0 0.2rem rgba(250, 186, 64, 0.25);
+}
+
 .secondaryButton{
   background: #FDFDFD;
   color:#FABA40;

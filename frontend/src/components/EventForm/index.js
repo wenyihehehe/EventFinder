@@ -25,6 +25,7 @@ class EventForm extends React.Component{
             startDateTime: "",
             endDateTime: "",
             ticketType: [],
+            deleteTicketType : [],
         };
         this.getData = this.getData.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -36,6 +37,7 @@ class EventForm extends React.Component{
         this.handleTextEditor = this.handleTextEditor.bind(this);
         this.deleteFile = this.deleteFile.bind(this);
         this.handleTicketType = this.handleTicketType.bind(this);
+        this.handleDeleteTicketType = this.handleDeleteTicketType.bind(this);
         this.getImagesToImageInput = this.getImagesToImageInput.bind(this);
     }
 
@@ -122,6 +124,11 @@ class EventForm extends React.Component{
                         ticketTypes: this.state.ticketType
                     })
                 }
+                if(this.state.deleteTicketType.length){
+                    for (const id of this.state.deleteTicketType) { 
+                        let deleteTicketType = await Event.deleteTicketType({id})
+                    }
+                }
                 this.props.navigate('/dashboard/manage/' + create.data.data.id)
             } else {
                 let errorMessage = create.data.detail;
@@ -163,6 +170,11 @@ class EventForm extends React.Component{
                     eventId: create.data.data.id,
                     ticketTypes: this.state.ticketType
                 })
+            }
+            if(this.state.deleteTicketType.length){
+                for (const id of this.state.deleteTicketType) { 
+                    let deleteTicketType = await Event.deleteTicketType({id})
+                }
             }
             this.props.navigate('/dashboard/manage/' + create.data.data.id)
         } else {
@@ -238,6 +250,12 @@ class EventForm extends React.Component{
             ticketType: data
         });
         document.querySelector(".invalidFeedback").classList.remove('invalid');
+    }
+
+    handleDeleteTicketType(data){
+        this.setState(prevState => ({
+            deleteTicketType: [...prevState.deleteTicketType, data]
+        }))
     }
 
     componentDidMount(){
@@ -333,7 +351,7 @@ class EventForm extends React.Component{
                 </section>
                 <section className="mb-3">
                     <p className="secondaryTitleText">Ticket</p>
-                    <TicketTypeTable ticketType={this.state.ticketType} handleTicketType={this.handleTicketType}/>
+                    <TicketTypeTable ticketType={this.state.ticketType} handleTicketType={this.handleTicketType} handleDeleteTicketType={this.handleDeleteTicketType}/>
                     <div className="invalidFeedback" style={{marginLeft: "1rem"}}>At least one ticket type should be created.</div>
                 </section>
                 <button type="submit" className="btn secondaryButton mt-1 mr-3" onClick={this.handleSave}>Save as Draft</button>

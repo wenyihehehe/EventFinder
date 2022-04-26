@@ -244,8 +244,7 @@ async function authDelete({ path = null, url = null, body}) {
 		},
 		body:  JSON.stringify(body),
 	});
-	let data = await response.json();
-	return { data, response };
+	return response;
 };
 
 async function authDeleteWithFormData({ path = null, url = null, formData }) {

@@ -2,6 +2,7 @@ import React from 'react';
 import style from './index.module.css';
 import Modal from 'react-bootstrap/Modal';
 import swal from 'sweetalert';
+import * as Event from '../../services/event';
 
 class TicketTypeTable extends React.Component{
     constructor(props){
@@ -80,12 +81,18 @@ class TicketTypeTable extends React.Component{
     handleDeleteTicketType(deleteIndex){
         swal("Confirm delete this ticket type?", {
             buttons: {
-              cancel: "Cancel",
-              confirm: {
-                  text: "Confirm",
-                  value: "confirm"
+              cancel: {
+                text:"Cancel",
+                value: "cancel",
+                className: "secondaryButton",
+                visible: true,
+                closeModal: true
               },
-            },
+              confirm: {
+                text: "Confirm",
+                value: "confirm"
+              },
+            }
           })
           .then((value) => {
             switch (value) {
@@ -99,13 +106,21 @@ class TicketTypeTable extends React.Component{
         
     }
 
-    handleDelete(deleteIndex){
-        // TODO: For edit event, not create event, delete ticket type should check if event is published and any ticket is sold before deleting 
-        // Delete ticket type for published event: remove from current ticket type, get ticketType and save to separate array, send delete request.
-        // Parent page should have state to keep track if any deleted tickettype, then create delete request upon saving.
-        // Else unsave and refresh page should return the original ticket type.
-        const newTicketType = this.props.ticketType.filter((item, index) => index !== deleteIndex);
-        this.props.handleTicketType(newTicketType)
+    async handleDelete(deleteIndex){
+        let id = this.props.ticketType[deleteIndex].id ?? null
+        if(id){
+            let status = await Event.getTicketTypeStatus({id})
+            if(status.canDelete){
+                this.props.handleDeleteTicketType(id)
+                const newTicketType = this.props.ticketType.filter((item, index) => index !== deleteIndex);
+                this.props.handleTicketType(newTicketType)
+            } else {
+                swal("Error!", "This ticket type cannot be deleted with either of the following reasons: (1) Event is published/ended (2) At least 1 ticket has been sold",  "error");
+            }
+        } else {
+            const newTicketType = this.props.ticketType.filter((item, index) => index !== deleteIndex);
+            this.props.handleTicketType(newTicketType)
+        }
     }
 
     handleClose = () =>{
