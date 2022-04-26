@@ -40,7 +40,7 @@ class OrganizerProfileUpdateSerializer(serializers.ModelSerializer):
         model = OrganizerProfile
         fields = ['organizerName','profileImage','contactNumber','description']
 
-class EventSerializer(serializers.ModelSerializer):
+class CreateEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = "__all__"
@@ -225,3 +225,21 @@ class GetEventDashboardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ['id','organizerId','title','startDateTime','type','status','ticketType']
+
+class GetEventSerializer(serializers.ModelSerializer):
+    ticketType = TicketTypeSerializer(many=True)
+    images = serializers.SerializerMethodField()
+
+    def get_images(self, event):
+        if(event.has_eventImage()):
+            images = event.image.all()
+            request = self.context.get('request')
+            response = []
+            for item in images:
+                url = request.build_absolute_uri(item.image.url)
+                response.append(url)
+        return response
+
+    class Meta:
+        model = Event
+        fields = ['id','organizerId','title','coverImage','type','category','location','startDateTime','endDateTime','description','status','ticketType', 'images']
