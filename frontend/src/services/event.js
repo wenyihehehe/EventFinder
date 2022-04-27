@@ -85,7 +85,27 @@ async function deleteTicketType({id}){
     return res
 }
 
+async function getEventRegistrations({eventId, page}){
+    let res = await Network.authPost({
+        path:  `api/geteventregistrations/?page=${page}`,
+        body: {
+            eventId
+        }
+    })
+    return res
+}
+
+async function getEventRegistration({eventId}){
+    let res = await Network.authPost({
+        path:  `api/geteventregistration/`,
+        body: {
+            eventId
+        }
+    })
+    return res
+}
+
 export { 
     deleteEvent, createUpdateEvent, createUpdateEventImage, createUpdateTicketType, getEventDashboard, 
-    getEvent, getTicketTypeStatus, deleteTicketType
+    getEvent, getTicketTypeStatus, deleteTicketType, getEventRegistrations, getEventRegistration
 }
