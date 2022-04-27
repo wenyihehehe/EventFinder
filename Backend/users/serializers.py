@@ -231,10 +231,10 @@ class GetEventSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
 
     def get_images(self, event):
+        response = []
         if(event.has_eventImage()):
             images = event.image.all()
             request = self.context.get('request')
-            response = []
             for item in images:
                 url = request.build_absolute_uri(item.image.url)
                 response.append(url)
