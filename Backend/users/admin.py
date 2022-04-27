@@ -46,7 +46,7 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'organizerId', 'status')
 
 class TicketTypeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'eventId', 'name')
+    list_display = ('id', 'eventId', 'name', 'price')
 
 class RegistrationAdmin(admin.ModelAdmin):
     list_display = ('id', 'userId', 'eventId')

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from django.db.models import F, Count, Max
+from django.db.models import F, Count, Max, Min, Sum
 from .models import *
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -158,11 +158,11 @@ class GetOrganizingEventsSerializer(serializers.ModelSerializer):
 
     def get_pricing(self,event):
         if(event.has_ticketType()):
-            ticketType = TicketType.objects.filter(eventId=event).values("eventId").annotate(pricing=Max("price"))
+            ticketType = TicketType.objects.filter(eventId=event).values("eventId").annotate(pricing=Min("price"))
             if (ticketType and int(ticketType[0].get('pricing'))>0):
                 return "RM%s" % (ticketType[0].get('pricing'))
-            return "Free"
-        return "Ticket not available"
+            return "RM0"
+        return ""
     
     def get_coverImage(self, user):
         request = self.context.get('request')
@@ -231,10 +231,10 @@ class GetEventSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
 
     def get_images(self, event):
+        response = []
         if(event.has_eventImage()):
             images = event.image.all()
             request = self.context.get('request')
-            response = []
             for item in images:
                 url = request.build_absolute_uri(item.image.url)
                 response.append(url)
@@ -243,3 +243,58 @@ class GetEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ['id','organizerId','title','coverImage','type','category','location','startDateTime','endDateTime','description','status','ticketType', 'images']
+    
+class GetEventRegistrationsSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField()
+    amount = serializers.SerializerMethodField()
+
+    def get_name(self, registration):
+        name = registration.userId.firstName + " " + registration.userId.lastName
+        return name
+
+    def get_email(self, registration):
+        email = registration.userId.email
+        return email
+
+    def get_amount(self, registration):
+        tickets = registration.ticket.all()
+        amount = 0
+        for ticket in tickets:
+            price = ticket.ticketType.price
+            amount += int(price)
+        return amount
+
+    class Meta:
+        model = Registration
+        fields = ['id','orderDateTime','name','email','amount']
+
+class GetEventRegistrationSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField()
+    amount = serializers.SerializerMethodField()
+    ticketType = serializers.SerializerMethodField()
+
+    def get_name(self, registration):
+        name = registration.userId.firstName + " " + registration.userId.lastName
+        return name
+
+    def get_email(self, registration):
+        email = registration.userId.email
+        return email
+
+    def get_amount(self, registration):
+        tickets = registration.ticket.all()
+        amount = 0
+        for ticket in tickets:
+            price = ticket.ticketType.price
+            amount += int(price)
+        return amount
+
+    def get_ticketType(self, registration):
+        ticketType = Ticket.objects.filter(registration=registration).values(name=F('ticketType__name')).annotate(quantity=Count('id')).annotate(amount=Sum('ticketType__price'))
+        return ticketType
+
+    class Meta:
+        model = Registration
+        fields = ['id','orderDateTime','name','email','amount', 'ticketType']

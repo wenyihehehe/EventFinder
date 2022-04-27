@@ -1,0 +1,24 @@
+.verticalCenter{
+    vertical-align: middle !important;
+}
+
+.dropDownMenu{
+    min-width: fit-content;
+}
+
+.button{
+    border-radius: 100%;
+    background-color: transparent;
+}
+
+.button:focus{
+    box-shadow: 0 0 0 0.2rem rgba(229, 229, 229, 0.25);
+}
+
+.dropDownMenu button:active{
+    background: rgba(250, 186, 64, 0.85);
+}
+
+.dropDownMenu button:focus{
+    outline: none;
+}

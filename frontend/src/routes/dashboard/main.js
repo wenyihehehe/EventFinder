@@ -35,20 +35,20 @@ export default function DashboardPage() {
         </div>
         <DashboardTable className="col-12" navigate={navigate} organizingEvents={organizingEvents} getData={getData}/>
         <nav aria-label="Page navigation">
-        <ul className="pagination detailMainText justify-content-center">
-          <li className="page-item">
-            <button className="page-link" aria-label="Previous" onClick={(e)=> setPage(parseInt(page)-1<1 ? 1 : parseInt(page)-1)}>
-              <span aria-hidden="true">&laquo;</span>
-            </button>
-          </li>
-          <li className="page-item"><input type="number" className="page-link" style={{background:"#FFFFFF", color:"#FABA40", width: "3.5rem"}} value={page} onChange={(e)=> setPage(e.target.value)} min="1" max={maxPage}></input></li>
-          <li className="page-item">
-            <button className="page-link" aria-label="Next" onClick={(e)=> setPage(parseInt(page)+1<=maxPage ? parseInt(page)+1 : parseInt(page))}>
-              <span aria-hidden="true">&raquo;</span>
-            </button>
-          </li>
-        </ul>
-      </nav>
+          <ul className="pagination detailMainText justify-content-center">
+            <li className="page-item">
+              <button className="page-link" aria-label="Previous" onClick={(e)=> setPage(parseInt(page)-1<1 ? 1 : parseInt(page)-1)}>
+                <span aria-hidden="true">&laquo;</span>
+              </button>
+            </li>
+            <li className="page-item"><input type="number" className="page-link" style={{background:"#FFFFFF", color:"#FABA40", width: "3.5rem"}} value={page} onChange={(e)=> setPage(e.target.value)} min="1" max={maxPage}></input></li>
+            <li className="page-item">
+              <button className="page-link" aria-label="Next" onClick={(e)=> setPage(parseInt(page)+1<=maxPage ? parseInt(page)+1 : parseInt(page))}>
+                <span aria-hidden="true">&raquo;</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
     </main>
     );

@@ -22,8 +22,8 @@ class EventForm extends React.Component{
             imageInput: [],
             type: "Physical", //default
             location: "",
-            startDateTime: "",
-            endDateTime: "",
+            startDateTime: moment().format("YYYY-MM-DDThh:mm"),
+            endDateTime: moment().add(1, 'days').format("YYYY-MM-DDThh:mm"),
             ticketType: [],
             deleteTicketType : [],
         };
@@ -274,7 +274,8 @@ class EventForm extends React.Component{
                             <input type="text" className="form-control" name="title" value={this.state.title} onChange={this.handleInputChange} required />
                             <div className="invalid-feedback">This field is required.</div>
                         </div>
-                        <label htmlFor="coverImage" className="form-label labelText">Event Cover Image</label>
+                        <label htmlFor="coverImage" className="form-label labelText mb-0">Event Cover Image</label>
+                        <p className="detailSubText subTextColor">This image will be used as the cover image on your event page.</p>
                         <div className="input-group mb-3">
                             <div className="col-12" style={{padding: "0"}}>
                                 <img className={`${style.coverImage} img`} src={this.state.coverImage} alt="coverImage"></img>
@@ -283,7 +284,7 @@ class EventForm extends React.Component{
                         </div>
                         <label htmlFor="category" className="form-label labelText">Category</label>
                         <div className="input-group mb-3">
-                            <select className="custom-select form-control" value={this.state.category} onChange={this.handleInputChange} required>
+                            <select className="custom-select form-control" name="category" value={this.state.category} onChange={this.handleInputChange} required>
                                 {this.state.categoryOption.map((option)=>(
                                     <option value={option} key={option}>{option}</option>
                                 ))}
@@ -320,7 +321,8 @@ class EventForm extends React.Component{
                     </form>
                 </section>
                 <section>
-                    <p className="secondaryTitleText">Location</p>
+                    <p className="secondaryTitleText mb-0">Location</p>
+                    <p className="detailSubText subTextColor">Where will the event be hosted at?</p>
                     <form className="needs-validation-event-form" noValidate>
                         <label htmlFor="type" className="form-label labelText">Type</label>
                         <div className="input-group mb-3">

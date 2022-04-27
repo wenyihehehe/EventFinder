@@ -7,7 +7,9 @@
 }
 
 .card > img {
+    height: 170px;
     max-height: 170px;
+    max-width: 285px;
     object-fit: cover;
 }
 

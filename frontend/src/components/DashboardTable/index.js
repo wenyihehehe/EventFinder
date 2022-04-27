@@ -7,14 +7,17 @@ import swal from 'sweetalert';
 class DashboardTable extends React.Component{
     constructor(props){
         super(props);
-        this.state = {
-            events: [],
-        };
         this.deleteEvent = this.deleteEvent.bind(this);
         this.handleDeleteEvent = this.handleDeleteEvent.bind(this);
     }
 
     deleteEvent(id){
+        const events = this.props.organizingEvents;
+        let event = events.find((event) => event.id === id);
+        if(event.status !== "Draft"){
+            swal("Error!", "Published/Ended event cannot be deleted",  "error");
+            return;
+        }
         swal("Confirm delete event?", {
             buttons: {
               cancel: "Cancel",
@@ -23,8 +26,8 @@ class DashboardTable extends React.Component{
                   value: "confirm"
               },
             },
-          })
-          .then((value) => {
+        })
+        .then((value) => {
             switch (value) {
               case "confirm":
                 this.handleDeleteEvent(id)
@@ -32,15 +35,15 @@ class DashboardTable extends React.Component{
               default:
                 swal.close()
             }
-          });
+        });
     }
 
     async handleDeleteEvent(id){
         let event = await Event.deleteEvent({id});
-        if (event.data.status === "OK"){
+        if (event.status === "OK"){
             this.props.getData();
         } else {
-            let errorMessage = event.data.detail;
+            let errorMessage = event.detail;
             swal("Error!", errorMessage,  "error");
         }
     }
@@ -85,7 +88,6 @@ class DashboardTable extends React.Component{
                                     <ul className={`dropdown-menu ${style.dropDownMenu}`} aria-labelledby='dropdownMenu'>
                                         <li><button className="dropdown-item detailMainText" type="button" onClick={()=>this.props.navigate('/dashboard/manage/' + event.id + '/')}>Edit</button></li>
                                         <li><button className="dropdown-item detailMainText" type="button" onClick={()=>this.deleteEvent(event.id)}>Delete</button></li>
-                                         {/*TODO: Add delete confirmation */}
                                     </ul>
                                 </div>
                             </td>

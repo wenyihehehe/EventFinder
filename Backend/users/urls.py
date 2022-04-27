@@ -27,4 +27,6 @@ urlpatterns = [
     path("createupdateeventimage/", CreateUpdateEventImage.as_view()),
     path(r"geteventdashboard/<int:pk>", GetEventDashboardView.as_view()),
     path(r"gettickettypestatus/<int:pk>", GetTicketTypeStatusView.as_view()),
+    path("geteventregistrations/", GetEventRegistrationsView.as_view()),
+    path("geteventregistration/", GetEventRegistrationView.as_view()),
 ]
