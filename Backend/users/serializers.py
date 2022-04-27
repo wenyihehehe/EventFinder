@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from django.db.models import F, Count, Max, Sum
+from django.db.models import F, Count, Max, Min, Sum
 from .models import *
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -158,11 +158,11 @@ class GetOrganizingEventsSerializer(serializers.ModelSerializer):
 
     def get_pricing(self,event):
         if(event.has_ticketType()):
-            ticketType = TicketType.objects.filter(eventId=event).values("eventId").annotate(pricing=Max("price"))
+            ticketType = TicketType.objects.filter(eventId=event).values("eventId").annotate(pricing=Min("price"))
             if (ticketType and int(ticketType[0].get('pricing'))>0):
                 return "RM%s" % (ticketType[0].get('pricing'))
-            return "Free"
-        return "Ticket not available"
+            return "RM0"
+        return ""
     
     def get_coverImage(self, user):
         request = self.context.get('request')
