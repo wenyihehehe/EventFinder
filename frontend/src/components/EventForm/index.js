@@ -22,8 +22,8 @@ class EventForm extends React.Component{
             imageInput: [],
             type: "Physical", //default
             location: "",
-            startDateTime: "",
-            endDateTime: "",
+            startDateTime: moment().format("YYYY-MM-DDThh:mm"),
+            endDateTime: moment().add(1, 'days').format("YYYY-MM-DDThh:mm"),
             ticketType: [],
             deleteTicketType : [],
         };
