@@ -42,19 +42,24 @@ export default function EventDashboardRegistration() {
     <main className="pt-3 pl-5 col-10" style={{height: "90vh",overflowY: "scroll"}}>
       <section style={sectionStyle}>
         <p className="titleText">Recent Registration</p>
-          <div className="container col-12 row align-items-center" style={{margin: "0"}}>
-            <a className={`mb-3 mr-1 `} href="#anotherCarousell" role="button" data-slide="prev" style={{height: "fit-content", width: "fit-content", padding: "0"}}>
-              <i className="bi bi-chevron-left"></i>
-            </a>
-            <div id="anotherCarousell" className="carousel slide col-xl-6" data-ride="carousel">
-              <div className="carousel-inner">
-                {registrationsRender}  
+          {registrations.length > 0 && (
+            <div className="container col-12 row align-items-center" style={{margin: "0"}}>
+              <a className={`mb-3 mr-1 `} href="#anotherCarousell" role="button" data-slide="prev" style={{height: "fit-content", width: "fit-content", padding: "0"}}>
+                <i className="bi bi-chevron-left"></i>
+              </a>
+              <div id="anotherCarousell" className="carousel slide col-xl-6" data-ride="carousel">
+                <div className="carousel-inner">
+                  {registrationsRender}  
+                </div>
               </div>
+              <a className="mb-3" href="#anotherCarousell" role="button" data-slide="next" style={{height: "fit-content", padding: "0"}}>
+                <i className="bi bi-chevron-right"></i>
+              </a>            
             </div>
-            <a className="mb-3" href="#anotherCarousell" role="button" data-slide="next" style={{height: "fit-content", padding: "0"}}>
-              <i className="bi bi-chevron-right"></i>
-            </a>            
-          </div>
+          )} 
+          {registrations.length <= 0 && (
+            <p className="detailSubText" style={{paddingLeft: "1rem"}}>No recent registration is found.</p>
+          )}
       </section>
       <hr/>
       <div style={sectionStyle}>
