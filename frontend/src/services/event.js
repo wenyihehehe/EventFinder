@@ -8,7 +8,8 @@ async function deleteEvent({id}){
             soft_delete: true
         }
     });
-    return res;
+    let data = await res.json();
+    return data;
 };
 
 async function createUpdateEvent({id, title, coverImage, category, description, type, location, startDateTime, endDateTime, status}){
