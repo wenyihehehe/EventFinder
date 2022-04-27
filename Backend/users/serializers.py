@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from django.db.models import F, Count, Max
+from django.db.models import F, Count, Max, Sum
 from .models import *
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -243,3 +243,58 @@ class GetEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ['id','organizerId','title','coverImage','type','category','location','startDateTime','endDateTime','description','status','ticketType', 'images']
+    
+class GetEventRegistrationsSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField()
+    amount = serializers.SerializerMethodField()
+
+    def get_name(self, registration):
+        name = registration.userId.firstName + " " + registration.userId.lastName
+        return name
+
+    def get_email(self, registration):
+        email = registration.userId.email
+        return email
+
+    def get_amount(self, registration):
+        tickets = registration.ticket.all()
+        amount = 0
+        for ticket in tickets:
+            price = ticket.ticketType.price
+            amount += int(price)
+        return amount
+
+    class Meta:
+        model = Registration
+        fields = ['id','orderDateTime','name','email','amount']
+
+class GetEventRegistrationSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField()
+    amount = serializers.SerializerMethodField()
+    ticketType = serializers.SerializerMethodField()
+
+    def get_name(self, registration):
+        name = registration.userId.firstName + " " + registration.userId.lastName
+        return name
+
+    def get_email(self, registration):
+        email = registration.userId.email
+        return email
+
+    def get_amount(self, registration):
+        tickets = registration.ticket.all()
+        amount = 0
+        for ticket in tickets:
+            price = ticket.ticketType.price
+            amount += int(price)
+        return amount
+
+    def get_ticketType(self, registration):
+        ticketType = Ticket.objects.filter(registration=registration).values(name=F('ticketType__name')).annotate(quantity=Count('id')).annotate(amount=Sum('ticketType__price'))
+        return ticketType
+
+    class Meta:
+        model = Registration
+        fields = ['id','orderDateTime','name','email','amount', 'ticketType']

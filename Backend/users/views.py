@@ -325,3 +325,29 @@ class GetTicketTypeStatusView(APIView):
         if (eventStatus != "Draft" and ticketType.has_ticketSold()):
             return Response({"canDelete": False})
         return Response({"canDelete": True})
+
+class GetEventRegistrationsView(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    pagination_class = BasicPagination
+
+    def post(self, request, *args, **kwargs):
+        registrations = Registration.objects.filter(eventId=request.data['eventId'])
+        page = self.paginate_queryset(registrations)
+        if page is not None:
+            serializer = GetEventRegistrationsSerializer(page, many=True, context={"request": request})
+            return self.get_paginated_response(serializer.data)
+        serializer = GetEventRegistrationsSerializer(instance=registrations, many=True, context={"request": request})
+        return Response({"data": serializer.data})
+
+class GetEventRegistrationView(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    pagination_class = SmallPagination
+
+    def post(self, request, *args, **kwargs):
+        registrations = Registration.objects.filter(eventId=request.data['eventId'])
+        page = self.paginate_queryset(registrations)
+        if page is not None:
+            serializer = GetEventRegistrationSerializer(page, many=True, context={"request": request})
+            return self.get_paginated_response(serializer.data)
+        serializer = GetEventRegistrationSerializer(instance=registrations, many=True, context={"request": request})
+        return Response({"data": serializer.data})
