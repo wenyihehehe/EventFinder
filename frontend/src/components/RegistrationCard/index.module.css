@@ -15,3 +15,7 @@
 .table thead{
     background-color: #F8F8FA;
 }
+
+.verticalCenter{
+    vertical-align: middle !important;
+}
