@@ -26,6 +26,7 @@ class DashboardTable extends React.Component{
                   value: "confirm"
               },
             },
+            icon: "warning"
         })
         .then((value) => {
             switch (value) {

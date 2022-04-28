@@ -92,7 +92,8 @@ class TicketTypeTable extends React.Component{
                 text: "Confirm",
                 value: "confirm"
               },
-            }
+            },
+            icon: "warning"
           })
           .then((value) => {
             switch (value) {
@@ -156,7 +157,7 @@ class TicketTypeTable extends React.Component{
         const ticketTypes = this.props.ticketType;
         return (
         <div className={`${this.props.className} row justify-content-end`} style={{marginLeft: "1rem", marginRight: "0"}}>
-            <table className={`table ${style.table} table-borderless backgroundWhite`} style={{border: "0.5px solid rgba(0,0,0,.1)"}}>
+            <table className={`table table-borderless backgroundWhite`} style={{border: "0.5px solid rgba(0,0,0,.1)"}}>
                 <thead>
                     <tr className="detailMainText" style={{boxShadow: "inset 0px -0.5px 0px #CCCCCC"}}>
                         <th scope="col" style={{paddingLeft: "1.5rem"}}>Ticket Name</th>
