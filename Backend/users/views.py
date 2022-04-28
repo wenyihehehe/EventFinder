@@ -351,3 +351,21 @@ class GetEventRegistrationView(generics.CreateAPIView):
             return self.get_paginated_response(serializer.data)
         serializer = GetEventRegistrationSerializer(instance=registrations, many=True, context={"request": request})
         return Response({"data": serializer.data})
+
+class GetEventAttendeesSearchPageView(generics.CreateAPIView):
+    queryset = Ticket.objects.all()
+    permission_classes = (IsAuthenticated,)
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['registration__userId__firstName', 'registration__userId__lastName', 'registration__id', 'ticketType__name']
+    pagination_class = BigPagination
+
+    def post(self, request, *args, **kwargs):
+        registrations = Registration.objects.filter(eventId=request.data['eventId'])
+        tickets = Ticket.objects.filter(registration__in=registrations).order_by('registration__id')
+        tickets = self.filter_queryset(tickets)
+        page = self.paginate_queryset(tickets)
+        if page is not None:
+            serializer = GetEventAttendeesSerializer(page, many=True, context={"request": request})
+            return self.get_paginated_response(serializer.data)
+        serializer = GetEventAttendeesSerializer(instance=tickets, many=True, context={"request": request})
+        return Response({"data": serializer.data})

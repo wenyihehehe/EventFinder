@@ -298,3 +298,21 @@ class GetEventRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Registration
         fields = ['id','orderDateTime','name','email','amount', 'ticketType']
+
+class GetEventAttendeesSerializer(serializers.ModelSerializer):
+    purchaser = serializers.SerializerMethodField()
+    registrationId = serializers.SerializerMethodField()
+    ticketType = serializers.StringRelatedField()
+
+    def get_purchaser(self, ticket):
+        registration = ticket.registration
+        purchaser = registration.userId.firstName + " " + registration.userId.lastName
+        return purchaser
+
+    def get_registrationId(self, ticket):
+        registrationId = ticket.registration.id
+        return registrationId
+
+    class Meta:
+        model = Ticket
+        fields = ['id','registrationId','purchaser','ticketType','status']
