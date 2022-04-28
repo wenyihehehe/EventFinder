@@ -47,6 +47,10 @@ a:hover{
   text-decoration: none;
 }
 
+p {
+  margin-bottom: 0.5rem;
+}
+
 /* Form and Button */
 .form-control:focus {
   border-color: #FABA40;
