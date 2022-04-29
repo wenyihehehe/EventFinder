@@ -60,6 +60,8 @@ class ReviewAdmin(admin.ModelAdmin):
 class EventImageAdmin(admin.ModelAdmin):
     list_display = ('id', 'eventId', 'image')
 
+class EventPageVisitAdmin(admin.ModelAdmin):
+    list_display = ('id', 'eventId', 'visits')
 
 # Register your models here.
 admin.site.register(User, CustomUserAdmin)
@@ -71,3 +73,4 @@ admin.site.register(Registration, RegistrationAdmin)
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(Review, ReviewAdmin)
 admin.site.register(EventImage, EventImageAdmin)
+admin.site.register(EventPageVisit, EventPageVisitAdmin)
