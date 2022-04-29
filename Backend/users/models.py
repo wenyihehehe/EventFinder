@@ -125,6 +125,16 @@ class Event(models.Model):
     def has_eventImage(self):
         return self.image.exists()
 
+    def has_registration(self):
+        return self.registration.exists()
+    
+    def has_eventPageVisit(self):
+        try:
+            self.eventPageVisit
+            return True
+        except:
+            return False
+
 class EventImage(models.Model):
     id = models.AutoField(primary_key=True)
     eventId = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="image")

@@ -369,3 +369,9 @@ class GetEventAttendeesSearchPageView(generics.CreateAPIView):
             return self.get_paginated_response(serializer.data)
         serializer = GetEventAttendeesSerializer(instance=tickets, many=True, context={"request": request})
         return Response({"data": serializer.data})
+
+class GetEventPerformanceView(APIView):
+    def get(self, request, pk=None):
+        event = Event.objects.get(pk=pk)
+        serializer = GetEventPerformanceSerializer(event)
+        return Response({"data": serializer.data})

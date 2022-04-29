@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.db.models import F, Count, Max, Min, Sum
+import datetime
 from .models import *
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -316,3 +317,66 @@ class GetEventAttendeesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = ['id','registrationId','purchaser','ticketType','status']
+
+class GetEventPerformanceSerializer(serializers.ModelSerializer):
+    pageView = serializers.SerializerMethodField()
+    ticketSold = serializers.SerializerMethodField()
+    revenue = serializers.SerializerMethodField()
+    attendances = serializers.SerializerMethodField()
+    ticketSales = serializers.SerializerMethodField()
+
+    def get_pageView(self, event):
+        if(event.has_eventPageVisit()):
+            pageView = event.eventPageVisit.visits
+            return pageView
+        return 0
+
+    def get_ticketSold(self, event):
+        if(event.has_registration()):
+            registrations = event.registration.all()
+            tickets = Ticket.objects.filter(registration__in=registrations).aggregate(ticketSold=Count('id'))
+            return tickets.get('ticketSold')
+        return 0
+
+    def get_revenue(self, event):
+        if(event.has_registration()):
+            registrations = event.registration.all()
+            tickets = Ticket.objects.filter(registration__in=registrations).aggregate(revenue=Sum('ticketType__price'))
+            return tickets.get('revenue')
+        return 0
+
+    def get_attendances(self, event):
+        if(event.has_registration()):
+            registrations = event.registration.all()
+            attendances = Ticket.objects.filter(registration__in=registrations).values('status').annotate(value=Count('status'))
+            for attendance in attendances:
+                name = "Attended" if attendance.pop('status') else "Unattended"
+                attendance["name"] = name
+            return attendances
+        return []
+    
+    def get_ticketSales(self, event):
+        if(event.has_registration()):
+            registrations = event.registration.all().filter(orderDateTime__lte=datetime.datetime.today(), orderDateTime__gte=datetime.datetime.today()-datetime.timedelta(days=30))
+            tickets = Ticket.objects.filter(registration__in=registrations).values(orderDateTime=F('registration__orderDateTime__date')).annotate(ticketSold=Count('id'))
+            # needed to use .append() later on
+            items = list(tickets)
+
+            dates = [x.get('orderDateTime') for x in items]
+
+            for d in (datetime.datetime.today().date() - datetime.timedelta(days=x) for x in range(0,30)):
+                if d not in dates:
+                    items.append({'orderDateTime': d, 'ticketSold': 0})
+            print(items)
+            newlist = sorted(items, key=lambda x: x.get('orderDateTime'), reverse=False)
+
+            return newlist
+        return []
+
+    class Meta:
+        model = Event
+        fields = ['pageView', 'ticketSold','revenue','attendances','ticketSales']
+
+
+
+ 
