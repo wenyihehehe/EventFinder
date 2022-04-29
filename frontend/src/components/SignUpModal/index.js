@@ -2,6 +2,7 @@ import style from './index.module.css';
 import React from 'react';
 import * as Auth from '../../services/auth';
 import swal from 'sweetalert';
+import { Link } from "react-router-dom";
 
 class SignUpModal extends React.Component{
     constructor(props){
@@ -78,7 +79,7 @@ class SignUpModal extends React.Component{
         <div className="d-flex justify-content-center mt-2">
             <div className={style.content}>
                 <div className="titleText">Sign up with email</div>
-                <div className="detailSubText mt-1 mb-2">Already have an account? Sign In</div>
+                <div className="detailSubText mt-1 mb-2">Already have an account? <Link to="/signup" className={`${style.tonedText}`}>Sign In</Link></div>
                 <form className="needs-validation" noValidate>
                     <label htmlFor="firstName" className="form-label labelText">First Name</label>
                     <div className="input-group mb-3">
@@ -106,7 +107,8 @@ class SignUpModal extends React.Component{
                         <div className="invalid-feedback">Password should be at least 8 characters.</div>
                     </div>
                 <label className="checkboxcontainer">
-                    <span className="detailSubText">I agree to the Terms of Service and Privacy Policy</span>
+                    <span className="detailSubText">I agree to the <Link to="/" className={`${style.tonedText}`}>Terms of Service</Link> and <Link to="/" className={`${style.tonedText}`}>Privacy Policy.</Link></span>
+                    {/* TODO: ADD COPYWRITING FOR TERMS OF SERVICE AND PRIVACY POLICY */}
                     <input type="checkbox" className="form-control" name="privacy" checked={this.state.privacy} onChange={this.handleInputChange} required/>
                     <div className="invalid-feedback">You must agree to Terms of Service and Privacy Policy.</div>
                 <span className="checkmark"></span>

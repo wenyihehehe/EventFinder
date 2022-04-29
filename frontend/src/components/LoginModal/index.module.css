@@ -1,3 +1,7 @@
 .content{
     margin: 0 5rem;
 }
+
+.tonedText, .tonedText:hover{
+    color: #F58444;
+}
