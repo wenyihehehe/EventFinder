@@ -106,7 +106,14 @@ async function getEventRegistration({eventId}){
     return res
 }
 
+async function getEventPerformance({eventId}){
+    let res = await Network.authGet({
+        path:  `api/geteventperformance/${eventId}`
+    })
+    return res
+}
+
 export { 
     deleteEvent, createUpdateEvent, createUpdateEventImage, createUpdateTicketType, getEventDashboard, 
-    getEvent, getTicketTypeStatus, deleteTicketType, getEventRegistrations, getEventRegistration
+    getEvent, getTicketTypeStatus, deleteTicketType, getEventRegistrations, getEventRegistration, getEventPerformance
 }
