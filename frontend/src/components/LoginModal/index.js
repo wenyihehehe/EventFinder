@@ -63,7 +63,6 @@ class LoginModal extends React.Component{
         return error;
     }
     
-
     render(){
         return (
         <div className={this.props.className}>
@@ -71,7 +70,7 @@ class LoginModal extends React.Component{
             <div className={`${style.content} mt-5 `}>
                 <div className="titleText pt-5">Log In</div>
                 <div className="detailSubText mt-1 mb-5">Enter your email and password to start discover nearby events.</div>
-                <form className="needs-validation" noValidate>
+                <form className="needs-validation m-0" noValidate >
                     <label htmlFor="email" className="form-label labelText">Email Address</label>
                     <div className="input-group mb-3">
                         <input type="email" className="form-control" name="email" value={this.state.email} onChange={this.handleInputChange} required />
@@ -85,7 +84,7 @@ class LoginModal extends React.Component{
                     <button type="submit" className="btn primaryButton mt-1 mb-3" style={{width:"100%"}} onClick={this.handleSubmit}>Sign In</button>
                 </form>
                 <div>
-                    <div className="detailSubText mb-1">Don’t have an account? Sign Up</div>
+                    <div className="detailSubText mb-1">Don’t have an account? <Link to="/signup" className={`${style.tonedText}`}>Sign Up</Link></div>
                     <div className="detailSubText mb-1">Forgot Password?</div>
                 </div>
             </div>
