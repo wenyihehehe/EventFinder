@@ -217,12 +217,12 @@ class TicketTypeTable extends React.Component{
                     <form className="needs-validation-ticketType-form" noValidate style={{margin:"0"}}>
                         <div className="form-group">
                             <label htmlFor="name" className="form-label labelText">Ticket Name:</label>
-                            <input type="text" className="form-control" name="name" value={this.state.name} onChange={this.handleInputChange} required/>
+                            <input type="text" className="form-control" name="name" value={this.state.name} onChange={this.handleInputChange} required maxLength={10}/>
                             <div className="invalid-feedback">This field is required.</div>
                         </div>
                         <div className="form-group">
                             <label htmlFor="type" className="form-label labelText">Type:</label>
-                            <input type="text" className="form-control" name="type" value={this.state.type} onChange={this.handleInputChange} required/>
+                            <input type="text" className="form-control" name="type" value={this.state.type} onChange={this.handleInputChange} required maxLength={10}/>
                             <div className="invalid-feedback">This field is required.</div>
                         </div>
                         <div className="form-group">
@@ -232,7 +232,7 @@ class TicketTypeTable extends React.Component{
                         </div>
                         <div className="form-group">
                             <label htmlFor="quantity" className="form-label labelText">Quantity:</label>
-                            <input type="number" className="form-control" name="quantity" value={this.state.quantity} onChange={this.handleInputChange} required min={1}/>
+                            <input type="number" className="form-control" name="quantity" value={this.state.quantity} onChange={this.handleInputChange} required min={1} max={100}/>
                             <div className="invalid-feedback">This field is required.</div>
                         </div>
                     </form> 
