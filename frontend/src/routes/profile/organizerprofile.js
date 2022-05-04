@@ -1,5 +1,5 @@
 import OrganizerProfile from '../../components/OrganizerProfile';
-import EventCard from '../../components/EventCard';
+import EventCardOrganizer from '../../components/EventCardOrganizer';
 import Review from '../../components/Review';
 import * as User from '../../services/user';
 import { useState, useEffect } from 'react';
@@ -29,7 +29,7 @@ export default function OrganizerProfilePage() {
           {
             events.slice(i, i + 3)
               .map(event => (
-                <EventCard event={event} key={event.id}/>
+                <EventCardOrganizer event={event} key={event.id}/>
                 ))
           }
         </div>
@@ -48,23 +48,23 @@ export default function OrganizerProfilePage() {
         <section className="pt-3">
           <div className="container"  style={{width: "85%"}}>
               <div className="row">
-                  <div className="col-6">
-                      <h3 className="secondaryTitleText">My Events </h3>
+                  <div className="col-6 mb-3">
+                      <p className="secondaryTitleText">My Events </p>
                   </div>
-                  <div className="col-6 text-right">
-                      <a className="btn primaryButton mb-3 mr-1" href="#carouselContent" role="button" data-slide="prev" style={{height: "fit-content"}}>
-                        <i className="bi bi-chevron-left"></i>
-                      </a>
-                      <a className="btn primaryButton mb-3 " href="#carouselContent" role="button" data-slide="next" style={{height: "fit-content"}}>
-                        <i className="bi bi-chevron-right"></i>
-                      </a>
-                  </div>
-                  <div className="col-12">
+                  <div className="col-12 row m-0 mb-3 ml-3 p-0 justify-content-between align-items-center">
+                    <a className="btn mb-3 mr-1 col-auto" href="#carouselContent" role="button" data-slide="prev" style={{height: "fit-content"}}>
+                      <i className="bi bi-chevron-left"></i>
+                    </a>
+                    <div className="col-auto">
                       <div id="carouselContent" className="carousel slide" data-ride="carousel">
                         <div className="carousel-inner">
                           {eventsRender}  
                         </div>
                       </div>
+                    </div>
+                    <a className="btn mb-3 col-auto" href="#carouselContent" role="button" data-slide="next" style={{height: "fit-content"}}>
+                      <i className="bi bi-chevron-right"></i>
+                    </a>
                   </div>
               </div>
           </div>

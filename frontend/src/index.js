@@ -17,7 +17,7 @@ import LoginPage from "./routes/login";
 import SignUpPage from "./routes/signup";
 import Home from "./routes/home";
 import Search from "./routes/search";
-import Event from "./routes/event";
+import EventPage from "./routes/event";
 import Ticket from "./routes/ticket";
 import UserProfilePage from "./routes/profile/userprofile";
 import OrganizerProfilePage from "./routes/profile/organizerprofile";
@@ -44,7 +44,7 @@ root.render(
         <Route path="/" element={<NavTemplate />}>
           <Route index element={<Home />} />
           <Route path="search" element={<Search />} />
-          <Route path="event/:eventId" element={<Event />} />
+          <Route path="event/:eventId" element={<EventPage />} />
           <Route path="ticket/:registrationId" element={<Ticket />} />
           <Route path="profile">
             <Route path="user/view" element={<UserProfilePage />}/>

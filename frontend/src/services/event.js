@@ -113,7 +113,22 @@ async function getEventPerformance({eventId}){
     return res
 }
 
+async function getEventPage({eventId}){
+    let res = await Network.authGet({
+        path:  `api/geteventpage/${eventId}`
+    })
+    return res
+}
+
+async function getRelatedEvents({eventId}){
+    let res = await Network.authGet({
+        path:  `api/getrelatedevents/${eventId}`
+    })
+    return res
+}
+
 export { 
     deleteEvent, createUpdateEvent, createUpdateEventImage, createUpdateTicketType, getEventDashboard, 
-    getEvent, getTicketTypeStatus, deleteTicketType, getEventRegistrations, getEventRegistration, getEventPerformance
+    getEvent, getTicketTypeStatus, deleteTicketType, getEventRegistrations, getEventRegistration, getEventPerformance,
+    getEventPage, getRelatedEvents
 }
