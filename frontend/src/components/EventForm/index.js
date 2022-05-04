@@ -56,7 +56,6 @@ class EventForm extends React.Component{
         if(this.props.eventId){
             const eventId = this.props.eventId
             let event = await Event.getEvent({eventId})
-            console.log(event)
             this.setState({
                 id: event.id,
                 title: event.title,
