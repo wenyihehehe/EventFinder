@@ -130,7 +130,7 @@ class Event(models.Model):
     
     def has_eventPageVisit(self):
         try:
-            self.eventPageVisit
+            self.eventpagevisit
             return True
         except:
             return False

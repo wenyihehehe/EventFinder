@@ -165,9 +165,9 @@ class GetOrganizingEventsSerializer(serializers.ModelSerializer):
             return "RM0"
         return ""
     
-    def get_coverImage(self, user):
+    def get_coverImage(self, event):
         request = self.context.get('request')
-        coverImage = user.coverImage.url
+        coverImage = event.coverImage.url
         return request.build_absolute_uri(coverImage)
 
     class Meta:
@@ -327,7 +327,7 @@ class GetEventPerformanceSerializer(serializers.ModelSerializer):
 
     def get_pageView(self, event):
         if(event.has_eventPageVisit()):
-            pageView = event.eventPageVisit.visits
+            pageView = event.eventpagevisit.visits
             return pageView
         return 0
 
@@ -359,17 +359,12 @@ class GetEventPerformanceSerializer(serializers.ModelSerializer):
         if(event.has_registration()):
             registrations = event.registration.all().filter(orderDateTime__lte=datetime.datetime.today(), orderDateTime__gte=datetime.datetime.today()-datetime.timedelta(days=30))
             tickets = Ticket.objects.filter(registration__in=registrations).values(orderDateTime=F('registration__orderDateTime__date')).annotate(ticketSold=Count('id'))
-            # needed to use .append() later on
             items = list(tickets)
-
             dates = [x.get('orderDateTime') for x in items]
-
             for d in (datetime.datetime.today().date() - datetime.timedelta(days=x) for x in range(0,30)):
                 if d not in dates:
                     items.append({'orderDateTime': d, 'ticketSold': 0})
-            print(items)
             newlist = sorted(items, key=lambda x: x.get('orderDateTime'), reverse=False)
-
             return newlist
         return []
 
@@ -377,6 +372,51 @@ class GetEventPerformanceSerializer(serializers.ModelSerializer):
         model = Event
         fields = ['pageView', 'ticketSold','revenue','attendances','ticketSales']
 
+class GetEventPageSerializer(serializers.ModelSerializer):
+    organizerId = OrganizerProfileSerializer()
+    images = serializers.SerializerMethodField()
 
+    def get_images(self, event):
+        response = []
+        if(event.has_eventImage()):
+            images = event.image.all()
+            request = self.context.get('request')
+            for item in images:
+                url = request.build_absolute_uri(item.image.url)
+                response.append(url)
+        return response
+
+    class Meta:
+        model = Event
+        fields = ['title','coverImage','description','location','startDateTime','endDateTime', 'images','organizerId']
+
+class GetRelatedEventsSerializer(serializers.ModelSerializer):
+    pricing = serializers.SerializerMethodField()
+    coverImage = serializers.SerializerMethodField()
+    organizerName = serializers.StringRelatedField(source='organizerId')
+    organizerProfileImage = serializers.SerializerMethodField()
+
+    def get_pricing(self,event):
+        if(event.has_ticketType()):
+            ticketType = TicketType.objects.filter(eventId=event).values("eventId").annotate(pricing=Min("price"))
+            if (ticketType and int(ticketType[0].get('pricing'))>0):
+                return "RM%s" % (ticketType[0].get('pricing'))
+            return "RM0"
+        return ""
+    
+    def get_coverImage(self, event):
+        request = self.context.get('request')
+        coverImage = event.coverImage.url
+        return request.build_absolute_uri(coverImage)
+    
+    def get_organizerProfileImage(self, event):
+        organizerProfile = event.organizerId
+        request = self.context.get('request')
+        profileImage = organizerProfile.profileImage.url
+        return request.build_absolute_uri(profileImage)
+
+    class Meta:
+        model = Event
+        fields = ['id','coverImage','title','startDateTime','location','pricing','status', 'organizerName', 'organizerProfileImage']
 
  

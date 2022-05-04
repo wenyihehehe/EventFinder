@@ -30,12 +30,3 @@
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
 }
-
-.profileImage{
-    border-radius: 100%;
-    width: 25px;
-    height: 25px;
-    object-position: 0px -3px;
-    object-fit: cover;
-    box-sizing: content-box;
-}
