@@ -62,8 +62,6 @@ class SearchMap extends React.Component {
     // Get Current Location Coordinates
     setCurrentLocation() {
         if(this.props.location){
-            console.log(this.props.latitude)
-            console.log(this.props.longitude)
             this.setState({
                 center: [this.props.latitude, this.props.longitude],
                 lat: this.props.latitude,
