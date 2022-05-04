@@ -62,8 +62,8 @@ export default function EventPage() {
       </section>
       <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
         <div style={sectionStyle} className="row justify-content-between m-0">
-          <p className="secondaryTitleText col-auto mb-0 p-0" style={{lineHeight:"1.5"}}>{event.title}</p>
-          <button className="btn primaryButton col-auto">Register Now</button>
+          <p className="secondaryTitleText col-10 mb-0 p-0">{event.title}</p>
+          <button className="btn primaryButton col-lg-2">Register Now</button>
         </div>
       </section>
       <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
