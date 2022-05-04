@@ -66,16 +66,16 @@ class DashboardTable extends React.Component{
                     events.map(event => (
                         <tr key={event.id} style={{boxShadow: "inset 0px -0.5px 0px #E5E5E5"}}>
                             <td className={`row justify-content-start ${style.verticalCenter}`}>
-                                <div className="col-auto">
+                                <div className="col-md-2 col-sm-6">
                                     <p className={`titleText ${style.date} tonedTextOrange `}>{event.startDateTime ? moment(event.startDateTime).format('MMM DD') : "NA"}</p>
                                 </div>
-                                <div className="col-auto">
+                                <div className="col-md-2 col-sm-6">
                                     <img className={`${style.image}`} src={event.coverImage} alt="event"/>
                                 </div>
-                                <div className="col-auto">
-                                    <p className="labelText">{event.title ? event.title : "NA"}</p>
+                                <div className="col-lg-8">
+                                    <p className={`labelText ${style.title}`}>{event.title ? event.title : "NA"}</p>
                                     <p className="detailSubText subTextColor mb-1">{event.startDateTime ? moment(event.startDateTime).format('MMM Do, dddd [at] LT') : "NA"}</p>
-                                    <p className="detailSubText subTextColor">{event.location ? event.location : "NA"}</p>
+                                    <p className={`detailSubText subTextColor ${style.detail}`}>{event.location ? event.location : "NA"}</p>
                                 </div>
                             </td>
                             <td className={`${style.verticalCenter}`}>

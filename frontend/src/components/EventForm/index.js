@@ -6,6 +6,7 @@ import * as Event from '../../services/event';
 import moment from 'moment';
 import RichTextEditor from '../RichTextEditor';
 import TicketTypeTable from '../TicketTypeTable';
+import SearchMap from '../SearchMap';
 
 class EventForm extends React.Component{
     constructor(props){
@@ -22,6 +23,8 @@ class EventForm extends React.Component{
             imageInput: [],
             type: "Physical", //default
             location: "",
+            latitude: "",
+            longitude: "",
             startDateTime: moment().format("YYYY-MM-DDThh:mm"),
             endDateTime: moment().add(1, 'days').format("YYYY-MM-DDThh:mm"),
             ticketType: [],
@@ -39,6 +42,7 @@ class EventForm extends React.Component{
         this.handleTicketType = this.handleTicketType.bind(this);
         this.handleDeleteTicketType = this.handleDeleteTicketType.bind(this);
         this.getImagesToImageInput = this.getImagesToImageInput.bind(this);
+        this.handleLocation = this.handleLocation.bind(this);
     }
 
     async getData(){
@@ -56,16 +60,17 @@ class EventForm extends React.Component{
         if(this.props.eventId){
             const eventId = this.props.eventId
             let event = await Event.getEvent({eventId})
-            console.log(event)
             this.setState({
                 id: event.id,
-                title: event.title,
-                coverImage: event.coverImage,
-                category: event.category,
-                description: event.description,
+                title: event.title ?? "",
+                coverImage: event.coverImage ?? "",
+                category: event.category ?? "",
+                description: event.description ?? "",
                 images: event.images,
-                type: event.type,
-                location: event.location,
+                type: event.type ?? "",
+                location: event.location ?? "",
+                latitude: event.latitude ?? "",
+                longitude: event.longitude ?? "",
                 startDateTime: moment(event.startDateTime).format("YYYY-MM-DDThh:mm"),
                 endDateTime: moment(event.endDateTime).format("YYYY-MM-DDThh:mm"),
                 ticketType: event.ticketType,
@@ -107,6 +112,8 @@ class EventForm extends React.Component{
                 description: this.state.description,
                 type: this.state.type,
                 location: this.state.location,
+                latitude: this.state.latitude,
+                longitude: this.state.longitude,
                 startDateTime: this.state.startDateTime,
                 endDateTime: this.state.endDateTime,
                 status: "Published",
@@ -155,6 +162,8 @@ class EventForm extends React.Component{
             description: this.state.description,
             type: this.state.type,
             location: this.state.location,
+            latitude: this.state.latitude,
+            longitude: this.state.longitude,
             startDateTime: this.state.startDateTime,
             endDateTime: this.state.endDateTime,
         });
@@ -186,10 +195,25 @@ class EventForm extends React.Component{
     validateForm(){
         // Remove invalidFeedback
         document.querySelector(".invalidFeedback").classList.remove('invalid');
+        // Remove invalid-location-feedback
+        document.querySelector(".invalid-location-feedback").classList.remove('invalid');
 
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         var forms = document.querySelectorAll('.needs-validation-event-form')
         var error = false;
+
+        const locationField = document.getElementById("locationField");
+        if(locationField.value.length === 0){
+            locationField.setCustomValidity("This field is required.");
+            document.querySelector(".invalid-location-feedback").classList.add('invalid');
+            document.querySelector(".invalid-location-feedback").innerHTML = "This field is required."
+        } else if (!this.state.location){
+            locationField.setCustomValidity("This location is invalid.");
+            document.querySelector(".invalid-location-feedback").classList.add('invalid');
+            document.querySelector(".invalid-location-feedback").innerHTML = "This location is invalid."
+        } else {
+            locationField.setCustomValidity("")
+        }
 
         // Loop over them and prevent submission
         Array.prototype.slice.call(forms)
@@ -256,6 +280,15 @@ class EventForm extends React.Component{
         this.setState(prevState => ({
             deleteTicketType: [...prevState.deleteTicketType, data]
         }))
+    }
+
+    handleLocation(data){
+        this.setState({
+            location: data.location,
+            locationName: data.locationName,
+            latitude: data.latitude,
+            longitude: data.longitude
+        })
     }
 
     componentDidMount(){
@@ -330,10 +363,9 @@ class EventForm extends React.Component{
                             <button className={`btn ${this.state.type === "Online" ? "primaryButton" : "outlinedButton"} ${style.typeButton}`} type="button" value="Online" onClick={(e)=> this.setState({type: e.target.value})}>Online</button>
                         </div>
                         <label htmlFor="location" className="form-label labelText">Location</label>
-                        <div className="input-group mb-3">
-                            <input type="text" className="form-control" name="location" value={this.state.location} onChange={this.handleInputChange} required />
-                            <div className="invalid-feedback">This field is required.</div>
-                        </div>
+                        {((this.props.eventId && this.state.id) || (!this.props.eventId)) && 
+                        <SearchMap handleLocation={this.handleLocation} location={this.state.location} latitude={this.state.latitude} longitude={this.state.longitude}/>
+                        }
                     </form>
                 </section>
                 <section>

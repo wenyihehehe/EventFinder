@@ -13,7 +13,6 @@ class EventCard extends React.Component{
 
     render(){
         const event = this.props.event;
-        console.log(event)
         return (
             <div className={`${this.props.className} card ${style.card}  mb-3 mr-4`} style={{ padding:"0"}}>
                 <img src={event.coverImage} className="card-img-top" alt="..." />

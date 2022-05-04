@@ -21,7 +21,7 @@ class RegistrationTable extends React.Component{
         this.setState({
             registrations: event.data,
             maxPage: event.max
-        }, console.log(this.state))
+        })
     }
 
     handlePageClickChange(add){

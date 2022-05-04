@@ -12,7 +12,7 @@ async function deleteEvent({id}){
     return data;
 };
 
-async function createUpdateEvent({id, title, coverImage, category, description, type, location, startDateTime, endDateTime, status}){
+async function createUpdateEvent({id, title, coverImage, category, description, type, location, latitude, longitude, startDateTime, endDateTime, status}){
     let formData = new FormData();
     if (id) formData.append("id", id)
     if (title) formData.append("title", title)
@@ -21,6 +21,8 @@ async function createUpdateEvent({id, title, coverImage, category, description, 
     if (description) formData.append("description", description)
     if (type) formData.append("type", type)
     if (location) formData.append("location", location)
+    if (latitude) formData.append("latitude", latitude)
+    if (longitude) formData.append("longitude", longitude)
     if (startDateTime) formData.append("startDateTime", startDateTime)
     if (endDateTime) formData.append("endDateTime", endDateTime)
     if (status) formData.append("status", status)
