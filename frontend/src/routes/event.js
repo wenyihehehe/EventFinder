@@ -5,6 +5,7 @@ import EventDescriptionBox from "../components/EventDescriptionBox";
 import EventCard from "../components/EventCard";
 import GoogleMapReact from 'google-map-react';
 import MapMarker from "../components/MapMarker";
+import OrderModal from "../components/OrderModal";
 
 export default function EventPage() {
   let navigate = useNavigate();
@@ -12,6 +13,7 @@ export default function EventPage() {
   let eventId = parseInt(params.eventId, 10);
   const [event, setEvent] = useState({})
   const [relatedEvents, setRelatedEvents] = useState({})
+  const [showOrder, setShowOrder] = useState(false)
 
   const getData = async () =>{
     let event = await Event.getEventPage({eventId})
@@ -32,6 +34,14 @@ export default function EventPage() {
 
   const sectionStyle = {
     width: "70%"
+  }
+
+  const handleClose = () => {
+    setShowOrder(false);
+  }
+
+  const handleOpen = () => {
+    setShowOrder(true);
   }
 
   const eventsRender = [];
@@ -63,7 +73,7 @@ export default function EventPage() {
       <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
         <div style={sectionStyle} className="row justify-content-between m-0">
           <p className="secondaryTitleText col-10 mb-0 p-0">{event.title}</p>
-          <button className="btn primaryButton col-lg-2">Register Now</button>
+          <button className="btn primaryButton col-lg-2" onClick={handleOpen}>Register Now</button>
         </div>
       </section>
       <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
@@ -111,6 +121,7 @@ export default function EventPage() {
           </div>
         </div>
       </section>
+      <OrderModal show={showOrder} handleClose={handleClose} eventId={eventId} navigate={navigate}/>
     </main>
   );
 }

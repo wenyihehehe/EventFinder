@@ -129,8 +129,15 @@ async function getRelatedEvents({eventId}){
     return res
 }
 
+async function getEventTicketType({eventId}){
+    let res = await Network.authGet({
+        path:  `api/geteventtickettype/${eventId}`
+    })
+    return res
+}
+
 export { 
     deleteEvent, createUpdateEvent, createUpdateEventImage, createUpdateTicketType, getEventDashboard, 
     getEvent, getTicketTypeStatus, deleteTicketType, getEventRegistrations, getEventRegistration, getEventPerformance,
-    getEventPage, getRelatedEvents
+    getEventPage, getRelatedEvents, getEventTicketType
 }
