@@ -3,6 +3,8 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import * as Event from '../services/event'
 import EventDescriptionBox from "../components/EventDescriptionBox";
 import EventCard from "../components/EventCard";
+import GoogleMapReact from 'google-map-react';
+import MapMarker from "../components/MapMarker";
 
 export default function EventPage() {
   let navigate = useNavigate();
@@ -71,7 +73,17 @@ export default function EventPage() {
       </section>
       <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
         <div style={{...sectionStyle, height:"350px"}} className="row justify-content-between">
-          <p>Map</p>
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: "AIzaSyBx34-6ciKW6FZzEK3sff3Ae56sSAOJicI" }}
+          center={[event.latitude, event.longitude]}
+          zoom={15}
+          >
+          <MapMarker
+              lat={event.latitude}
+              lng={event.longitude}
+              text={event.location}
+          />
+        </GoogleMapReact>
         </div>
       </section>
       <section className="container-fluid row justify-content-center mt-4 mb-4" style={{margin: "0", padding: "0"}}>

@@ -1,4 +1,4 @@
-*:not(ol){
+*:not(ol,hr){
   margin:0;
   padding:0;
   text-align: left;
@@ -277,8 +277,8 @@ p {
   line-height: 20px !important;
 }
 
-/* Custom Invalid feedback */
-.invalidFeedback{
+/* Custom Invalid feedback for normal and location */
+.invalidFeedback, .invalid-location-feedback{
   display: none;
   width: 100%;
   margin-top: 0.25rem;
@@ -286,6 +286,6 @@ p {
   color: #dc3545;
 }
 
-.invalidFeedback.invalid{
+.invalidFeedback.invalid, .invalid-location-feedback.invalid{
   display: block
 }

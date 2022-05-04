@@ -1,0 +1,29 @@
+.marker {
+    /* Set the marker size here */
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 1.5rem;
+    /* Set the marker color here */
+    background: #F58444;
+
+    display: inline-block;
+    border-bottom-right-radius: 0;
+    position: relative;
+    transform: rotate(45deg);
+
+    /* optional fanciness */
+    border: 1px solid #F58444;
+}
+/* inner circle (optional if you don't need the central dot) */
+.marker::before {
+    content: "";
+    background: white;
+    width: 40%;
+    height: 40%;
+    border-radius: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #F58444;
+}
