@@ -21,13 +21,16 @@ class EventDescriptionBox extends React.Component{
                     <div className="mb-3">
                         <p className="headingText">Date & Time</p>
                         <div className="row" style={{margin:"0"}}>
-                            <i className="bi bi-clock col-1" style={{padding:"0"}}></i>
+                            <i className="bi bi-clock col-1" style={{padding:"0", paddingTop:"1.5px"}}></i>
                             <p className="col" style={{padding:"0"}}>{moment(event.eventStartDateTime).format('MMM Do, dddd [at] LT')} to {moment(event.endDateTime).format('MMM Do, dddd [at] LT')}</p>
                         </div>
                     </div>
                     <div className="mb-3">
                         <p className="headingText">Location</p>
-                        <p>{event.location}</p>
+                        <div className="row" style={{margin:"0"}}>
+                            <i className="bi bi-geo-alt-fill col-1" style={{padding:"0", paddingTop:"1.5px"}}></i>
+                            <p className="col" style={{padding:"0"}}>{event.location}</p>
+                        </div>
                     </div>
                     {event.images.length >0 && (
                     <div className="mb-3">
