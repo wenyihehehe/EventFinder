@@ -49,7 +49,7 @@ export default function EventDashboardAttendee() {
             <input type="text" className="form-control detailMainText" placeholder="Search attendees" style={{textIndent:"2rem", height:"40px", border: "0.5px solid rgba(0,0,0,.1)"}} value={searchParams} onChange={(e)=> setSearchParams(e.target.value)}></input>
           </div>
           <AttendanceTable className="col-12 mb-3" tickets={attendees} getData={getData}/>
-          <nav aria-label="Page navigation">
+          <nav aria-label="Page navigation" className="mb-3">
             <ul className="pagination detailMainText justify-content-center">
               <li className="page-item">
                 <button className="page-link" aria-label="Previous" onClick={(e)=> setPage(parseInt(page)-1<1 ? 1 : parseInt(page)-1)}>
@@ -64,7 +64,7 @@ export default function EventDashboardAttendee() {
                 </button>
               </li>
             </ul>
-        </nav>
+          </nav>
         </div>
       </div>
     </main>

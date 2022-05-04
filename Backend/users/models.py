@@ -166,7 +166,7 @@ class Registration(models.Model):
     userId = models.ForeignKey(User, on_delete=models.CASCADE, related_name="registration")
     eventId = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="registration")
     orderDateTime = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=9, choices=STATUS)
+    status = models.CharField(max_length=9, choices=STATUS, default="Active")
     
     def __str__(self):
         return "%s:%s" % (self.userId, self.eventId)

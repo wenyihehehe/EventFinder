@@ -47,7 +47,7 @@ export default function EventDashboardMain() {
         <TicketTypeTable ticketType={event.ticketType}/>
       </div>
       <hr/>
-      <div style={sectionStyle}>
+      <div style={sectionStyle} className="mb-3">
         <p className="headingText">Links</p>
         <div className="backgroundWhite" style={{marginLeft: "1rem", marginRight: "0"}}>
           <table className="table table-borderless" style={{padding: "1rem 2.5rem", border: "0.5px solid rgba(0,0,0,.1)"}}>

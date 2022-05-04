@@ -171,9 +171,28 @@ class RegistrationViewSet(ModelViewSet):
     queryset = Registration.objects.all()
     serializer_class = RegistrationSerializer
 
+    def create(self, request):
+        data = request.data.copy()
+        data['userId'] = request.user.id
+        serializer = self.get_serializer(data=data, partial=True)
+        if not serializer.is_valid():
+            print(serializer.errors)
+            return Response(
+                {"status": "ERROR", "detail": "Failed to register"}
+            )
+        serializer.save()
+        return Response({"status": "OK", "data": serializer.data})
+
 class TicketViewSet(ModelViewSet):
     queryset = Ticket.objects.all()
-    serializer_class = TicketSerializer
+    serializer_class = ViewTicketSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = TicketSerializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data,  headers=headers)
 
 class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all()
@@ -346,7 +365,7 @@ class GetEventRegistrationView(generics.CreateAPIView):
     pagination_class = SmallPagination
 
     def post(self, request, *args, **kwargs):
-        registrations = Registration.objects.filter(eventId=request.data['eventId'])
+        registrations = Registration.objects.filter(eventId=request.data['eventId']).order_by('-orderDateTime')
         page = self.paginate_queryset(registrations)
         if page is not None:
             serializer = GetEventRegistrationSerializer(page, many=True, context={"request": request})
@@ -382,10 +401,8 @@ class GetEventPageView(APIView):
     def get(self, request, pk=None):
         event = Event.objects.get(pk=pk)
         eventPageVisit, created = EventPageVisit.objects.get_or_create(eventId=event)
-        print(eventPageVisit)
         eventPageVisit.visits += 1
         eventPageVisit.save()
-        print(eventPageVisit)
         serializer = GetEventPageSerializer(event, context={"request": request})
         return Response({"data": serializer.data})
 
@@ -393,7 +410,12 @@ class GetRelatedEventsView(APIView):
     def get(self, request, pk=None):
         event = Event.objects.get(pk=pk)
         relatedEvents = Event.objects.filter(Q(organizerId=event.organizerId) | Q(category=event.category)).exclude(pk=pk)[:6]
-        print(relatedEvents)
         serializer = GetRelatedEventsSerializer(relatedEvents, many=True, context={"request": request})
+        return Response({"data": serializer.data})
+
+class GetEventTicketTypeView(APIView):
+    def get(self, request, pk=None):
+        event = Event.objects.get(pk=pk)
+        serializer = GetEventTicketTypeSerializer(event)
         return Response({"data": serializer.data})
 
