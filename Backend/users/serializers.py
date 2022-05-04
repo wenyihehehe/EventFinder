@@ -62,6 +62,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class TicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = "__all__"
+
+class ViewTicketSerializer(serializers.ModelSerializer):
     ticketType = serializers.StringRelatedField()
 
     class Meta:
@@ -419,4 +424,10 @@ class GetRelatedEventsSerializer(serializers.ModelSerializer):
         model = Event
         fields = ['id','coverImage','title','startDateTime','location','pricing','status', 'organizerName', 'organizerProfileImage']
 
- 
+class GetEventTicketTypeSerializer(serializers.ModelSerializer):
+    organizerName = serializers.StringRelatedField(source='organizerId')
+    ticketType = TicketTypeSerializer(many=True)
+
+    class Meta:
+        model = Event
+        fields = ['title','organizerName','ticketType']

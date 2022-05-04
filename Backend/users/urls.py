@@ -33,4 +33,5 @@ urlpatterns = [
     path(r"geteventperformance/<int:pk>", GetEventPerformanceView.as_view()),
     path(r"geteventpage/<int:pk>", GetEventPageView.as_view()),
     path(r"getrelatedevents/<int:pk>", GetRelatedEventsView.as_view()),
+    path(r"geteventtickettype/<int:pk>", GetEventTicketTypeView.as_view()),
 ]
