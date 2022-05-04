@@ -268,7 +268,7 @@ class GetEventRegistrationsSerializer(serializers.ModelSerializer):
         amount = 0
         for ticket in tickets:
             price = ticket.ticketType.price
-            amount += int(price)
+            amount += int(float(price))
         return amount
 
     class Meta:
@@ -294,7 +294,7 @@ class GetEventRegistrationSerializer(serializers.ModelSerializer):
         amount = 0
         for ticket in tickets:
             price = ticket.ticketType.price
-            amount += int(price)
+            amount += int(float(price))
         return amount
 
     def get_ticketType(self, registration):

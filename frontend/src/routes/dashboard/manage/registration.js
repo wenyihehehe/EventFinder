@@ -62,7 +62,7 @@ export default function EventDashboardRegistration() {
           )}
       </section>
       <hr/>
-      <div style={sectionStyle}>
+      <div style={sectionStyle} className="mb-3">
         <p className="titleText mb-3">All Registrations</p>
         <RegistrationTable eventId={eventId} navigate={navigate}/>
       </div>
