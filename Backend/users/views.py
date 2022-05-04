@@ -6,6 +6,8 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated 
 from rest_framework import filters
 
+from django.db.models import Q
+
 from .permissions import *
 from .models import *
 from .serializers import *
@@ -375,3 +377,23 @@ class GetEventPerformanceView(APIView):
         event = Event.objects.get(pk=pk)
         serializer = GetEventPerformanceSerializer(event)
         return Response({"data": serializer.data})
+
+class GetEventPageView(APIView):
+    def get(self, request, pk=None):
+        event = Event.objects.get(pk=pk)
+        eventPageVisit, created = EventPageVisit.objects.get_or_create(eventId=event)
+        print(eventPageVisit)
+        eventPageVisit.visits += 1
+        eventPageVisit.save()
+        print(eventPageVisit)
+        serializer = GetEventPageSerializer(event, context={"request": request})
+        return Response({"data": serializer.data})
+
+class GetRelatedEventsView(APIView):
+    def get(self, request, pk=None):
+        event = Event.objects.get(pk=pk)
+        relatedEvents = Event.objects.filter(Q(organizerId=event.organizerId) | Q(category=event.category)).exclude(pk=pk)[:6]
+        print(relatedEvents)
+        serializer = GetRelatedEventsSerializer(relatedEvents, many=True, context={"request": request})
+        return Response({"data": serializer.data})
+

@@ -165,9 +165,9 @@ class GetOrganizingEventsSerializer(serializers.ModelSerializer):
             return "RM0"
         return ""
     
-    def get_coverImage(self, user):
+    def get_coverImage(self, event):
         request = self.context.get('request')
-        coverImage = user.coverImage.url
+        coverImage = event.coverImage.url
         return request.build_absolute_uri(coverImage)
 
     class Meta:
@@ -372,6 +372,51 @@ class GetEventPerformanceSerializer(serializers.ModelSerializer):
         model = Event
         fields = ['pageView', 'ticketSold','revenue','attendances','ticketSales']
 
+class GetEventPageSerializer(serializers.ModelSerializer):
+    organizerId = OrganizerProfileSerializer()
+    images = serializers.SerializerMethodField()
 
+    def get_images(self, event):
+        response = []
+        if(event.has_eventImage()):
+            images = event.image.all()
+            request = self.context.get('request')
+            for item in images:
+                url = request.build_absolute_uri(item.image.url)
+                response.append(url)
+        return response
+
+    class Meta:
+        model = Event
+        fields = ['title','coverImage','description','location','startDateTime','endDateTime', 'images','organizerId']
+
+class GetRelatedEventsSerializer(serializers.ModelSerializer):
+    pricing = serializers.SerializerMethodField()
+    coverImage = serializers.SerializerMethodField()
+    organizerName = serializers.StringRelatedField(source='organizerId')
+    organizerProfileImage = serializers.SerializerMethodField()
+
+    def get_pricing(self,event):
+        if(event.has_ticketType()):
+            ticketType = TicketType.objects.filter(eventId=event).values("eventId").annotate(pricing=Min("price"))
+            if (ticketType and int(ticketType[0].get('pricing'))>0):
+                return "RM%s" % (ticketType[0].get('pricing'))
+            return "RM0"
+        return ""
+    
+    def get_coverImage(self, event):
+        request = self.context.get('request')
+        coverImage = event.coverImage.url
+        return request.build_absolute_uri(coverImage)
+    
+    def get_organizerProfileImage(self, event):
+        organizerProfile = event.organizerId
+        request = self.context.get('request')
+        profileImage = organizerProfile.profileImage.url
+        return request.build_absolute_uri(profileImage)
+
+    class Meta:
+        model = Event
+        fields = ['id','coverImage','title','startDateTime','location','pricing','status', 'organizerName', 'organizerProfileImage']
 
  
