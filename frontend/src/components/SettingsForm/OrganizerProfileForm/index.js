@@ -9,7 +9,7 @@ class OrganizerProfileForm extends React.Component{
         this.state = {
             profileImage: "",
             organizerName: "",
-            contactNumber: "",
+            contactEmail: "",
             description: "",
             profileImageInput: ""
         };
@@ -26,7 +26,7 @@ class OrganizerProfileForm extends React.Component{
         this.setState({
             profileImage: data.profileImage,
             organizerName: data.organizerName,
-            contactNumber: data.contactNumber,
+            contactEmail: data.contactEmail,
             description: data.description,
         })
     }
@@ -108,9 +108,9 @@ class OrganizerProfileForm extends React.Component{
                     <input type="text" className="form-control" name="organizerName" value={this.state.organizerName} onChange={this.handleInputChange} required />
                     <div className="invalid-feedback">This field is required.</div>
                 </div>
-                <label htmlFor="contactNumber" className="form-label labelText">Contact Number</label>
+                <label htmlFor="contactNumber" className="form-label labelText">Contact Email</label>
                 <div className="input-group mb-3">
-                    <input type="text" className="form-control" name="contactNumber" value={this.state.contactNumber} onChange={this.handleInputChange} required maxLength={11}/>
+                    <input type="email" className="form-control" name="contactEmail" value={this.state.contactEmail} onChange={this.handleInputChange} required maxLength={11}/>
                     <div className="invalid-feedback">This field is required.</div>
                 </div>
                 <label htmlFor="description" className="form-label labelText">Description</label>

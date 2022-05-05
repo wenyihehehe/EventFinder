@@ -39,7 +39,7 @@ class OrganizerProfileSerializer(serializers.ModelSerializer):
 class OrganizerProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrganizerProfile
-        fields = ['organizerName','profileImage','contactNumber','description']
+        fields = ['organizerName','profileImage','contactEmail','description']
 
 class CreateEventSerializer(serializers.ModelSerializer):
     class Meta:
@@ -187,24 +187,25 @@ class GetOrganizerReviewsSerializer(serializers.ModelSerializer):
 
     def get_profileImage(self, review):
         request = self.context.get('request')
-        profileImage = request.user.profileImage.url
+        user = review.registrationId.userId
+        profileImage = user.profileImage.url
         return request.build_absolute_uri(profileImage)
 
     def get_firstName(self, review):
-        request = self.context.get('request')
-        return request.user.firstName
+        user = review.registrationId.userId
+        return user.firstName
 
     def get_lastName(self, review):
-        request = self.context.get('request')
-        return request.user.lastName
+        user = review.registrationId.userId
+        return user.lastName
 
     def get_event(self, review):
-        event = review.eventId.title
-        return event
+        event = review.registrationId.eventId
+        return event.title
 
     class Meta:
         model = Review
-        fields = ['profileImage','firstName','lastName','postedDate','rating','event','comment']
+        fields = ['id','profileImage','firstName','lastName','postedDate','rating','event','comment']
 
 class ChangePasswordSerializer(serializers.Serializer):
     model = User
@@ -268,7 +269,7 @@ class GetEventRegistrationsSerializer(serializers.ModelSerializer):
         amount = 0
         for ticket in tickets:
             price = ticket.ticketType.price
-            amount += int(float(price))
+            amount += float(price)
         return amount
 
     class Meta:
@@ -294,7 +295,7 @@ class GetEventRegistrationSerializer(serializers.ModelSerializer):
         amount = 0
         for ticket in tickets:
             price = ticket.ticketType.price
-            amount += int(float(price))
+            amount += float(price)
         return amount
 
     def get_ticketType(self, registration):
@@ -431,3 +432,42 @@ class GetEventTicketTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ['title','organizerName','ticketType']
+
+class GetRegistrationSerializer(serializers.ModelSerializer):
+    event = serializers.SerializerMethodField()
+    tickets = serializers.SerializerMethodField()
+    amount = serializers.SerializerMethodField()
+    disableReview = serializers.SerializerMethodField()
+    
+    def get_event(self,registration):
+        event = registration.eventId
+        data = {
+            'id': event.id,
+            'title': event.title,
+            'startDateTime': event.startDateTime,
+            'endDateTime': event.endDateTime,
+            'location': event.location,
+            'organizerId': event.organizerId.id,
+            'organizerName': event.organizerId.organizerName,
+            'organizerEmail': event.organizerId.contactEmail
+        }
+        return data
+    
+    def get_tickets(self,registration):
+        tickets = Ticket.objects.filter(registration=registration).values(name=F('ticketType__name')).annotate(quantity=Count('id')).annotate(amount=Sum('ticketType__price'))
+        return tickets
+
+    def get_amount(self, registration):
+        tickets = registration.ticket.all()
+        amount = 0
+        for ticket in tickets:
+            price = ticket.ticketType.price
+            amount += float(price)
+        return amount
+
+    def get_disableReview(self,registration):
+        return registration.has_review()
+
+    class Meta:
+        model = Registration
+        fields = ['id','event','orderDateTime','tickets','amount', 'disableReview']

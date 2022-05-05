@@ -9,8 +9,8 @@ class OrderModal extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            title: "How To Improve Your Memory - Talk by Sam Jonas & Andrew",
-            organizerName: "Memory Malaysia",
+            title: "",
+            organizerName: "",
             ticketType: [],
             num: Array.from({length: 10}, (_, i) => i + 1),
             order: []
@@ -75,6 +75,7 @@ class OrderModal extends React.Component{
                 registrationId: createRegistration.data.id, 
                 order: this.state.order
             })
+            this.props.handleClose()
             swal({
                 title: "Success!",
                 buttons: false,

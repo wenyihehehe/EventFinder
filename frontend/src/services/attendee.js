@@ -49,6 +49,25 @@ async function createTicket({registrationId, order}){
     }
 }
 
+async function getRegistrationOrder({registrationId}){
+    let res = await Network.authGet({
+        path: `api/registration/${registrationId}`,
+    });
+    return res;
+}
+
+async function createReview({registrationId, rating, comment}){
+    let res = await Network.authPost({
+        path: "api/review/",
+        body: {
+            registrationId,
+            rating,
+            comment
+        }
+    });
+    return res;
+}
+
 export { 
-    getEventAttendeesSearchPage, updateAttendance, createRegistration, createTicket
+    getEventAttendeesSearchPage, updateAttendance, createRegistration, createTicket, getRegistrationOrder, createReview
 }

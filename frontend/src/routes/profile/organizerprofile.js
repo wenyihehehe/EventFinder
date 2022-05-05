@@ -7,17 +7,32 @@ import { useState, useEffect } from 'react';
 export default function OrganizerProfilePage() {
   const [events, setEvents] = useState([])
   const [reviews, setReviews] = useState([])
+  const [reviewPage, setReviewPage] = useState("1")
+  const [maxReviewPage, setMaxReviewPage] = useState("1")
 
   const getData = async () =>{
     let events = await User.getOrganizingEvents()
     setEvents(events.data)
-    let reviews = await User.getReviews()
-    setReviews(reviews)
+    let reviews = await User.getOrganizedEventReviews({page:reviewPage})
+    setMaxReviewPage(reviews.max)
+    setReviews(reviews.data)
   }
 
   useEffect(() => {
     getData()
-  },[])
+  },[reviewPage])
+
+  const handlePageChange = (e) =>{
+    if (!e.target.value) {
+      setReviewPage(e.target.value)
+    } else if (e.target.value <= 0) {
+      setReviewPage(1)
+    } else if (e.target.value <= parseInt(maxReviewPage)){
+      setReviewPage(e.target.value)
+    } else {
+      setReviewPage(maxReviewPage)
+    }
+  }
 
   const eventsRender = [];
     
@@ -42,7 +57,7 @@ export default function OrganizerProfilePage() {
 
   return (
     <main className="container-fluid row justify-content-center mt-4" >
-      <div className="backgroundWhite" style={{width: "85%", height: "fit-content", minHeight: "500px"}}>
+      <div className="backgroundWhite pb-3" style={{width: "85%", height: "fit-content", minHeight: "500px"}}>
         <OrganizerProfile />
         <hr/>
         <section className="pt-3">
@@ -52,17 +67,17 @@ export default function OrganizerProfilePage() {
                       <p className="secondaryTitleText">My Events </p>
                   </div>
                   <div className="col-12 row m-0 mb-3 ml-3 p-0 justify-content-between align-items-center">
-                    <a className="btn mb-3 mr-1 col-auto" href="#carouselContent" role="button" data-slide="prev" style={{height: "fit-content"}}>
+                    <a className="btn mb-3 mr-1" href="#carouselContent" role="button" data-slide="prev" style={{height: "fit-content"}}>
                       <i className="bi bi-chevron-left"></i>
                     </a>
-                    <div className="col-auto">
+                    <div>
                       <div id="carouselContent" className="carousel slide" data-ride="carousel">
                         <div className="carousel-inner">
                           {eventsRender}  
                         </div>
                       </div>
                     </div>
-                    <a className="btn mb-3 col-auto" href="#carouselContent" role="button" data-slide="next" style={{height: "fit-content"}}>
+                    <a className="btn mb-3" href="#carouselContent" role="button" data-slide="next" style={{height: "fit-content"}}>
                       <i className="bi bi-chevron-right"></i>
                     </a>
                   </div>
@@ -73,16 +88,31 @@ export default function OrganizerProfilePage() {
         <section className="pt-3">
           <div className="container"  style={{width: "85%"}}>
             <p className="secondaryTitleText pt-3 pb-1">My Reviews</p>
-            <div >
               {reviews.length > 0 && (
-                reviews.map(review => (
-                  <Review review={review} key={review.profileImage} />
-                ))
+                <div>
+                  {reviews.map(review => (
+                    <Review review={review} key={review.id} />
+                  ))}
+                  <nav aria-label="Page navigation" className="mb-3">
+                    <ul className="pagination detailMainText justify-content-center">
+                      <li className="page-item">
+                        <button className="page-link" aria-label="Previous" onClick={(e)=> setReviewPage(parseInt(reviewPage)-1<1 ? 1 : parseInt(reviewPage)-1)}>
+                          <span aria-hidden="true">&laquo;</span>
+                        </button>
+                      </li>
+                      <li className="page-item"><input type="number" className="page-link" style={{background:"#FFFFFF", color:"#FABA40", width: "3.5rem"}} value={reviewPage} onChange={handlePageChange} min="1" max={maxReviewPage}></input></li>
+                      <li className="page-item">
+                        <button className="page-link" aria-label="Next" onClick={(e)=> setReviewPage(parseInt(reviewPage)+1<=maxReviewPage ? parseInt(reviewPage)+1 : parseInt(reviewPage))}>
+                          <span aria-hidden="true">&raquo;</span>
+                        </button>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
               )}
               {reviews.length <= 0 && (
-                <p className="detailSubText" style={{paddingLeft: "1rem"}}>No review is found.</p>
+                <p className="detailSubText mb-3" style={{paddingLeft: "1rem"}}>No review is found.</p>
               )}
-            </div>
           </div>
         </section>
       </div>
