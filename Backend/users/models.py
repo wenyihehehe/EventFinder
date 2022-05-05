@@ -87,7 +87,7 @@ class OrganizerProfile(models.Model):
     userId = models.OneToOneField(User, on_delete=models.CASCADE)
     organizerName = models.CharField(max_length=50)
     profileImage = models.ImageField(null=True, blank=True)
-    contactNumber = models.CharField(max_length=11)
+    contactEmail = models.EmailField(("email address"), unique=True, null=True, blank=True)
     description = models.CharField(max_length=500)
 
     def __str__(self):
@@ -169,7 +169,7 @@ class Registration(models.Model):
     status = models.CharField(max_length=9, choices=STATUS, default="Active")
     
     def __str__(self):
-        return "%s:%s" % (self.userId, self.eventId)
+        return "%s:%s:%s" % (self.id, self.userId, self.eventId)
     
     def has_review(self):
         try:

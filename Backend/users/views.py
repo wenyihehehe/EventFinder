@@ -182,6 +182,15 @@ class RegistrationViewSet(ModelViewSet):
             )
         serializer.save()
         return Response({"status": "OK", "data": serializer.data})
+    
+    def retrieve(self, request, pk=None):
+        instance = self.queryset.filter(pk=pk)
+        if not instance:
+            return Response(
+                {"status": "ERROR", "detail": "Failed to retrieve data"}
+            )
+        serializer = GetRegistrationSerializer(instance[0])
+        return Response({"status": "OK", "data": serializer.data})
 
 class TicketViewSet(ModelViewSet):
     queryset = Ticket.objects.all()

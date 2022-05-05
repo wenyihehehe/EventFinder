@@ -269,7 +269,7 @@ class GetEventRegistrationsSerializer(serializers.ModelSerializer):
         amount = 0
         for ticket in tickets:
             price = ticket.ticketType.price
-            amount += int(float(price))
+            amount += float(price)
         return amount
 
     class Meta:
@@ -295,7 +295,7 @@ class GetEventRegistrationSerializer(serializers.ModelSerializer):
         amount = 0
         for ticket in tickets:
             price = ticket.ticketType.price
-            amount += int(float(price))
+            amount += float(price)
         return amount
 
     def get_ticketType(self, registration):
@@ -432,3 +432,42 @@ class GetEventTicketTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ['title','organizerName','ticketType']
+
+class GetRegistrationSerializer(serializers.ModelSerializer):
+    event = serializers.SerializerMethodField()
+    tickets = serializers.SerializerMethodField()
+    amount = serializers.SerializerMethodField()
+    disableReview = serializers.SerializerMethodField()
+    
+    def get_event(self,registration):
+        event = registration.eventId
+        data = {
+            'id': event.id,
+            'title': event.title,
+            'startDateTime': event.startDateTime,
+            'endDateTime': event.endDateTime,
+            'location': event.location,
+            'organizerId': event.organizerId.id,
+            'organizerName': event.organizerId.organizerName,
+            'organizerEmail': event.organizerId.contactEmail
+        }
+        return data
+    
+    def get_tickets(self,registration):
+        tickets = Ticket.objects.filter(registration=registration).values(name=F('ticketType__name')).annotate(quantity=Count('id')).annotate(amount=Sum('ticketType__price'))
+        return tickets
+
+    def get_amount(self, registration):
+        tickets = registration.ticket.all()
+        amount = 0
+        for ticket in tickets:
+            price = ticket.ticketType.price
+            amount += float(price)
+        return amount
+
+    def get_disableReview(self,registration):
+        return registration.has_review()
+
+    class Meta:
+        model = Registration
+        fields = ['id','event','orderDateTime','tickets','amount', 'disableReview']
