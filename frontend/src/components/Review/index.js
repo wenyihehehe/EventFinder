@@ -15,7 +15,7 @@ class Review extends React.Component{
     getRatings(){
         let rating = this.props.review.rating;
         for (var i = 0; i < 5; i += 1) {
-            let item = <i  className={`${rating > 0 ? "bi bi-star-fill" : "bi bi-star"} fs-4 ${style.checked} ${style.star}`} key={i}></i>
+            let item = <i  className={`${rating > 0 ? "bi bi-star-fill" : "bi bi-star"} ${style.star}`} key={i}></i>
             this.setState(prevState => ({
                 ratings: [...prevState.ratings, item]
             }))
