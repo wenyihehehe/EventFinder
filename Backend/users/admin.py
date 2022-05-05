@@ -55,7 +55,7 @@ class TicketAdmin(admin.ModelAdmin):
     list_display = ('id', 'ticketType', 'registration')
 
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('id', 'userId', 'eventId', 'rating', 'comment')
+    list_display = ('id', 'registrationId', 'rating', 'comment')
 
 class EventImageAdmin(admin.ModelAdmin):
     list_display = ('id', 'eventId', 'image')

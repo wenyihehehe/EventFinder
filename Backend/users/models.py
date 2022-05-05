@@ -170,6 +170,13 @@ class Registration(models.Model):
     
     def __str__(self):
         return "%s:%s" % (self.userId, self.eventId)
+    
+    def has_review(self):
+        try:
+            self.review
+            return True
+        except:
+            return False
 
 class Ticket(models.Model):
     id = models.AutoField(primary_key=True)
@@ -182,14 +189,13 @@ class Ticket(models.Model):
 
 class Review(models.Model):
     id = models.AutoField(primary_key=True)
-    userId = models.ForeignKey(User, on_delete=models.CASCADE, related_name="review")
-    eventId = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="review")
+    registrationId = models.OneToOneField(Registration, on_delete=models.CASCADE, related_name="review")
     rating = models.SmallIntegerField()
     comment = models.CharField(max_length=200)
     postedDate = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return "%s:%s" % (self.userId, self.comment)    
+        return "%s:%s" % (self.registrationId, self.comment)    
 
 # TODO: Create object when event is published. Update visit whenever a request is created to get event page data
 class EventPageVisit(models.Model):

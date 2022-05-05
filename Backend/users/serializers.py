@@ -187,24 +187,25 @@ class GetOrganizerReviewsSerializer(serializers.ModelSerializer):
 
     def get_profileImage(self, review):
         request = self.context.get('request')
-        profileImage = request.user.profileImage.url
+        user = review.registrationId.userId
+        profileImage = user.profileImage.url
         return request.build_absolute_uri(profileImage)
 
     def get_firstName(self, review):
-        request = self.context.get('request')
-        return request.user.firstName
+        user = review.registrationId.userId
+        return user.firstName
 
     def get_lastName(self, review):
-        request = self.context.get('request')
-        return request.user.lastName
+        user = review.registrationId.userId
+        return user.lastName
 
     def get_event(self, review):
-        event = review.eventId.title
-        return event
+        event = review.registrationId.eventId
+        return event.title
 
     class Meta:
         model = Review
-        fields = ['profileImage','firstName','lastName','postedDate','rating','event','comment']
+        fields = ['id','profileImage','firstName','lastName','postedDate','rating','event','comment']
 
 class ChangePasswordSerializer(serializers.Serializer):
     model = User

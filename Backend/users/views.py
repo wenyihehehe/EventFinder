@@ -201,7 +201,8 @@ class ReviewViewSet(ModelViewSet):
     def get_queryset(self):
         organizerProfile = OrganizerProfile.objects.get(userId=self.request.user)
         events = Event.objects.filter(organizerId=organizerProfile).values_list('id', flat=True)
-        queryset = Review.objects.filter(eventId__in=events)
+        registrations = Registration.objects.filter(eventId__in=events).values_list('id', flat=True)
+        queryset = Review.objects.filter(registrationId__in=registrations)
         return queryset
     
     def list(self, request, *args, **kwargs):
