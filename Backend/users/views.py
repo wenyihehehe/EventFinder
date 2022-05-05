@@ -207,24 +207,6 @@ class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
-    def get_queryset(self):
-        organizerProfile = OrganizerProfile.objects.get(userId=self.request.user)
-        events = Event.objects.filter(organizerId=organizerProfile).values_list('id', flat=True)
-        registrations = Registration.objects.filter(eventId__in=events).values_list('id', flat=True)
-        queryset = Review.objects.filter(registrationId__in=registrations)
-        return queryset
-    
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = GetOrganizerReviewsSerializer(queryset, many=True, context={"request": request})
-        return Response(serializer.data)
-
 class GetUserProfileEventRegistrationsView(APIView):
     def get(self, request):
         user = User.objects.filter(pk=request.user.id)
@@ -372,7 +354,7 @@ class GetEventRegistrationsView(generics.CreateAPIView):
 
 class GetEventRegistrationView(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
-    pagination_class = SmallPagination
+    pagination_class = ExtraSmallPagination
 
     def post(self, request, *args, **kwargs):
         registrations = Registration.objects.filter(eventId=request.data['eventId']).order_by('-orderDateTime')
@@ -429,3 +411,22 @@ class GetEventTicketTypeView(APIView):
         serializer = GetEventTicketTypeSerializer(event)
         return Response({"data": serializer.data})
 
+class GetOrganizerReviewView(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    pagination_class = SmallPagination
+
+    def get_queryset(self):
+        organizerProfile = OrganizerProfile.objects.get(userId=self.request.user)
+        events = Event.objects.filter(organizerId=organizerProfile).values_list('id', flat=True)
+        registrations = Registration.objects.filter(eventId__in=events).values_list('id', flat=True)
+        queryset = Review.objects.filter(registrationId__in=registrations).order_by('-postedDate')
+        return queryset
+    
+    def post(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = GetOrganizerReviewsSerializer(page, many=True, context={"request": request})
+            return self.get_paginated_response(serializer.data)
+        serializer = GetOrganizerReviewsSerializer(queryset, many=True, context={"request": request})
+        return Response(serializer.data)

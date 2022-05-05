@@ -29,7 +29,7 @@ class Review extends React.Component{
 
     render(){
         return (
-            <div className={`${style.box} mb-5`}>
+            <div className={`${style.box} mb-2`}>
                 <div className={`${style.topSection} container row justify-content-between`}>
                     <div className={`col-auto row`}>
                         <img className={`${style.profileImage}`} src={this.props.review.profileImage} alt="profileImage"></img>
