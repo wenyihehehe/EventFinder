@@ -16,7 +16,6 @@ export default function Ticket() {
     if(registration.status === "OK"){
       setOrder(registration.data)
     }
-    console.log(registration.data)
   }
 
   useEffect(() => {

@@ -39,7 +39,7 @@ class OrganizerProfileSerializer(serializers.ModelSerializer):
 class OrganizerProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrganizerProfile
-        fields = ['organizerName','profileImage','contactNumber','description']
+        fields = ['organizerName','profileImage','contactEmail','description']
 
 class CreateEventSerializer(serializers.ModelSerializer):
     class Meta:

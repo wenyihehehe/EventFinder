@@ -8,6 +8,13 @@ import swal from 'sweetalert';
 class OrderModal extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            title: "",
+            organizerName: "",
+            ticketType: [],
+            num: Array.from({length: 10}, (_, i) => i + 1),
+            order: []
+        };
         this.getData = this.getData.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.getTotal = this.getTotal.bind(this);
