@@ -52,17 +52,17 @@ export default function OrganizerProfilePage() {
                       <p className="secondaryTitleText">My Events </p>
                   </div>
                   <div className="col-12 row m-0 mb-3 ml-3 p-0 justify-content-between align-items-center">
-                    <a className="btn mb-3 mr-1 col-auto" href="#carouselContent" role="button" data-slide="prev" style={{height: "fit-content"}}>
+                    <a className="btn mb-3 mr-1" href="#carouselContent" role="button" data-slide="prev" style={{height: "fit-content"}}>
                       <i className="bi bi-chevron-left"></i>
                     </a>
-                    <div className="col-auto">
+                    <div>
                       <div id="carouselContent" className="carousel slide" data-ride="carousel">
                         <div className="carousel-inner">
                           {eventsRender}  
                         </div>
                       </div>
                     </div>
-                    <a className="btn mb-3 col-auto" href="#carouselContent" role="button" data-slide="next" style={{height: "fit-content"}}>
+                    <a className="btn mb-3" href="#carouselContent" role="button" data-slide="next" style={{height: "fit-content"}}>
                       <i className="bi bi-chevron-right"></i>
                     </a>
                   </div>
@@ -76,7 +76,7 @@ export default function OrganizerProfilePage() {
             <div >
               {reviews.length > 0 && (
                 reviews.map(review => (
-                  <Review review={review} key={review.profileImage} />
+                  <Review review={review} key={review.id} />
                 ))
               )}
               {reviews.length <= 0 && (
