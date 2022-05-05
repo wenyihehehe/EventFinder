@@ -3,24 +3,6 @@ import style from './index.module.css';
 import moment from 'moment'
 
 class RegistrationCard extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            id: 1,
-            amount: 10,
-            name: "John",
-            email: "john123@gmail.com",
-            orderDateTime: "2021-03-10T01:50:55+0200",
-            tickets: [
-                {
-                    name: "Normal Entry",
-                    quantity: "3",
-                    amount: "0"
-                }
-            ]
-        };
-    }
-
     render(){
         const registration = this.props.registration;
         const tickets = registration.ticketType;
