@@ -435,7 +435,7 @@ class GetEventSearchPageView(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'organizerId__organizerName']
-    pagination_class = ExtraSmallPagination
+    pagination_class = BasicPagination
 
     def post(self, request, *args, **kwargs):
         queryset = Event.objects.all().order_by('id')
