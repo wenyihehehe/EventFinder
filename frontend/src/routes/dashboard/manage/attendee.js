@@ -57,7 +57,6 @@ export default function EventDashboardAttendee() {
                 </button>
               </li>
               <li className="page-item"><input type="number" className="page-link" style={{background:"#FFFFFF", color:"#FABA40", width: "3.5rem"}} value={page} onChange={handlePageChange} min="1" max={maxPage}></input></li>
-              {/* TODO: MODIFY PAGE ON CHANGE */}
               <li className="page-item">
                 <button className="page-link" aria-label="Next" onClick={(e)=> setPage(parseInt(page)+1<=maxPage ? parseInt(page)+1 : parseInt(page))}>
                   <span aria-hidden="true">&raquo;</span>

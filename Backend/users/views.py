@@ -430,3 +430,37 @@ class GetOrganizerReviewView(generics.CreateAPIView):
             return self.get_paginated_response(serializer.data)
         serializer = GetOrganizerReviewsSerializer(queryset, many=True, context={"request": request})
         return Response(serializer.data)
+
+class GetEventSearchPageView(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title', 'organizerId__organizerName']
+    pagination_class = BasicPagination
+
+    def post(self, request, *args, **kwargs):
+        queryset = Event.objects.all().order_by('id')
+        category = request.data["category"]
+        type = request.data["type"]
+        location = request.data["location"]
+        if(category and category != 'all'):
+            if(type and type != 'all'):
+                queryset = queryset.filter(category=category, type=type)
+            else:
+                queryset = queryset.filter(category=category)
+        else:
+            if(type and type != 'all'):
+                queryset = queryset.filter(type=type)
+        if(location):
+            lat = location[0]
+            lng = location[1]
+            queryset = queryset.extra(select={
+                'distance': "SELECT (3959 *acos(cos(radians(%f))*cos(radians(latitude))*cos(radians(longitude)-radians(%f))+sin(radians(%f))*sin(radians(latitude))) * 1.609344)"
+                %(float(lat), float(lng), float(lat)),
+            }, order_by = ['distance'])
+        event = self.filter_queryset(queryset)
+        page = self.paginate_queryset(event)
+        if page is not None:
+            serializer = GetEventSearchPageSerializer(page, many=True, context={"request": request})
+            return self.get_paginated_response(serializer.data)
+        serializer = GetEventSearchPageSerializer(instance=event, many=True, context={"request": request})
+        return Response({"data": serializer.data})

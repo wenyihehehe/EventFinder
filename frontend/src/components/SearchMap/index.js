@@ -77,6 +77,14 @@ class SearchMap extends React.Component {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 });
+            }, 
+            () => {
+              // Set default to sunway university geo point if can't get current position
+              this.setState({
+                center: [3.067891823231041, 101.60351894232923],
+                lat: 3.067891823231041, 
+                lng: 101.60351894232923
+              });
             });
         }
     }
@@ -98,14 +106,13 @@ class SearchMap extends React.Component {
                     onChange={this.handleChange}
                     bootstrapURLKeys={{
                         key: 'AIzaSyBx34-6ciKW6FZzEK3sff3Ae56sSAOJicI',
-                        libraries: ['places', 'geometry'],
+                        libraries: ['places'],
                     }}
                     yesIWantToUseGoogleMapApiInternals
                     onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
                     style={{height:"400px", position:"relative", marginTop:"1rem"}}
                 >
                     <MapMarker
-                        text={this.state.address}
                         lat={this.state.lat}
                         lng={this.state.lng}
                     />

@@ -136,8 +136,20 @@ async function getEventTicketType({eventId}){
     return res
 }
 
+async function getEventSearchPage({page, searchParams, category, type, location}){
+    let res = await Network.authPost({
+        path : `api/geteventsearchpage/?page=${page}&search=${searchParams}`,
+        body: {
+            category,
+            type,
+            location
+        }
+    })
+    return res
+}
+
 export { 
     deleteEvent, createUpdateEvent, createUpdateEventImage, createUpdateTicketType, getEventDashboard, 
     getEvent, getTicketTypeStatus, deleteTicketType, getEventRegistrations, getEventRegistration, getEventPerformance,
-    getEventPage, getRelatedEvents, getEventTicketType
+    getEventPage, getRelatedEvents, getEventTicketType, getEventSearchPage
 }
