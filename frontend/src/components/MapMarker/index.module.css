@@ -27,3 +27,12 @@
     transform: translate(-50%, -50%);
     border: 1px solid #F58444;
 }
+
+.isCurrentLocation{
+    background: #0659A8;
+    border-color: #0659A8;
+}
+
+.isCurrentLocation::before{
+    border-color: #0659A8;
+}

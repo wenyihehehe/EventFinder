@@ -84,14 +84,13 @@ export default function EventPage() {
       <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
         <div style={{...sectionStyle, height:"350px"}} className="row justify-content-between">
         <GoogleMapReact
-          bootstrapURLKeys={{ key: "AIzaSyBx34-6ciKW6FZzEK3sff3Ae56sSAOJicI" }}
+          bootstrapURLKeys={{ key: "AIzaSyBx34-6ciKW6FZzEK3sff3Ae56sSAOJicI",libraries: ['places'],}}
           center={[event.latitude, event.longitude]}
           zoom={15}
           >
           <MapMarker
               lat={event.latitude}
               lng={event.longitude}
-              text={event.location}
           />
         </GoogleMapReact>
         </div>
