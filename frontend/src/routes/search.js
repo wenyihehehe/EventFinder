@@ -70,7 +70,6 @@ export default function Search() {
     if(!mapItem.mapInstance) return;
     const bounds = new window.google.maps.LatLngBounds();
     events.forEach((event, index) => {
-        console.log(event.latitude, event.longitude)
         const position = new window.google.maps.LatLng(event.latitude, event.longitude);
         bounds.extend(position);
     });

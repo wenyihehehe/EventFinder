@@ -11,7 +11,6 @@ export default function MapMarker({isCurrentLocation, event=null, handleMarkerCl
         const markerName = "marker" + event.id
         const marker = document.getElementById(markerName);
         marker.classList.add('active')
-        console.log(marker)
     }
     return (
         <div>
