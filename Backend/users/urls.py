@@ -34,5 +34,6 @@ urlpatterns = [
     path(r"geteventpage/<int:pk>", GetEventPageView.as_view()),
     path(r"getrelatedevents/<int:pk>", GetRelatedEventsView.as_view()),
     path(r"geteventtickettype/<int:pk>", GetEventTicketTypeView.as_view()),
-    path(r"getorganizedeventreviews", GetOrganizerReviewView.as_view()),
+    path("getorganizedeventreviews", GetOrganizerReviewView.as_view()),
+    path("geteventsearchpage/", GetEventSearchPageView.as_view()),
 ]

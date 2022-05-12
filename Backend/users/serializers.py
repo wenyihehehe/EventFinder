@@ -471,3 +471,32 @@ class GetRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Registration
         fields = ['id','event','orderDateTime','tickets','amount', 'disableReview']
+
+class GetEventSearchPageSerializer(serializers.ModelSerializer):
+    pricing = serializers.SerializerMethodField()
+    coverImage = serializers.SerializerMethodField()
+    organizerName = serializers.StringRelatedField(source='organizerId')
+    organizerProfileImage = serializers.SerializerMethodField()
+
+    def get_pricing(self,event):
+        if(event.has_ticketType()):
+            ticketType = TicketType.objects.filter(eventId=event).values("eventId").annotate(pricing=Min("price"))
+            if (ticketType and int(ticketType[0].get('pricing'))>0):
+                return "RM%s" % (ticketType[0].get('pricing'))
+            return "RM0"
+        return ""
+    
+    def get_coverImage(self, event):
+        request = self.context.get('request')
+        coverImage = event.coverImage.url
+        return request.build_absolute_uri(coverImage)
+    
+    def get_organizerProfileImage(self, event):
+        organizerProfile = event.organizerId
+        request = self.context.get('request')
+        profileImage = organizerProfile.profileImage.url
+        return request.build_absolute_uri(profileImage)
+
+    class Meta:
+        model = Event
+        fields = ['id','coverImage','title','startDateTime','location','latitude','longitude','pricing','status', 'organizerName', 'organizerProfileImage']
