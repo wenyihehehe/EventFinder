@@ -39,7 +39,7 @@ export default function Search() {
     setEvents(event.data)
     setMaxPage(event.max)
     var eventDiv = document.getElementById('eventDiv');
-    eventDiv.scrollTop = 0;
+    if(eventDiv) eventDiv.scrollTop = 0;
   }
 
   const handlePageChange = (e) =>{
@@ -89,16 +89,15 @@ export default function Search() {
   };
 
   const handleChange = ({ center, zoom }) => {
+    const checkedZoom = zoom > 15 ? 15 : zoom
     setMapItem({
       ...mapItem,
       center: center,
-      zoom: zoom,
+      zoom: checkedZoom
     });
   }
 
   const apiHasLoaded = (map, maps) => {
-    console.log(map)
-    console.log(maps)
     setMapItem({
       ...mapItem,
       mapApiLoaded: true,
