@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import './index.css';
 import { Website } from "../../config/domain";
 
 export default function NavigationBar() {
