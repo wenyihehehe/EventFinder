@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import './index.css';
 
+// TODO: Remove this navigation bar after completing
 export default function NavigationBar() {
   return (
     <div style={{height: "10vh", overflow:"hidden"}}> 

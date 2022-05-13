@@ -31,6 +31,7 @@ export default function UserProfilePage() {
             {registrations.length <= 0 && (
               <p className="detailSubText" style={{paddingLeft: "1rem"}}>No registration is found.</p>
             )}
+            {/* TODO: ADD PAGINATION */}
           </div>
         </section>
       </div>
