@@ -315,3 +315,21 @@ p {
 .marker.active{
   transform: scale(1.25, 1.25) rotate(45deg);
 }
+
+/* Custom nav link */
+.nav-link{
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.nav-link:hover, .nav-link:focus{
+  opacity: 80% !important;
+}
+
+/* Custom dropdown-item */
+.dropdown-item{
+  padding: 0.45rem 1.5rem;
+}
+.dropdown-item:active{
+  background-color: #FABA40 !important;
+}

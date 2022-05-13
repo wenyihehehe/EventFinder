@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import * as Util from '../services/util';
 import * as Event from '../services/event';
 import HorizontalEventCard from "../components/HorizontalEventCard";
@@ -8,6 +8,7 @@ import MapSearchInput from "../components/MapSearchInput";
 
 export default function Search() {
   let navigate = useNavigate();
+  let [searchUrl, setSearchUrl] = useSearchParams();
   const [events, setEvents] = useState([])
   const [searchParams, setSearchParams] = useState("")
   const [category, setCategory] = useState("all")
@@ -30,6 +31,8 @@ export default function Search() {
   });
 
   const getData = async() =>{
+    let search = searchUrl.get("event");
+    setSearchParams(search)
     let category = await Util.getCategory()
     setCategoryOption(category.data)
   }
