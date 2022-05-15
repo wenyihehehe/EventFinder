@@ -118,6 +118,7 @@ class EventViewSet(ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = GetEventSerializer
     permission_classes = [EventPermission]
+    pagination_class = ExtraSmallPagination
 
     def partial_update(self, request, pk=None):
         event = self.get_object()
@@ -147,6 +148,17 @@ class EventViewSet(ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance, context={"request": request} )
+        return Response(serializer.data)
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        queryset = queryset.order_by('-eventpagevisit__visits')
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = GetRelatedEventsSerializer(page, many=True, context={"request": request})
+            return self.get_paginated_response(serializer.data)
+
+        serializer = GetRelatedEventsSerializer(queryset, many=True, context={"request": request})
         return Response(serializer.data)
 
 class TicketTypeViewSet(ModelViewSet):
@@ -438,7 +450,7 @@ class GetEventSearchPageView(generics.CreateAPIView):
     pagination_class = BasicPagination
 
     def post(self, request, *args, **kwargs):
-        queryset = Event.objects.all().order_by('id')
+        queryset = Event.objects.filter(status='Published').order_by('id')
         category = request.data["category"]
         type = request.data["type"]
         location = request.data["location"]
@@ -450,7 +462,7 @@ class GetEventSearchPageView(generics.CreateAPIView):
         else:
             if(type and type != 'all'):
                 queryset = queryset.filter(type=type)
-        if(location):
+        if(location != []):
             lat = location[0]
             lng = location[1]
             queryset = queryset.extra(select={
