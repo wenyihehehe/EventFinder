@@ -20,33 +20,15 @@ async function updateAttendance({id, status}){
     return res;
 }
 
-async function createRegistration({eventId}){
+async function createRegistration({eventId, orders}){
     let res = await Network.authPost({
         path: "api/registration/",
         body: {
-            eventId
+            eventId,
+            orders
         }
     });
     return res
-}
-
-async function createTicket({registrationId, order}){
-    let tickets = []
-    order.forEach(order=> {
-        for (var i = 0 ; i < order.quantity ; i ++ ){
-            let ticket = {
-                registration: registrationId,
-                ticketType: order.id
-            }
-            tickets.push(ticket)
-        }
-    })
-    for(const index in tickets){
-        await Network.authPost({
-            path: "api/ticket/",
-            body: tickets[index]
-        });
-    }
 }
 
 async function getRegistrationOrder({registrationId}){
@@ -69,5 +51,5 @@ async function createReview({registrationId, rating, comment}){
 }
 
 export { 
-    getEventAttendeesSearchPage, updateAttendance, createRegistration, createTicket, getRegistrationOrder, createReview
+    getEventAttendeesSearchPage, updateAttendance, createRegistration, getRegistrationOrder, createReview
 }

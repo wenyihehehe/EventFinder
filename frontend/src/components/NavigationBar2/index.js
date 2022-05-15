@@ -8,7 +8,7 @@ export default function NavigationBar() {
   const [search, setSearch] = useState("")
   const [login, setLogin] = useState(true)
   const onSearch = () => {
-    navigate('/search?event=' + search);
+    navigate('/search', {state: { searchParams: search} });
     setSearch("");
   }
 

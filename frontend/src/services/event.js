@@ -74,6 +74,13 @@ async function getEvent({eventId}){
     return res
 }
 
+async function getEvents(){
+    let res = await Network.authGet({
+        path:  `api/event/`
+    })
+    return res
+}
+
 async function getTicketTypeStatus({id}){
     let res = await Network.authGet({
         path:  `api/gettickettypestatus/${id}`
@@ -150,6 +157,6 @@ async function getEventSearchPage({page, searchParams, category, type, location}
 
 export { 
     deleteEvent, createUpdateEvent, createUpdateEventImage, createUpdateTicketType, getEventDashboard, 
-    getEvent, getTicketTypeStatus, deleteTicketType, getEventRegistrations, getEventRegistration, getEventPerformance,
+    getEvent, getEvents, getTicketTypeStatus, deleteTicketType, getEventRegistrations, getEventRegistration, getEventPerformance,
     getEventPage, getRelatedEvents, getEventTicketType, getEventSearchPage
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import * as Event from '../services/event'
 import EventDescriptionBox from "../components/EventDescriptionBox";
 import EventCard from "../components/EventCard";
@@ -9,6 +9,7 @@ import OrderModal from "../components/OrderModal";
 
 export default function EventPage() {
   let navigate = useNavigate();
+  let location = useLocation()
   let params = useParams();
   let eventId = parseInt(params.eventId, 10);
   const [event, setEvent] = useState({})
@@ -20,11 +21,14 @@ export default function EventPage() {
     setEvent(event.data)
     let relatedEvents = await Event.getRelatedEvents({eventId})
     setRelatedEvents(relatedEvents.data)
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    if(location.state && location.state.showOrder) setShowOrder(location.state.showOrder)
   }
 
   useEffect(() => {
     getData()
-  },[])
+  },[location])
 
   const imageStyle = {
     width: "100%",

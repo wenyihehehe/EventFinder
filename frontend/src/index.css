@@ -258,6 +258,14 @@ p {
   color: #FABA40;
 }
 
+.mainBlue{
+  color: #0659A8;
+}
+
+.whiteText{
+  color: #FDFDFD;
+}
+
 /* Background */
 .backgroundWhite{
   background-color: #FDFDFD;
@@ -332,4 +340,27 @@ p {
 }
 .dropdown-item:active{
   background-color: #FABA40 !important;
+}
+
+.nav-pills .nav-link.active{
+  background-color: #F58444;
+}
+
+/* Line clamp */
+.titleTextClamp {
+  max-height: 64px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.secondaryTitleTextClamp {
+  max-height: 27px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
