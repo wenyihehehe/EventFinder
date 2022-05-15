@@ -186,13 +186,29 @@ class RegistrationViewSet(ModelViewSet):
     def create(self, request):
         data = request.data.copy()
         data['userId'] = request.user.id
+        orders = data['orders']
+        for order in orders:
+            ticketType = TicketType.objects.get(pk=order["id"])
+            if (int(ticketType.quantity) - int(order["quantity"]) < 0):
+                return Response(
+                    {"status": "ERROR", "detail": "Insufficient ticket quantity for %s" % (ticketType.name)}
+                ) 
         serializer = self.get_serializer(data=data, partial=True)
         if not serializer.is_valid():
             print(serializer.errors)
             return Response(
                 {"status": "ERROR", "detail": "Failed to register"}
             )
-        serializer.save()
+        registration = serializer.save()
+        for order in orders:
+            ticketType = TicketType.objects.get(pk=order["id"])
+            ticketType.quantity = int(ticketType.quantity) - int(order["quantity"])
+            ticketType.save()
+            for quantity in range(int(order["quantity"])):
+                ticket = {"registration": registration.id, "ticketType": order["id"]}
+                ticketSerializer = TicketSerializer(data=ticket, partial=True)
+                ticketSerializer.is_valid(raise_exception=True)
+                self.perform_create(ticketSerializer)
         return Response({"status": "OK", "data": serializer.data})
     
     def retrieve(self, request, pk=None):
@@ -207,13 +223,6 @@ class RegistrationViewSet(ModelViewSet):
 class TicketViewSet(ModelViewSet):
     queryset = Ticket.objects.all()
     serializer_class = ViewTicketSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = TicketSerializer(data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data,  headers=headers)
 
 class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all()

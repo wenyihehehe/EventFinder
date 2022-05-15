@@ -69,12 +69,8 @@ class OrderModal extends React.Component{
         if(this.state.order.length === 0){
             return;
         }
-        let createRegistration = await Attendee.createRegistration({eventId: this.props.eventId})
-        if (createRegistration.status === "OK"){
-            await Attendee.createTicket({
-                registrationId: createRegistration.data.id, 
-                order: this.state.order
-            })
+        let createRegistration = await Attendee.createRegistration({eventId: this.props.eventId, orders: this.state.order})
+        if(createRegistration.status === "OK"){
             this.props.handleClose()
             swal({
                 title: "Success!",
@@ -101,7 +97,7 @@ class OrderModal extends React.Component{
         const order = this.state.order;
         // TODO: IF NO LOGIN, THEN MUST GO BACK LOGIN FIRST
         return (
-            <Modal show={this.props.show} onHide={this.props.handleClose} backdrop="static" size="lg">
+            <Modal show={this.props.show} onHide={this.props.handleClose} backdrop="static" size="lg" centered>
                 <Modal.Header>
                     <div className="mx-auto">
                         <p className="modal-title secondaryTitleText  text-center">{this.state.title}</p>
