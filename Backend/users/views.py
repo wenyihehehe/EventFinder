@@ -233,11 +233,18 @@ class GetUserProfileEventRegistrationsView(APIView):
         serializer = GetUserProfileEventRegistrationsSerializer(instance=user, many=True, context={"request": request})
         return Response({"data": serializer.data})
 
-class GetRegistrationsView(APIView):
-    def get(self, request):
+class GetRegistrationsView(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    pagination_class = SmallPagination
+
+    def post(self, request):
         registrations = Registration.objects.filter(userId=request.user.id)
+        page = self.paginate_queryset(registrations)
+        if page is not None:
+            serializer = GetRegistrationsSerializer(page, many=True, context={"request": request})
+            return self.get_paginated_response(serializer.data)
         serializer = GetRegistrationsSerializer(instance=registrations, many=True, context={"request": request})
-        return Response({"data": serializer.data})
+        return Response(serializer.data)
     
 class GetOrganizerProfileEventRegistrationsView(APIView):
     def get(self, request):
