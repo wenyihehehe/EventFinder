@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated 
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import filters
 
 from django.db.models import Q
@@ -157,7 +157,6 @@ class EventViewSet(ModelViewSet):
         if page is not None:
             serializer = GetRelatedEventsSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
-
         serializer = GetRelatedEventsSerializer(queryset, many=True, context={"request": request})
         return Response(serializer.data)
 
@@ -411,6 +410,8 @@ class GetEventPerformanceView(APIView):
         return Response({"data": serializer.data})
 
 class GetEventPageView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request, pk=None):
         event = Event.objects.get(pk=pk)
         eventPageVisit, created = EventPageVisit.objects.get_or_create(eventId=event)
@@ -420,6 +421,8 @@ class GetEventPageView(APIView):
         return Response({"data": serializer.data})
 
 class GetRelatedEventsView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request, pk=None):
         event = Event.objects.get(pk=pk)
         relatedEvents = Event.objects.filter(Q(organizerId=event.organizerId) | Q(category=event.category)).exclude(pk=pk)[:6]
@@ -427,6 +430,8 @@ class GetRelatedEventsView(APIView):
         return Response({"data": serializer.data})
 
 class GetEventTicketTypeView(APIView):
+    permission_classes = [AllowAny]
+    
     def get(self, request, pk=None):
         event = Event.objects.get(pk=pk)
         serializer = GetEventTicketTypeSerializer(event)
@@ -453,7 +458,7 @@ class GetOrganizerReviewView(generics.CreateAPIView):
         return Response(serializer.data)
 
 class GetEventSearchPageView(generics.CreateAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'organizerId__organizerName']
     pagination_class = BasicPagination
