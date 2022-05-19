@@ -468,7 +468,7 @@ class GetEventSearchPageView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'organizerId__organizerName']
-    pagination_class = BasicPagination
+    pagination_class = EightPagination
 
     def post(self, request, *args, **kwargs):
         queryset = Event.objects.filter(status='Published').order_by('id')
@@ -486,6 +486,7 @@ class GetEventSearchPageView(generics.CreateAPIView):
         if(location != []):
             lat = location[0]
             lng = location[1]
+            queryset = queryset.filter(latitude__isnull=False, longitude__isnull=False)
             queryset = queryset.extra(select={
                 'distance': "SELECT (3959 *acos(cos(radians(%f))*cos(radians(latitude))*cos(radians(longitude)-radians(%f))+sin(radians(%f))*sin(radians(latitude))) * 1.609344)"
                 %(float(lat), float(lng), float(lat)),
