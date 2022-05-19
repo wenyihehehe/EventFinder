@@ -9,8 +9,12 @@ def user_directory_path(instance, filename):
     return "user_photo/user_{0}/{1}".format(instance.id, filename)
 
 def event_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT user_photo/ user_<id>/<filename>
+    # file will be uploaded to MEDIA_ROOT event_photo/ event_<id>/<filename>
     return "event_photo/event_{0}/{1}".format(instance.id, filename)
+
+def organizer_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT organizer_photo/ organizer_<id>/<filename>
+    return "organizer_photo/organizer_{0}/{1}".format(instance.id, filename)
 
 class User(AbstractUser):
     id = models.AutoField(primary_key=True)
@@ -86,7 +90,7 @@ class OrganizerProfile(models.Model):
     id = models.AutoField(primary_key=True)
     userId = models.OneToOneField(User, on_delete=models.CASCADE)
     organizerName = models.CharField(max_length=50)
-    profileImage = models.ImageField(null=True, blank=True)
+    profileImage = models.ImageField(null=True, blank=True, upload_to=organizer_directory_path, default="DefaultOrganizerProfileImage.png")
     contactEmail = models.EmailField(("email address"), unique=True, null=True, blank=True)
     description = models.CharField(max_length=500)
 
