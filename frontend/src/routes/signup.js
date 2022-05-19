@@ -1,11 +1,11 @@
 import SignUpModal from "../components/SignUpModal";
 import { Link } from "react-router-dom";
 import { useNavigate, useLocation } from 'react-router-dom';
-import * as Auth from './../config/authProvider'
+import * as AuthProvider from './../config/authProvider'
 
 export default function SignUpPage() {
   let navigate = useNavigate();
-  let authContext = Auth.useAuth();
+  let authContext = AuthProvider.useAuth();
   let location = useLocation();
 
   let from = location.state?.from?.pathname || "/";

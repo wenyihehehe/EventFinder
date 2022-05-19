@@ -4,6 +4,7 @@ import * as Event from '../../services/event'
 import * as Attendee from '../../services/attendee'
 import style from './index.module.css';
 import swal from 'sweetalert';
+import { Link } from 'react-router-dom';
 
 class OrderModal extends React.Component{
     constructor(props){
@@ -95,7 +96,7 @@ class OrderModal extends React.Component{
         const ticketType = this.state.ticketType;
         const num = this.state.num;
         const order = this.state.order;
-        // TODO: IF NO LOGIN, THEN MUST GO BACK LOGIN FIRST
+        const authContext = this.props.authContext;
         return (
             <Modal show={this.props.show} onHide={this.props.handleClose} backdrop="static" size="lg" centered>
                 <Modal.Header>
@@ -108,6 +109,7 @@ class OrderModal extends React.Component{
                     </button>
                 </Modal.Header>
                 <Modal.Body className="p-0">
+                    {authContext.token ? 
                     <div className="row m-0">
                         <div className="col-lg-8 p-3 pl-4 pr-4" style={{boxShadow: "inset -0.5px 0px 0px #CCCCCC"}}>
                             <p className="headingText mb-3">Ticket Type</p>
@@ -146,9 +148,17 @@ class OrderModal extends React.Component{
                             ): <p className="detailSubText pl-3">Cart is empty</p>}
                         </div>
                     </div>
+                    : 
+                    <div className="row align-items-center" style={{height: "200px"}}>
+                        <div className="col">
+                            <p className="text-center">You are not logged in. </p>
+                            <p className="text-center">Please <Link className="tonedTextOrange" to="/login" state={{from: this.props.location}}>login</Link> or <Link className="tonedTextOrange" to="/signup" state={{from: this.props.location}}>register your account</Link>.</p>
+                        </div>
+                    </div>
+                    }
                 </Modal.Body>
                 <Modal.Footer>
-                    <button type="button" className="btn primaryButton mx-auto" onClick={this.handleRegister}>Register Now</button>
+                    <button type="button" className="btn primaryButton mx-auto" onClick={this.handleRegister} disabled={authContext.token ? false : true}>Register Now</button>
                 </Modal.Footer>
             </Modal>
         )

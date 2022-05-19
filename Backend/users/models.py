@@ -197,7 +197,6 @@ class Review(models.Model):
     def __str__(self):
         return "%s:%s" % (self.registrationId, self.comment)    
 
-# TODO: Create object when event is published. Update visit whenever a request is created to get event page data
 class EventPageVisit(models.Model):
     id = models.AutoField(primary_key=True)
     eventId = models.OneToOneField(Event, on_delete=models.CASCADE)

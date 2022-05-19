@@ -6,6 +6,7 @@ import EventCard from "../components/EventCard";
 import GoogleMapReact from 'google-map-react';
 import MapMarker from "../components/MapMarker";
 import OrderModal from "../components/OrderModal";
+import * as AuthProvider from "../config/authProvider"
 
 export default function EventPage() {
   let navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function EventPage() {
   const [event, setEvent] = useState({})
   const [relatedEvents, setRelatedEvents] = useState({})
   const [showOrder, setShowOrder] = useState(false)
+  let authContext = AuthProvider.useAuth();
 
   const getData = async () =>{
     let event = await Event.getEventPage({eventId})
@@ -124,7 +126,7 @@ export default function EventPage() {
           </div>
         </div>
       </section>
-      <OrderModal show={showOrder} handleClose={handleClose} eventId={eventId} navigate={navigate}/>
+      <OrderModal show={showOrder} handleClose={handleClose} eventId={eventId} navigate={navigate} authContext={authContext} location={location}/>
     </main>
   );
 }
