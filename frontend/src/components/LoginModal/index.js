@@ -41,7 +41,7 @@ class LoginModal extends React.Component{
             } else {
                 let token = login.token;
                 this.props.authContext.signIn(token, () => {
-                    this.props.navigate(this.props.from, {replace: true});
+                    this.props.navigate(this.props.from, {replace: true, state: {from: this.props.from}});
                 });
             };
         } 
@@ -83,7 +83,7 @@ class LoginModal extends React.Component{
                     <button type="submit" className="btn primaryButton mt-1 mb-3" style={{width:"100%"}} onClick={this.handleSubmit}>Sign In</button>
                 </form>
                 <div>
-                    <div className="detailSubText mb-1">Don’t have an account? <Link to="/signup" className={`${style.tonedText}`}>Sign Up</Link></div>
+                    <div className="detailSubText mb-1">Don’t have an account? <Link to="/signup" state={{ from: this.props.from }} className={`${style.tonedText}`}>Sign Up</Link></div>
                     <div className="detailSubText mb-1">Forgot Password?</div>
                 </div>
             </div>
