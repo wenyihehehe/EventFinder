@@ -271,7 +271,7 @@ class UpdateUserProfileView(APIView):
 
 class UpdateOrganizerProfileView(APIView):
     def patch(self, request):
-        organizerProfile = OrganizerProfile.objects.get(userId=request.user)
+        organizerProfile, created = OrganizerProfile.objects.get_or_create(userId=request.user)
         serializer = OrganizerProfileUpdateSerializer(organizerProfile, data=request.data, partial=True)
         if not serializer.is_valid():
             return Response({"status": "ERROR", "detail": "Unable to update record"})

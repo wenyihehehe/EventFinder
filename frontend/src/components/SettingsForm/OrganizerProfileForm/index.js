@@ -1,6 +1,7 @@
 import React from 'react';
 import style from '../index.module.css';
 import * as User from '../../../services/user';
+import * as Util from '../../../services/util';
 import swal from 'sweetalert';
 
 class OrganizerProfileForm extends React.Component{
@@ -22,13 +23,20 @@ class OrganizerProfileForm extends React.Component{
 
     async getData(){
         let organizerProfile = await User.getOrganizerProfile()
-        let data = organizerProfile[0]
-        this.setState({
-            profileImage: data.profileImage,
-            organizerName: data.organizerName,
-            contactEmail: data.contactEmail,
-            description: data.description,
-        })
+        if(organizerProfile.length !== 0){
+            let data = organizerProfile[0]
+            this.setState({
+                profileImage: data.profileImage,
+                organizerName: data.organizerName,
+                contactEmail: data.contactEmail,
+                description: data.description,
+            })
+        } else {
+            let data = await Util.getDefaultOrganizerProfileImage()
+            this.setState({
+                profileImage: data.data
+            })
+        }
     }
 
     handleInputChange(event){
@@ -48,7 +56,7 @@ class OrganizerProfileForm extends React.Component{
             let update = await User.updateOrganizerProfile({
                 organizerName: this.state.organizerName, 
                 profileImage: this.state.profileImageInput ? this.state.profileImageInput : "", 
-                contactNumber: this.state.contactNumber, 
+                contactEmail: this.state.contactEmail, 
                 description: this.state.description, 
             });
             if (update.data.status === "OK"){
