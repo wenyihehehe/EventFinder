@@ -19,7 +19,7 @@ class EventCardOrganizer extends React.Component{
                 <div className="card-body">
                     <p className="card-subtitle detailMainText mainYellow mb-1">{moment(this.state.eventStartDateTime).format('MMM Do, dddd [at] LT')}</p>
                     <p className={`card-title headingText mb-1 ${style.cardTitle}`}>{event.title ?? "Event title not available"}</p>
-                    <p className={`card-text detailSubText subTextColor mb-1 ${style.cardDetail}`}>{event.location ?? "Location not available"}</p>
+                    <p className={`card-text detailSubText subTextColor mb-1 ${style.cardDetail}`}>{event.type === "Physical" ? event.location ?? "Location not available" : "Online"}</p>
                     <p className="card-text detailSubText subTextColor">{event.pricing ? "Starts from " + event.pricing : "Ticket not available"}</p>
                     <Link to={`/dashboard/manage/${event.id}/`}><button href="/" className="btn primaryButton" style={{borderRadius: "0px"}}>More Info</button></Link>
                 </div>

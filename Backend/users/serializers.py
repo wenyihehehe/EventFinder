@@ -177,7 +177,7 @@ class GetOrganizingEventsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['id','coverImage','title','startDateTime','location','pricing','status']
+        fields = ['id','coverImage','title','startDateTime','type','location','pricing','status']
 
 class GetOrganizerReviewsSerializer(serializers.ModelSerializer):
     profileImage = serializers.SerializerMethodField()
@@ -394,7 +394,7 @@ class GetEventPageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['title','coverImage','description','location','latitude','longitude','startDateTime','endDateTime', 'images','organizerId']
+        fields = ['title','coverImage','description','type','location','latitude','longitude','startDateTime','endDateTime', 'images','organizerId']
 
 class GetRelatedEventsSerializer(serializers.ModelSerializer):
     pricing = serializers.SerializerMethodField()
@@ -423,7 +423,7 @@ class GetRelatedEventsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['id','coverImage','title','startDateTime','location','pricing','status', 'organizerName', 'organizerProfileImage']
+        fields = ['id','coverImage','title','startDateTime','type','location','pricing','status', 'organizerName', 'organizerProfileImage']
 
 class GetEventTicketTypeSerializer(serializers.ModelSerializer):
     organizerName = serializers.StringRelatedField(source='organizerId')
@@ -499,4 +499,4 @@ class GetEventSearchPageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['id','coverImage','title','startDateTime','location','latitude','longitude','pricing','status', 'organizerName', 'organizerProfileImage']
+        fields = ['id','coverImage','title','startDateTime','location','type','latitude','longitude','pricing','status', 'organizerName', 'organizerProfileImage']

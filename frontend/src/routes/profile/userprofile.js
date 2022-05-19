@@ -2,10 +2,11 @@ import UserProfile from '../../components/UserProfile';
 import Ticket from '../../components/Ticket';
 import * as User from '../../services/user';
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function UserProfilePage() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [registrations, setRegistrations] = useState([]);
   const [registrationPage, setRegistrationPage] = useState("1")
   const [maxRegistrationPage, setMaxRegistrationPage] = useState("1")
@@ -53,9 +54,9 @@ export default function UserProfilePage() {
             {registrations.length > 0 && (
               <div>
                 {registrations.map(registration => (
-                  <Ticket ticket={registration} key={registration.id} />
+                  <Ticket ticket={registration} key={registration.id} navigate={navigate} />
                 ))}
-                <nav aria-label="Page navigation" className="mb-3">
+                <nav aria-label="Page navigation" className="mb-5">
                     <ul className="pagination detailMainText justify-content-center">
                       <li className="page-item">
                         <button className="page-link" aria-label="Previous" onClick={(e)=> setRegistrationPage(parseInt(registrationPage)-1<1 ? 1 : parseInt(registrationPage)-1)}>

@@ -87,20 +87,24 @@ export default function EventPage() {
           {event.title && (<EventDescriptionBox event={event}/>)}
         </div>
       </section>
-      <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
-        <div style={{...sectionStyle, height:"350px"}} className="row justify-content-between">
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: "AIzaSyBx34-6ciKW6FZzEK3sff3Ae56sSAOJicI",libraries: ['places'],}}
-          center={[event.latitude, event.longitude]}
-          zoom={15}
-          >
-          <MapMarker
-              lat={event.latitude}
-              lng={event.longitude}
-          />
-        </GoogleMapReact>
-        </div>
-      </section>
+      {
+        event.type === "Physical" ? 
+        <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
+          <div style={{...sectionStyle, height:"350px"}} className="row justify-content-between">
+          <GoogleMapReact
+            bootstrapURLKeys={{ key: "AIzaSyBx34-6ciKW6FZzEK3sff3Ae56sSAOJicI",libraries: ['places'],}}
+            center={[event.latitude, event.longitude]}
+            zoom={15}
+            >
+            <MapMarker
+                lat={event.latitude}
+                lng={event.longitude}
+            />
+          </GoogleMapReact>
+          </div>
+        </section>
+        : <span></span>
+      }
       <section className="container-fluid row justify-content-center mt-4 mb-4" style={{margin: "0", padding: "0"}}>
         <div style={sectionStyle} className="row m-0 backgroundWhite">
           <div className="col-12 mb-3 mt-3">
