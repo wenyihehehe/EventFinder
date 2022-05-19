@@ -34,42 +34,47 @@ import EventDashboardPerformance from "./routes/dashboard/manage/performance";
 import EventDashboardRegistration from "./routes/dashboard/manage/registration";
 import NotFound from "./routes/notfound";
 
+// Import AuthProvider
+import * as AuthProvider from './config/authProvider'
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
+  <AuthProvider.AuthProvider>
     <BrowserRouter>
       <Routes>
-        <Route path="login" element={<LoginPage />} />
-        <Route path="signup" element={<SignUpPage />} />
+        <Route path="login" element={<AuthProvider.RequireBeforeAuth><LoginPage /></AuthProvider.RequireBeforeAuth>} />
+        <Route path="signup" element={<AuthProvider.RequireBeforeAuth><SignUpPage /></AuthProvider.RequireBeforeAuth>} />
         <Route path="/" element={<NavTemplate />}>
           <Route index element={<Home />} />
           <Route path="search" element={<Search />} />
           <Route path="event/:eventId" element={<EventPage />} />
-          <Route path="ticket/:registrationId" element={<Ticket />} />
+          <Route path="ticket/:registrationId" element={<AuthProvider.RequireAuthIsOwner><Ticket /></AuthProvider.RequireAuthIsOwner>} />
           <Route path="profile">
-            <Route path="user/view" element={<UserProfilePage />}/>
-            <Route path="organizer/view" element={<OrganizerProfilePage />}/>
+            <Route path="user/view" element={<AuthProvider.RequireAuth><UserProfilePage /></AuthProvider.RequireAuth>}/>
+            <Route path="organizer/view" element={<AuthProvider.RequireAuth><OrganizerProfilePage /></AuthProvider.RequireAuth>}/>
           </Route>
-          <Route path="settings" element={<SettingPage />}>
+          <Route path="settings" element={<AuthProvider.RequireAuth><SettingPage /></AuthProvider.RequireAuth>}>
             <Route path="account" element={<Account />}/>
             <Route path="organizeraccount" element={<OrganizerAccount />}/>
           </Route>
           <Route path="dashboard">
-            <Route index element={<DashboardPage />} />
-            <Route path="create" element={<CreateEvent />}/>
-            <Route path="manage" element={<EventDashboardTemplate />}>
-              <Route path=":eventId" element={<EventDashboardMain />}/>
-              <Route path=":eventId/edit" element={<EventDashboardEdit />}/>
-              <Route path=":eventId/registration" element={<EventDashboardRegistration />}/>
-              <Route path=":eventId/attendee" element={<EventDashboardAttendee />}/>
-              <Route path=":eventId/performance" element={<EventDashboardPerformance />}/>
+            <Route index element={<AuthProvider.RequireAuthGotOrganizerProfile><DashboardPage /></AuthProvider.RequireAuthGotOrganizerProfile>} /> {/*Check if got organizer profile*/}
+            <Route path="create" element={<AuthProvider.RequireAuthGotOrganizerProfile><CreateEvent /></AuthProvider.RequireAuthGotOrganizerProfile>}/> {/*Check if got organizer profile*/}
+            <Route path="manage/:eventId" element={<AuthProvider.RequireAuthGotOrganizerProfileIsOrganizer><EventDashboardTemplate /></AuthProvider.RequireAuthGotOrganizerProfileIsOrganizer>}> {/*Check if got organizer profile and is organizer of the event*/}
+              <Route path="" element={<EventDashboardMain />}/>
+              <Route path="edit" element={<EventDashboardEdit />}/>
+              <Route path="registration" element={<EventDashboardRegistration />}/>
+              <Route path="attendee" element={<EventDashboardAttendee />}/>
+              <Route path="performance" element={<EventDashboardPerformance />}/>
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>
-  // </React.StrictMode>
+  {/* //</React.StrictMode> */}
+  </AuthProvider.AuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
