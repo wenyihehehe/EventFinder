@@ -13,27 +13,28 @@ export default function EventDashboardTemplate() {
         {icon: "bi bi-graph-up-arrow", link: "/performance", display: "Event performance"},
     ];
 
+    let navBarHeight = document.getElementById('navBar').offsetHeight;
+
     const navStyle = {
         color: "#FFFFFF",
         backgroundColor: "#0659A8",
         padding: "0",
-        height: "90vh",
         margin: "0",
     };
 
     return (
-      <main className="container-fluid row" style={{padding: "0", margin: "0"}}>
+      <main className="container-fluid row" style={{padding: "0", margin: "0",height: window.innerHeight - navBarHeight - 0.5}}>
         <nav className="col-2" style={navStyle}>
-            <div className="detailMainText" style={{paddingLeft: "1.5rem", lineHeight: "60px", boxShadow: "inset 0px -0.5px 0px #E5E5E5"}} onClick={()=> navigate("/dashboard")}>
+            <div className="detailMainText navTextClamp" style={{paddingLeft: "1.5rem", lineHeight: "60px", boxShadow: "inset 0px -0.5px 0px #E5E5E5"}} onClick={()=> navigate("/dashboard")}>
                 <i className="bi bi-chevron-left mr-3"></i>
                 My Events
             </div>
-            <div className="detailMainText" style={{paddingLeft: "1.5rem", lineHeight: "50px"}}>
+            <div className="detailMainText navTextClamp" style={{paddingLeft: "1.5rem", lineHeight: "50px"}}>
                Event Dashboard
             </div>
             {navs.map((nav) => (
             <NavLink
-                className="detailMainText"
+                className="detailMainText navTextClamp"
                 style={({ isActive }) => {
                 return {
                     lineHeight: "60px",
@@ -48,6 +49,7 @@ export default function EventDashboardTemplate() {
             ))}
             <div style={{position: "absolute", bottom: "1rem"}}>
                 {/* TODO: Add page and copywriting */}
+                {/* TODO: Fix floating issue */}
                 <div className="detailSubText mb-2" style={{paddingLeft: "1.5rem", width:"100%"}} onClick={()=> navigate("/")}>
                     Need help?
                 </div>

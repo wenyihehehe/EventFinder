@@ -43,6 +43,7 @@ class EventForm extends React.Component{
         this.handleDeleteTicketType = this.handleDeleteTicketType.bind(this);
         this.getImagesToImageInput = this.getImagesToImageInput.bind(this);
         this.handleLocation = this.handleLocation.bind(this);
+        this.handleChangeType = this.handleChangeType.bind(this);
     }
 
     async getData(){
@@ -166,6 +167,7 @@ class EventForm extends React.Component{
             longitude: this.state.longitude,
             startDateTime: this.state.startDateTime,
             endDateTime: this.state.endDateTime,
+            status: "Draft"
         });
         if (create.data.status === "OK"){
             if(this.state.imageInput.length){
@@ -285,10 +287,21 @@ class EventForm extends React.Component{
     handleLocation(data){
         this.setState({
             location: data.location,
-            locationName: data.locationName,
             latitude: data.latitude,
             longitude: data.longitude
         })
+    }
+
+    handleChangeType(e){
+        let newValue = e.target.value;
+        if(this.state.type !== newValue){
+            this.setState({
+                type: e.target.value, 
+                location: "", 
+                latitude: "", 
+                longitude: ""
+            })
+        }
     }
 
     componentDidMount(){
@@ -359,13 +372,18 @@ class EventForm extends React.Component{
                     <form className="needs-validation-event-form" noValidate>
                         <label htmlFor="type" className="form-label labelText">Type</label>
                         <div className="input-group mb-3">
-                            <button className={`btn ${this.state.type === "Physical" ? "primaryButton" : "outlinedButton"} mr-3 ${style.typeButton}`} type="button" value="Physical" onClick={(e)=> this.setState({type: e.target.value})}>Physical</button>
-                            <button className={`btn ${this.state.type === "Online" ? "primaryButton" : "outlinedButton"} ${style.typeButton}`} type="button" value="Online" onClick={(e)=> this.setState({type: e.target.value})}>Online</button>
+                            <button className={`btn ${this.state.type === "Physical" ? "primaryButton" : "outlinedButton"} mr-3 ${style.typeButton}`} type="button" value="Physical" onClick={this.handleChangeType}>Physical</button>
+                            <button className={`btn ${this.state.type === "Online" ? "primaryButton" : "outlinedButton"} ${style.typeButton}`} type="button" value="Online" onClick={this.handleChangeType}>Online</button>
                         </div>
                         <label htmlFor="location" className="form-label labelText">Location</label>
-                        {((this.props.eventId && this.state.id) || (!this.props.eventId)) && 
-                        <SearchMap handleLocation={this.handleLocation} location={this.state.location} latitude={this.state.latitude} longitude={this.state.longitude}/>
+                        {
+                            this.state.type === "Physical" ?
+                            ((this.props.eventId && this.state.id) || (!this.props.eventId)) && 
+                            <SearchMap handleLocation={this.handleLocation} location={this.state.location} latitude={this.state.latitude} longitude={this.state.longitude}/>
+                            :
+                            <input type="text" className="form-control mb-3" name="location" value={this.state.location} onChange={this.handleInputChange} required ></input>
                         }
+                        
                     </form>
                 </section>
                 <section>

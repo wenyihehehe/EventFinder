@@ -44,9 +44,9 @@ class SignUpModal extends React.Component{
             });
             if (signup.status === "OK"){
                 let token = signup.token;
-                Auth.storeTokenInCookie({ token });
-                // TODO: Sign in user and send back to previous location
-                console.log("sign up successfully")
+                this.props.authContext.signIn(token, () => {
+                    this.props.navigate(this.props.from, {replace: true});
+                });
             } else {
                 let errorMessage = Object.values(signup.detail)[0][0];
                 if(errorMessage) swal("Error!", errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1), "error");

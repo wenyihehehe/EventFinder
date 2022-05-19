@@ -40,10 +40,9 @@ class LoginModal extends React.Component{
                 if(errorMessage) swal("Error!", errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1), "error");
             } else {
                 let token = login.token;
-                Auth.storeTokenInCookie({ token });
-                // TODO: Send back to previous location
-                this.props.navigate('/');
-                console.log("login successfully")
+                this.props.authContext.signIn(token, () => {
+                    this.props.navigate(this.props.from, {replace: true});
+                });
             };
         } 
     }

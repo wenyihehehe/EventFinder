@@ -71,6 +71,10 @@ export default function Home() {
   }, [])
 
   useEffect(()=>{
+    getFeaturedEvent()
+  }, [location])
+
+  useEffect(()=>{
     getCategoryEvent()
   }, [category])
 

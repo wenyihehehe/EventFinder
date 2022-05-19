@@ -7,9 +7,9 @@ async function getUserProfileEventRegistrations(){
     return res;
 };
 
-async function getRegistrations(){
-    let res = await Network.authGet({
-        path: "api/getregistrations",
+async function getRegistrations({page}){
+    let res = await Network.authPost({
+        path: `api/getregistrations/?page=${page}`,
     });
     return res;
 };

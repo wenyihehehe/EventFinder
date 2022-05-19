@@ -334,6 +334,10 @@ p {
   opacity: 80% !important;
 }
 
+.nav-item{
+  align-self: center;
+}
+
 /* Custom dropdown-item */
 .dropdown-item{
   padding: 0.45rem 1.5rem;
@@ -361,6 +365,25 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.usernameTextClamp {
+  max-height: 41px;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  display: block;
+  white-space: nowrap;
+}
+
+.navTextClamp {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }

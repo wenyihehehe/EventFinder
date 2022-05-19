@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated 
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import filters
 
 from django.db.models import Q
@@ -157,7 +157,6 @@ class EventViewSet(ModelViewSet):
         if page is not None:
             serializer = GetRelatedEventsSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
-
         serializer = GetRelatedEventsSerializer(queryset, many=True, context={"request": request})
         return Response(serializer.data)
 
@@ -234,11 +233,18 @@ class GetUserProfileEventRegistrationsView(APIView):
         serializer = GetUserProfileEventRegistrationsSerializer(instance=user, many=True, context={"request": request})
         return Response({"data": serializer.data})
 
-class GetRegistrationsView(APIView):
-    def get(self, request):
+class GetRegistrationsView(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    pagination_class = SmallPagination
+
+    def post(self, request):
         registrations = Registration.objects.filter(userId=request.user.id)
+        page = self.paginate_queryset(registrations)
+        if page is not None:
+            serializer = GetRegistrationsSerializer(page, many=True, context={"request": request})
+            return self.get_paginated_response(serializer.data)
         serializer = GetRegistrationsSerializer(instance=registrations, many=True, context={"request": request})
-        return Response({"data": serializer.data})
+        return Response(serializer.data)
     
 class GetOrganizerProfileEventRegistrationsView(APIView):
     def get(self, request):
@@ -411,6 +417,8 @@ class GetEventPerformanceView(APIView):
         return Response({"data": serializer.data})
 
 class GetEventPageView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request, pk=None):
         event = Event.objects.get(pk=pk)
         eventPageVisit, created = EventPageVisit.objects.get_or_create(eventId=event)
@@ -420,6 +428,8 @@ class GetEventPageView(APIView):
         return Response({"data": serializer.data})
 
 class GetRelatedEventsView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request, pk=None):
         event = Event.objects.get(pk=pk)
         relatedEvents = Event.objects.filter(Q(organizerId=event.organizerId) | Q(category=event.category)).exclude(pk=pk)[:6]
@@ -427,6 +437,8 @@ class GetRelatedEventsView(APIView):
         return Response({"data": serializer.data})
 
 class GetEventTicketTypeView(APIView):
+    permission_classes = [AllowAny]
+    
     def get(self, request, pk=None):
         event = Event.objects.get(pk=pk)
         serializer = GetEventTicketTypeSerializer(event)
@@ -453,10 +465,10 @@ class GetOrganizerReviewView(generics.CreateAPIView):
         return Response(serializer.data)
 
 class GetEventSearchPageView(generics.CreateAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'organizerId__organizerName']
-    pagination_class = BasicPagination
+    pagination_class = EightPagination
 
     def post(self, request, *args, **kwargs):
         queryset = Event.objects.filter(status='Published').order_by('id')
@@ -474,6 +486,7 @@ class GetEventSearchPageView(generics.CreateAPIView):
         if(location != []):
             lat = location[0]
             lng = location[1]
+            queryset = queryset.filter(latitude__isnull=False, longitude__isnull=False)
             queryset = queryset.extra(select={
                 'distance': "SELECT (3959 *acos(cos(radians(%f))*cos(radians(latitude))*cos(radians(longitude)-radians(%f))+sin(radians(%f))*sin(radians(latitude))) * 1.609344)"
                 %(float(lat), float(lng), float(lat)),

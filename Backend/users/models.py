@@ -111,7 +111,7 @@ class Event(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     startDateTime = models.DateTimeField(null=True, blank=True)
     endDateTime = models.DateTimeField(null=True, blank=True)
-    description = models.TextField(null=True, blank=True, max_length=500)
+    description = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=9, choices=STATUS, default="Draft")
 
     # Handle soft deletion
@@ -197,7 +197,6 @@ class Review(models.Model):
     def __str__(self):
         return "%s:%s" % (self.registrationId, self.comment)    
 
-# TODO: Create object when event is published. Update visit whenever a request is created to get event page data
 class EventPageVisit(models.Model):
     id = models.AutoField(primary_key=True)
     eventId = models.OneToOneField(Event, on_delete=models.CASCADE)

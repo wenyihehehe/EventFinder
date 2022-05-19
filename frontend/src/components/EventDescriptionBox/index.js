@@ -29,7 +29,7 @@ class EventDescriptionBox extends React.Component{
                         <p className="headingText">Location</p>
                         <div className="row" style={{margin:"0"}}>
                             <i className="bi bi-geo-alt-fill col-1" style={{padding:"0", paddingTop:"1.5px"}}></i>
-                            <p className="col" style={{padding:"0"}}>{event.location}</p>
+                            <p className="col" style={{padding:"0"}}>{event.type === "Physical" ? event.location: "Online"}</p>
                         </div>
                     </div>
                     {event.images.length >0 && (
