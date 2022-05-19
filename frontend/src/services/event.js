@@ -75,7 +75,7 @@ async function getEvent({eventId}){
 }
 
 async function getEvents(){
-    let res = await Network.authGet({
+    let res = await Network.get({
         path:  `api/event/`
     })
     return res
@@ -123,28 +123,28 @@ async function getEventPerformance({eventId}){
 }
 
 async function getEventPage({eventId}){
-    let res = await Network.authGet({
+    let res = await Network.get({
         path:  `api/geteventpage/${eventId}`
     })
     return res
 }
 
 async function getRelatedEvents({eventId}){
-    let res = await Network.authGet({
+    let res = await Network.get({
         path:  `api/getrelatedevents/${eventId}`
     })
     return res
 }
 
 async function getEventTicketType({eventId}){
-    let res = await Network.authGet({
+    let res = await Network.get({
         path:  `api/geteventtickettype/${eventId}`
     })
     return res
 }
 
 async function getEventSearchPage({page, searchParams, category, type, location}){
-    let res = await Network.authPost({
+    let res = await Network.post({
         path : `api/geteventsearchpage/?page=${page}&search=${searchParams}`,
         body: {
             category,

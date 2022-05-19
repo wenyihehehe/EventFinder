@@ -2,9 +2,11 @@ import UserProfile from '../../components/UserProfile';
 import Ticket from '../../components/Ticket';
 import * as User from '../../services/user';
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export default function UserProfilePage() {
   const [registrations, setRegistrations] = useState([])
+  const location = useLocation();
 
   const getData = async () =>{
     let registrations = await User.getRegistrations()
@@ -12,7 +14,11 @@ export default function UserProfilePage() {
   }
 
   useEffect(() => {
-    getData()
+    getData();
+    if (location.hash) {
+      let element = document.getElementById(location.hash.slice(1))
+      element.scrollIntoView(true);
+    } 
   },[])
 
   return (
@@ -21,7 +27,7 @@ export default function UserProfilePage() {
         <UserProfile/>
         <hr/>
         <section className="pt-3">
-          <div className="container"  style={{width: "85%"}}>
+          <div id="registrations" className="container"  style={{width: "85%"}}>
             <p className="secondaryTitleText mb-3">My Registration</p>
             {registrations.length > 0 && (
               registrations.map(registration => (

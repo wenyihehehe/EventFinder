@@ -24,16 +24,16 @@ export default function EventDashboardTemplate() {
     return (
       <main className="container-fluid row" style={{padding: "0", margin: "0"}}>
         <nav className="col-2" style={navStyle}>
-            <div className="detailMainText" style={{paddingLeft: "1.5rem", lineHeight: "60px", boxShadow: "inset 0px -0.5px 0px #E5E5E5"}} onClick={()=> navigate("/dashboard")}>
+            <div className="detailMainText navTextClamp" style={{paddingLeft: "1.5rem", lineHeight: "60px", boxShadow: "inset 0px -0.5px 0px #E5E5E5"}} onClick={()=> navigate("/dashboard")}>
                 <i className="bi bi-chevron-left mr-3"></i>
                 My Events
             </div>
-            <div className="detailMainText" style={{paddingLeft: "1.5rem", lineHeight: "50px"}}>
+            <div className="detailMainText navTextClamp" style={{paddingLeft: "1.5rem", lineHeight: "50px"}}>
                Event Dashboard
             </div>
             {navs.map((nav) => (
             <NavLink
-                className="detailMainText"
+                className="detailMainText navTextClamp"
                 style={({ isActive }) => {
                 return {
                     lineHeight: "60px",
