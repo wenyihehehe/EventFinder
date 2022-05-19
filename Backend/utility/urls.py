@@ -4,4 +4,5 @@ from .views import *
 urlpatterns = [
     path("getcategory/", getCategory),
     path("getdefaultcoverimage/", getDefaultCoverImage),
+    path("getdefaultorganizerprofileimage/", getDefaultOrganizerProfileImage),
 ]

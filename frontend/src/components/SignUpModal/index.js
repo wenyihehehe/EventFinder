@@ -79,8 +79,8 @@ class SignUpModal extends React.Component{
         <div className="d-flex justify-content-center mt-2">
             <div className={style.content}>
                 <div className="titleText">Sign up with email</div>
-                <div className="detailSubText mt-1 mb-2">Already have an account? <Link to="/signup" className={`${style.tonedText}`}>Sign In</Link></div>
-                <form className="needs-validation" noValidate>
+                <div className="detailSubText mt-1 mb-2">Already have an account? <Link to="/login" state={{ from: this.props.from }} className={`${style.tonedText}`}>Sign In</Link></div>
+                <form className="needs-validation ml-0" noValidate>
                     <label htmlFor="firstName" className="form-label labelText">First Name</label>
                     <div className="input-group mb-3">
                         <input type="text" className="form-control" name="firstName" value={this.state.firstName} onChange={this.handleInputChange} required maxLength={50} />

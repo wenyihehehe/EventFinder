@@ -106,7 +106,7 @@ function RequireAuthGotOrganizerProfile({ children }){
         if(organizerProfile.status === 'OK'){
             return children;
         }
-        return <Navigate to="/notfound" replace/>;   
+        return <Navigate to="/createorganizerprofile" state={{ from: location }} replace/>;   
     }
 
     return (
@@ -166,8 +166,42 @@ function RequireBeforeAuth({ children }) {
     return children;
 }
 
+function RequireAuthNoOrganizerProfile({ children }){
+    let auth = useAuth();
+    let [organizerProfile, setOrganizerProfile] = useState({});
+    let location = useLocation();
+
+    const getPermission = async() => {
+        if(!auth.token){
+            setOrganizerProfile({"status": "Not Login"})
+            return;
+        }
+        let data = await Permission.getHaveOrganizerProfile();
+        setOrganizerProfile(data)
+    }
+    
+    useEffect(()=>{
+        getPermission();
+    }, [])
+
+    const getObject = () => {
+        if (!auth.token) {
+            return <Navigate to="/login" state={{ from: location }} replace />;
+        }
+        if(organizerProfile.status === 'OK'){
+            return <Navigate to="/dashboard"/>;
+        }
+        return children;   
+    }
+
+    return (
+        <div>
+            {Object.keys(organizerProfile).length !== 0 && getObject()}
+        </div>
+    )
+}
 
 
 export { AuthProvider, useAuth, RequireAuth, RequireAuthIsOwner, 
     RequireAuthGotOrganizerProfile, RequireAuthGotOrganizerProfileIsOrganizer,
-    RequireBeforeAuth }
+    RequireBeforeAuth, RequireAuthNoOrganizerProfile}

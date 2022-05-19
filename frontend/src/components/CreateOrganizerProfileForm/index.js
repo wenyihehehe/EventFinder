@@ -1,10 +1,10 @@
 import React from 'react';
-import style from '../index.module.css';
-import * as User from '../../../services/user';
-import * as Util from '../../../services/util';
+import style from './index.module.css';
+import * as User from "../../services/user";
+import * as Util from "../../services/util";
 import swal from 'sweetalert';
 
-class OrganizerProfileForm extends React.Component{
+class CreateOrganizerProfileForm extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -22,21 +22,10 @@ class OrganizerProfileForm extends React.Component{
     }
 
     async getData(){
-        let organizerProfile = await User.getOrganizerProfile()
-        if(organizerProfile.length !== 0){
-            let data = organizerProfile[0]
-            this.setState({
-                profileImage: data.profileImage,
-                organizerName: data.organizerName,
-                contactEmail: data.contactEmail,
-                description: data.description,
-            })
-        } else {
-            let data = await Util.getDefaultOrganizerProfileImage()
-            this.setState({
-                profileImage: data.data
-            })
-        }
+        let data = await Util.getDefaultOrganizerProfileImage()
+        this.setState({
+            profileImage: data.data
+        })
     }
 
     handleInputChange(event){
@@ -53,16 +42,24 @@ class OrganizerProfileForm extends React.Component{
         event.preventDefault()
         let error = this.validateForm(); 
         if(!error){
-            let update = await User.updateOrganizerProfile({
+            let create = await User.createOrganizerProfile({
                 organizerName: this.state.organizerName, 
                 profileImage: this.state.profileImageInput ? this.state.profileImageInput : "", 
-                contactEmail: this.state.contactEmail, 
+                contactNumber: this.state.contactNumber, 
                 description: this.state.description, 
             });
-            if (update.data.status === "OK"){
-                window.location.reload()
+            if (create.data.status === "OK"){
+                swal({
+                    title: "Success!",
+                    buttons: false,
+                    timer: 3000,
+                    icon: "success",
+                    text: "Your organizer profile has been created.",
+                }).then(()=>{
+                    this.props.navigate(this.props.from, {replace: true});
+                })
             } else {
-                let errorMessage = update.data.detail;
+                let errorMessage = create.data.detail;
                 swal("Error!", errorMessage,  "error");
             }
         } 
@@ -70,7 +67,7 @@ class OrganizerProfileForm extends React.Component{
 
     validateForm(){
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.querySelectorAll('.needs-validation-organizer-profile')
+        var forms = document.querySelectorAll('.needs-validation-create-organizer-profile')
         var error = false;
 
         // Loop over them and prevent submission
@@ -101,9 +98,9 @@ class OrganizerProfileForm extends React.Component{
 
     render(){
         return (
-            <div className={`${style.box}`}>
-            <p className="secondaryTitleText">My Organizer Profile</p>
-            <form className="needs-validation-organizer-profile" noValidate>
+            <div className={`${style.box}`} >
+            <p className="secondaryTitleText">Create Organizer Profile</p>
+            <form className="needs-validation-create-organizer-profile" noValidate>
                 <label htmlFor="profileImage" className="form-label labelText">Profile Image</label>
                 <div className="input-group mb-3">
                     <div className="col-12" style={{padding: "0"}}>
@@ -125,11 +122,11 @@ class OrganizerProfileForm extends React.Component{
                 <div className="input-group mb-3">
                     <input type="text" className="form-control" name="description"value={this.state.description} onChange={this.handleInputChange} maxLength={500}/>
                 </div>
-                <button type="submit" className="btn primaryButton mt-1" onClick={this.handleSubmit}>Save Change</button>
+                <button type="submit" className="btn primaryButton mt-1" onClick={this.handleSubmit}>Create Profile</button>
             </form>
             </div>
         );
     }
 }
 
-export default OrganizerProfileForm;
+export default CreateOrganizerProfileForm;

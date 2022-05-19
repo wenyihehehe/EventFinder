@@ -33,6 +33,7 @@ import EventDashboardMain from "./routes/dashboard/manage/main";
 import EventDashboardPerformance from "./routes/dashboard/manage/performance";
 import EventDashboardRegistration from "./routes/dashboard/manage/registration";
 import NotFound from "./routes/notfound";
+import CreateOrganizerProfilePage from "./routes/createorganizerprofile";
 
 // Import AuthProvider
 import * as AuthProvider from './config/authProvider'
@@ -69,6 +70,7 @@ root.render(
               <Route path="performance" element={<EventDashboardPerformance />}/>
             </Route>
           </Route>
+          <Route path="createorganizerprofile" element={<AuthProvider.RequireAuthNoOrganizerProfile><CreateOrganizerProfilePage /></AuthProvider.RequireAuthNoOrganizerProfile>}/>
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

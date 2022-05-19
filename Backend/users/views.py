@@ -102,10 +102,11 @@ class OrganizerProfileViewSet(ModelViewSet):
         return Response({"status": "OK", "data": serializer.data})
 
     def create(self, request):
-        request.data['userId'] = request.user.id
+        data = request.data.copy()
+        data['userId'] = request.user.id
         if(OrganizerProfile.objects.filter(userId=request.user.id).first()):
             return Response({"status": "ERROR", "detail": "Organizer profile exists for this user"})
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=data)
         if not serializer.is_valid():
             print(serializer.errors)
             return Response(
@@ -270,7 +271,7 @@ class UpdateUserProfileView(APIView):
 
 class UpdateOrganizerProfileView(APIView):
     def patch(self, request):
-        organizerProfile = OrganizerProfile.objects.get(userId=request.user)
+        organizerProfile, created = OrganizerProfile.objects.get_or_create(userId=request.user)
         serializer = OrganizerProfileUpdateSerializer(organizerProfile, data=request.data, partial=True)
         if not serializer.is_valid():
             return Response({"status": "ERROR", "detail": "Unable to update record"})

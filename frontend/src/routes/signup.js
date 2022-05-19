@@ -8,7 +8,7 @@ export default function SignUpPage() {
   let authContext = AuthProvider.useAuth();
   let location = useLocation();
 
-  let from = location.state?.from?.pathname || "/";
+  let from = location.state?.from?.pathname || location.state?.from || "/";
 
   return (
     <main className="container">
