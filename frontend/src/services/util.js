@@ -14,6 +14,13 @@ async function getDefaultCoverImage(){
     return res;
 };
 
+async function getDefaultOrganizerProfileImage(){
+    let res = await Network.get({
+        path: "utility/getdefaultorganizerprofileimage/",
+    });
+    return res;
+};
+
 async function fetchImage({imageUrl}){
     let res = await fetch(imageUrl);
     const blob = await res.blob()
@@ -22,5 +29,5 @@ async function fetchImage({imageUrl}){
 }
 
 export { 
-    getCategory, getDefaultCoverImage, fetchImage
+    getCategory, getDefaultCoverImage, getDefaultOrganizerProfileImage, fetchImage
 }

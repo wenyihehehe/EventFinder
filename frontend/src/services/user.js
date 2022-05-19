@@ -119,9 +119,24 @@ async function changePassword({currentPassword, newPassword}){
     return res;
 };
 
+async function createOrganizerProfile({organizerName, profileImage, contactNumber, description}){
+    let formData = new FormData();
+    formData.append("organizerName", organizerName);
+    if(profileImage){
+        formData.append("profileImage", profileImage);
+    }
+	formData.append("contactNumber", contactNumber);
+	formData.append("description", description);
+    let res = await Network.authPostWithFormData({
+        path: "api/organizerprofile/",
+        formData   
+    });
+    return res;
+};
+
 export { 
     getUserProfileEventRegistrations, getRegistrations, getOrganizerProfileEventRegistrations, getOrganizingEvents, 
     getOrganizingEventsSearchPage, getOrganizedEventReviews, getUserProfile, getOrganizerProfile, getAddress, 
-    updateUserProfile, updateOrganizerProfile, createUpdateAddress, changePassword
+    updateUserProfile, updateOrganizerProfile, createUpdateAddress, changePassword, createOrganizerProfile
 }
 
