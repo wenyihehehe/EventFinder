@@ -63,10 +63,11 @@ export default function OrganizerProfilePage() {
         <section className="pt-3">
           <div className="container"  style={{width: "85%"}}>
               <div className="row">
-                  <div className="col-6 mb-3">
+                  <div className="col-6">
                       <p className="secondaryTitleText">My Events </p>
                   </div>
-                  <div className="col-12 row m-0 mb-3 ml-3 p-0 justify-content-between align-items-center">
+                  {events.length > 0 ?
+                  <div className="col-12 row mt-3 m-0 mb-3 ml-3 p-0 justify-content-between align-items-center">
                     <a className="btn mb-3 mr-1" href="#carouselContent" role="button" data-slide="prev" style={{height: "fit-content"}}>
                       <i className="bi bi-chevron-left"></i>
                     </a>
@@ -81,6 +82,8 @@ export default function OrganizerProfilePage() {
                       <i className="bi bi-chevron-right"></i>
                     </a>
                   </div>
+                  :<p className="detailSubText mb-3 col-12 m-0 pt-1" style={{paddingLeft: "2rem"}}>No event is found.</p>
+                  }
               </div>
           </div>
         </section>
