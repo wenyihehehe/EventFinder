@@ -20,7 +20,7 @@ class User(AbstractUser):
     id = models.AutoField(primary_key=True)
     username = None
     email = models.EmailField(("email address"), unique=True)
-    profileImage = models.ImageField(null=True, blank=True, upload_to=user_directory_path)
+    profileImage = models.ImageField(null=True, blank=True, upload_to=user_directory_path, default="DefaultProfileImage.png")
     firstName = models.CharField(max_length=50, default="-", null=True, blank=True)
     lastName = models.CharField(max_length=50, default="-", null=True, blank=True)
     contactNumber = models.CharField(max_length=11, null=True, blank=True)
