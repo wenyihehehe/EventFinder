@@ -111,7 +111,7 @@ class Event(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     startDateTime = models.DateTimeField(null=True, blank=True)
     endDateTime = models.DateTimeField(null=True, blank=True)
-    description = models.TextField(null=True, blank=True, max_length=500)
+    description = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=9, choices=STATUS, default="Draft")
 
     # Handle soft deletion
