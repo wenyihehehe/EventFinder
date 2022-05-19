@@ -40,7 +40,7 @@ export default function NavigationBar(props) {
   }
 
   return (
-    <nav className="navbar navbar-light navbar-expand-lg detailMainText" style={{background: "#FDFDFD", paddingLeft: "3.5rem", paddingRight: "3.5rem"}}>
+    <nav id="navBar" className="navbar navbar-light navbar-expand-lg detailMainText" style={{background: "#FDFDFD", paddingLeft: "3.5rem", paddingRight: "3.5rem"}}>
       <Link to="/" className="navbar-brand pr-5"><img className="logo" src={`${Website}/logo.png`} alt="logo"></img></Link>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
