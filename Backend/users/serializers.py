@@ -135,7 +135,7 @@ class GetOrganizerProfileEventRegistrationsSerializer(serializers.ModelSerialize
 
     def get_registrations(self, organizerProfile):
         request = self.context.get('request')
-        user = request.user
+        user = organizerProfile.userId
         if(user.has_registration):
             registrations = Registration.objects.filter(userId=user).count()
             return "%s" % (registrations)
@@ -143,15 +143,15 @@ class GetOrganizerProfileEventRegistrationsSerializer(serializers.ModelSerialize
     
     def get_events(self, organizerProfile):
         request = self.context.get('request')
-        user = request.user
+        user = organizerProfile.userId
         if(user.has_organizerprofile()):
             events = Event.objects.filter(organizerId=user.organizerprofile).count()
             return "%s" % (events)
         return "0"
 
-    def get_profileImage(self, user):
+    def get_profileImage(self, organizerProfile):
         request = self.context.get('request')
-        profileImage = user.profileImage.url
+        profileImage = organizerProfile.profileImage.url
         return request.build_absolute_uri(profileImage)
 
     class Meta:
