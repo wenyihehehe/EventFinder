@@ -201,7 +201,63 @@ function RequireAuthNoOrganizerProfile({ children }){
     )
 }
 
+function BeforeAuthIsOrganizerExist({ children }){
+    let params = useParams();
+    let organizerId = parseInt(params.organizerId, 10);
+    let [organizer, setOrganizer] = useState({});
+
+    const getPermission = async() => {
+        let data = await Permission.getOrganizerExist({organizerId});
+        setOrganizer(data)
+    }
+    
+    useEffect(()=>{
+        getPermission();
+    }, [])
+
+    const getObject = () => {
+        if(organizer.status === 'OK'){
+            return children;
+        }
+        return <Navigate to="/notfound" replace/>;  
+    }
+
+    return (
+        <div>
+            {Object.keys(organizer).length !== 0 && getObject()}
+        </div>
+    )
+}
+
+function BeforeAuthIsEventExist({ children }){
+    let params = useParams();
+    let eventId = parseInt(params.eventId, 10);
+    let [event, setEvent] = useState({});
+
+    const getPermission = async() => {
+        let data = await Permission.getEventExist({eventId});
+        setEvent(data)
+    }
+    
+    useEffect(()=>{
+        getPermission();
+    }, [])
+
+    const getObject = () => {
+        if(event.status === 'OK'){
+            return children;
+        }
+        return <Navigate to="/notfound" replace/>;  
+    }
+
+    return (
+        <div>
+            {Object.keys(event).length !== 0 && getObject()}
+        </div>
+    )
+}
+
 
 export { AuthProvider, useAuth, RequireAuth, RequireAuthIsOwner, 
     RequireAuthGotOrganizerProfile, RequireAuthGotOrganizerProfileIsOrganizer,
-    RequireBeforeAuth, RequireAuthNoOrganizerProfile}
+    RequireBeforeAuth, RequireAuthNoOrganizerProfile, BeforeAuthIsOrganizerExist, BeforeAuthIsEventExist}

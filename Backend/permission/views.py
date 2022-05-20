@@ -31,7 +31,7 @@ def getHaveOrganizerProfile(request):
 @api_view(("POST",))
 @permission_classes([permissions.IsAuthenticated])
 def getHaveOrganizerProfileIsOrganizer(request):
-    eventId = request.data['id']
+    eventId = request.data['id'];
     if(not Event.objects.filter(pk=eventId).exists()):
         return JsonResponse({"status": "ERROR", "detail": "Event not found"})
     event = Event.objects.get(pk=eventId)
@@ -41,3 +41,19 @@ def getHaveOrganizerProfileIsOrganizer(request):
     if(event.organizerId == organizerProfile):
         return JsonResponse({"status": "OK"})
     return JsonResponse({"status": "ERROR", "detail": "Not organizer"})
+
+@api_view(("POST",))
+@permission_classes([permissions.AllowAny])
+def getOrganizerExist(request):
+    organizerId = request.data['organizerId'];
+    if(not OrganizerProfile.objects.filter(pk=organizerId).exists()):
+        return JsonResponse({"status": "ERROR", "detail": "Event not found"})
+    return JsonResponse({"status": "OK"})
+
+@api_view(("POST",))
+@permission_classes([permissions.AllowAny])
+def getEventExist(request):
+    eventId = request.data['eventId'];
+    if(not Event.objects.filter(pk=eventId).exists()):
+        return JsonResponse({"status": "ERROR", "detail": "Event not found"})
+    return JsonResponse({"status": "OK"})

@@ -153,7 +153,7 @@ export default function Home() {
                             <div style={{float:"right",  minWidth: "30vw", maxWidth: "35vw", marginRight: "10vw", marginTop: "20vh", background: "#FDFDFD", borderRadius: "5px", padding: "1rem 1.5rem"}}>
                               <p className="titleText titleTextClamp">{event.title}</p>
                               <p className="secondaryTitleText tonedTextOrange">{moment(event.startDateTime).format('MMM Do, dddd [at] LT')}</p>
-                              <p className="labelText secondaryTitleTextClamp subTextColor">{event.location}</p>
+                              <p className="labelText secondaryTitleTextClamp subTextColor">{event.type === "Physical" ? event.location ?? "Location not available" : "Online"}</p>
                               <p className="labelText secondaryTitleTextClamp subTextColor">{"Starts from " + event.pricing}</p>
                               <button className="btn primaryButton" onClick={()=> navigate('/event/' + event.id, {state: {showOrder: true}})}>Register Now</button>
                             </div>

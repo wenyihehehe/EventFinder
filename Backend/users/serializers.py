@@ -128,35 +128,33 @@ class GetRegistrationsSerializer(serializers.ModelSerializer):
         model = Registration
         fields = ['id', 'orderDateTime','event','ticketInfo']
 
-class GetOrganizerProfileEventRegistrationsSerializer(serializers.ModelSerializer):
+class GetOrganizerProfileEventReviewSerializer(serializers.ModelSerializer):
     profileImage = serializers.SerializerMethodField()
     events = serializers.SerializerMethodField()
-    registrations = serializers.SerializerMethodField()
+    reviews = serializers.SerializerMethodField()
 
-    def get_registrations(self, organizerProfile):
-        request = self.context.get('request')
-        user = request.user
-        if(user.has_registration):
-            registrations = Registration.objects.filter(userId=user).count()
-            return "%s" % (registrations)
-        return "0"
+    def get_reviews(self, organizerProfile):
+        events = Event.objects.filter(organizerId=organizerProfile).values_list('id', flat=True)
+        registrations = Registration.objects.filter(eventId__in=events).values_list('id', flat=True)
+        reviews = Review.objects.filter(registrationId__in=registrations).count()
+        return reviews
     
     def get_events(self, organizerProfile):
         request = self.context.get('request')
-        user = request.user
+        user = organizerProfile.userId
         if(user.has_organizerprofile()):
             events = Event.objects.filter(organizerId=user.organizerprofile).count()
             return "%s" % (events)
         return "0"
 
-    def get_profileImage(self, user):
+    def get_profileImage(self, organizerProfile):
         request = self.context.get('request')
-        profileImage = user.profileImage.url
+        profileImage = organizerProfile.profileImage.url
         return request.build_absolute_uri(profileImage)
 
     class Meta:
         model = OrganizerProfile
-        fields = ['profileImage','organizerName','registrations','events']
+        fields = ['profileImage','organizerName','description','reviews','events']
 
 class GetOrganizingEventsSerializer(serializers.ModelSerializer):
     pricing = serializers.SerializerMethodField()

@@ -247,10 +247,10 @@ class GetRegistrationsView(generics.CreateAPIView):
         serializer = GetRegistrationsSerializer(instance=registrations, many=True, context={"request": request})
         return Response(serializer.data)
     
-class GetOrganizerProfileEventRegistrationsView(APIView):
+class GetOrganizerProfileEventReviewsView(APIView):
     def get(self, request):
         user = OrganizerProfile.objects.filter(userId=request.user.id)
-        serializer = GetOrganizerProfileEventRegistrationsSerializer(instance=user, many=True, context={"request": request})
+        serializer = GetOrganizerProfileEventReviewSerializer(instance=user, many=True, context={"request": request})
         return Response({"data": serializer.data})
 
 class GetOrganizingEventView(APIView):
@@ -445,7 +445,7 @@ class GetEventTicketTypeView(APIView):
         serializer = GetEventTicketTypeSerializer(event)
         return Response({"data": serializer.data})
 
-class GetOrganizerReviewView(generics.CreateAPIView):
+class GetOrganizedReviewView(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
     pagination_class = SmallPagination
 
@@ -499,3 +499,41 @@ class GetEventSearchPageView(generics.CreateAPIView):
             return self.get_paginated_response(serializer.data)
         serializer = GetEventSearchPageSerializer(instance=event, many=True, context={"request": request})
         return Response({"data": serializer.data})
+
+# No auth view for organizer page
+class GetOrganizerProfileEventReviewsNoAuthView(APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        user = OrganizerProfile.objects.filter(pk=request.data['organizerId'])
+        serializer = GetOrganizerProfileEventReviewSerializer(instance=user, many=True, context={"request": request})
+        return Response({"data": serializer.data})
+
+class GetOrganizingEventNoAuthView(APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        organizerProfile = OrganizerProfile.objects.get(pk=request.data['organizerId'])
+        event = Event.objects.filter(organizerId=organizerProfile)
+        serializer = GetOrganizingEventsSerializer(instance=event, many=True, context={"request": request})
+        return Response({"data": serializer.data})
+
+class GetOrganizedReviewNoAuthView(generics.CreateAPIView):
+    permission_classes = (AllowAny,)
+    pagination_class = SmallPagination
+
+    def get_queryset(self):
+        organizerProfile = OrganizerProfile.objects.get(pk=self.request.data['organizerId'])
+        events = Event.objects.filter(organizerId=organizerProfile).values_list('id', flat=True)
+        registrations = Registration.objects.filter(eventId__in=events).values_list('id', flat=True)
+        queryset = Review.objects.filter(registrationId__in=registrations).order_by('-postedDate')
+        return queryset
+    
+    def post(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = GetOrganizerReviewsSerializer(page, many=True, context={"request": request})
+            return self.get_paginated_response(serializer.data)
+        serializer = GetOrganizerReviewsSerializer(queryset, many=True, context={"request": request})
+        return Response(serializer.data)

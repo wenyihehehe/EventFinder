@@ -27,5 +27,25 @@ async function getHaveOrganizerProfileIsOrganizer({ id }){
     return res;
 };
 
-export { getIsRegistrationOwnerOrEventOwner, getHaveOrganizerProfile, getHaveOrganizerProfileIsOrganizer}
+async function getOrganizerExist({ organizerId }){
+    let res = await Network.post({
+        path: "permission/getorganizerexist/",
+        body: {
+            organizerId
+        }
+    });
+    return res;
+}
+
+async function getEventExist({ eventId }){
+    let res = await Network.post({
+        path: "permission/geteventexist/",
+        body: {
+            eventId
+        }
+    });
+    return res;
+}
+
+export { getIsRegistrationOwnerOrEventOwner, getHaveOrganizerProfile, getHaveOrganizerProfileIsOrganizer, getOrganizerExist, getEventExist}
 

@@ -1,19 +1,22 @@
-import OrganizerProfile from '../../components/OrganizerProfile';
-import EventCardOrganizer from '../../components/EventCardOrganizer';
-import Review from '../../components/Review';
-import * as User from '../../services/user';
+import OrganizerProfile from '../components/OrganizerProfile';
+import EventCardOrganizer from '../components/EventCardOrganizer';
+import Review from '../components/Review';
+import * as User from '../services/user';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-export default function OrganizerProfilePage() {
+export default function OrganizerPage() {
   const [events, setEvents] = useState([])
   const [reviews, setReviews] = useState([])
   const [reviewPage, setReviewPage] = useState("1")
   const [maxReviewPage, setMaxReviewPage] = useState("1")
+  let params = useParams();
+  let organizerId = parseInt(params.organizerId, 10);
 
   const getData = async () =>{
-    let events = await User.getOrganizingEvents()
+    let events = await User.getOrganizingEventsNoAuth({organizerId})
     setEvents(events.data)
-    let reviews = await User.getOrganizedEventReviews({page:reviewPage})
+    let reviews = await User.getOrganizedEventReviewsNoAuth({organizerId, page:reviewPage})
     setMaxReviewPage(reviews.max)
     setReviews(reviews.data)
   }
@@ -58,13 +61,13 @@ export default function OrganizerProfilePage() {
   return (
     <main className="container-fluid row justify-content-center mt-4" >
       <div className="backgroundWhite pb-3" style={{width: "85%", height: "fit-content", minHeight: "500px"}}>
-        <OrganizerProfile />
+        <OrganizerProfile organizerId={organizerId}/>
         <hr/>
         <section className="pt-3">
           <div className="container"  style={{width: "85%"}}>
               <div className="row">
                   <div className="col-6">
-                      <p className="secondaryTitleText">My Events </p>
+                      <p className="secondaryTitleText">Events</p>
                   </div>
                   {events.length > 0 ?
                   <div className="col-12 row mt-3 m-0 mb-3 ml-3 p-0 justify-content-between align-items-center">
@@ -90,7 +93,7 @@ export default function OrganizerProfilePage() {
         <hr/>
         <section className="pt-3">
           <div className="container"  style={{width: "85%"}}>
-            <p className="secondaryTitleText pt-3 pb-1">My Reviews</p>
+            <p className="secondaryTitleText pt-3 pb-1">Reviews</p>
               {reviews.length > 0 && (
                 <div>
                   {reviews.map(review => (
