@@ -247,10 +247,10 @@ class GetRegistrationsView(generics.CreateAPIView):
         serializer = GetRegistrationsSerializer(instance=registrations, many=True, context={"request": request})
         return Response(serializer.data)
     
-class GetOrganizerProfileEventRegistrationsView(APIView):
+class GetOrganizerProfileEventReviewsView(APIView):
     def get(self, request):
         user = OrganizerProfile.objects.filter(userId=request.user.id)
-        serializer = GetOrganizerProfileEventRegistrationsSerializer(instance=user, many=True, context={"request": request})
+        serializer = GetOrganizerProfileEventReviewSerializer(instance=user, many=True, context={"request": request})
         return Response({"data": serializer.data})
 
 class GetOrganizingEventView(APIView):
@@ -501,12 +501,12 @@ class GetEventSearchPageView(generics.CreateAPIView):
         return Response({"data": serializer.data})
 
 # No auth view for organizer page
-class GetOrganizerProfileEventRegistrationsNoAuthView(APIView):
+class GetOrganizerProfileEventReviewsNoAuthView(APIView):
     permission_classes = (AllowAny,)
 
     def post(self, request):
         user = OrganizerProfile.objects.filter(pk=request.data['organizerId'])
-        serializer = GetOrganizerProfileEventRegistrationsSerializer(instance=user, many=True, context={"request": request})
+        serializer = GetOrganizerProfileEventReviewSerializer(instance=user, many=True, context={"request": request})
         return Response({"data": serializer.data})
 
 class GetOrganizingEventNoAuthView(APIView):

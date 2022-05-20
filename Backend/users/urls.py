@@ -17,7 +17,7 @@ urlpatterns = [
     path("",include(router.urls)),
     path("getuserprofileeventregistrations/", GetUserProfileEventRegistrationsView.as_view()),
     path("getregistrations/", GetRegistrationsView.as_view()),
-    path("getorganizerprofileeventregistrations/", GetOrganizerProfileEventRegistrationsView.as_view()),
+    path("getorganizerprofileeventreviews/", GetOrganizerProfileEventReviewsView.as_view()),
     path("getorganizingevent/", GetOrganizingEventView.as_view()),
     path("updateuserprofile/", UpdateUserProfileView.as_view()),
     path("updateorganizerprofile/", UpdateOrganizerProfileView.as_view()),
@@ -37,7 +37,7 @@ urlpatterns = [
     path("getorganizedeventreviews", GetOrganizedReviewView.as_view()),
     path("geteventsearchpage/", GetEventSearchPageView.as_view()),
 
-    path("getorganizerprofileeventregistrationsnoauth/", GetOrganizerProfileEventRegistrationsNoAuthView.as_view()),
+    path("getorganizerprofileeventreviewsnoauth/", GetOrganizerProfileEventReviewsNoAuthView.as_view()),
     path("getorganizingeventnoauth/", GetOrganizingEventNoAuthView.as_view()),
     path("getorganizedeventreviewsnoauth/", GetOrganizedReviewNoAuthView.as_view()),
 ]
