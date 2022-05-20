@@ -34,6 +34,7 @@ import EventDashboardPerformance from "./routes/dashboard/manage/performance";
 import EventDashboardRegistration from "./routes/dashboard/manage/registration";
 import NotFound from "./routes/notfound";
 import CreateOrganizerProfilePage from "./routes/createorganizerprofile";
+import OrganizerPage from './routes/organizer';
 
 // Import AuthProvider
 import * as AuthProvider from './config/authProvider'
@@ -49,7 +50,8 @@ root.render(
         <Route path="/" element={<NavTemplate />}>
           <Route index element={<Home />} />
           <Route path="search" element={<Search />} />
-          <Route path="event/:eventId" element={<EventPage />} />
+          <Route path="event/:eventId" element={<AuthProvider.BeforeAuthIsEventExist><EventPage /></AuthProvider.BeforeAuthIsEventExist>} />
+          <Route path="organizer/:organizerId" element={<AuthProvider.BeforeAuthIsOrganizerExist><OrganizerPage/></AuthProvider.BeforeAuthIsOrganizerExist>}/>
           <Route path="ticket/:registrationId" element={<AuthProvider.RequireAuthIsOwner><Ticket /></AuthProvider.RequireAuthIsOwner>} />
           <Route path="profile">
             <Route path="user/view" element={<AuthProvider.RequireAuth><UserProfilePage /></AuthProvider.RequireAuth>}/>

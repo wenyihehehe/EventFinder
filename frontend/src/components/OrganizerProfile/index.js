@@ -2,7 +2,7 @@ import React from 'react';
 import style from './index.module.css';
 import * as User from '../../services/user';
 
-class UserProfile extends React.Component{
+class OrganizerProfile extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -16,7 +16,13 @@ class UserProfile extends React.Component{
     }
 
     async getData(){
-        let organizerProfile = await User.getOrganizerProfileEventRegistrations()
+        let organizerProfile; 
+        let organizerId = this.props.organizerId;
+        if(organizerId !== undefined){
+            organizerProfile = await User.getOrganizerProfileEventRegistrationsNoAuth({organizerId})
+        } else {
+            organizerProfile = await User.getOrganizerProfileEventRegistrations()
+        }
         let data = organizerProfile.data[0]
         this.setState({
             profileImage: data.profileImage,
@@ -46,4 +52,4 @@ class UserProfile extends React.Component{
     }
 }
 
-export default UserProfile;
+export default OrganizerProfile;

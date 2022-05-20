@@ -134,9 +134,40 @@ async function createOrganizerProfile({organizerName, profileImage, contactNumbe
     return res;
 };
 
+async function getOrganizerProfileEventRegistrationsNoAuth({organizerId}){
+    let res = await Network.post({
+        path: "api/getorganizerprofileeventregistrationsnoauth/",
+        body: {
+            organizerId
+        }
+    });
+    return res;
+};
+
+async function getOrganizingEventsNoAuth({organizerId}){
+    let res = await Network.post({
+        path: "api/getorganizingeventnoauth/",
+        body: {
+            organizerId
+        }
+    });
+    return res;
+};
+
+async function getOrganizedEventReviewsNoAuth({organizerId, page}){
+    let res = await Network.post({
+        path: `api/getorganizedeventreviewsnoauth/?page=${page}`,
+        body: {
+            organizerId
+        }
+    });
+    return res;
+};
+
 export { 
     getUserProfileEventRegistrations, getRegistrations, getOrganizerProfileEventRegistrations, getOrganizingEvents, 
     getOrganizingEventsSearchPage, getOrganizedEventReviews, getUserProfile, getOrganizerProfile, getAddress, 
-    updateUserProfile, updateOrganizerProfile, createUpdateAddress, changePassword, createOrganizerProfile
+    updateUserProfile, updateOrganizerProfile, createUpdateAddress, changePassword, createOrganizerProfile,
+    getOrganizerProfileEventRegistrationsNoAuth, getOrganizingEventsNoAuth, getOrganizedEventReviewsNoAuth
 }
 
