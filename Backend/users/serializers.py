@@ -154,7 +154,7 @@ class GetOrganizerProfileEventReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrganizerProfile
-        fields = ['profileImage','organizerName','reviews','events']
+        fields = ['profileImage','organizerName','description','reviews','events']
 
 class GetOrganizingEventsSerializer(serializers.ModelSerializer):
     pricing = serializers.SerializerMethodField()
