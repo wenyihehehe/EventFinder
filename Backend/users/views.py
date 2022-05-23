@@ -12,6 +12,7 @@ from .permissions import *
 from .models import *
 from .serializers import *
 from .pagination import *
+from .mailFunction import *
 
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
@@ -45,6 +46,7 @@ class UserViewSet(ModelViewSet):
                 {"status": "ERROR", "detail": serializer.errors}
             )
         user = serializer.save()
+        sendNewUserEmail(user)
         token, created = Token.objects.get_or_create(user=user)
         return Response({"status": "OK", "data": serializer.data, "token": token.key})
 
