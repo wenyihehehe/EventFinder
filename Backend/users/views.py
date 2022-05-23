@@ -211,6 +211,7 @@ class RegistrationViewSet(ModelViewSet):
                 ticketSerializer = TicketSerializer(data=ticket, partial=True)
                 ticketSerializer.is_valid(raise_exception=True)
                 self.perform_create(ticketSerializer)
+        sendNewRegistrationEmail(registration,orders)
         return Response({"status": "OK", "data": serializer.data})
     
     def retrieve(self, request, pk=None):

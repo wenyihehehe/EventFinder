@@ -27,3 +27,29 @@ def sendNewUserEmail(user):
     except SMTPException as e:
         print("error:", e)
         raise Exception("Unable to send email")
+        
+def sendNewRegistrationEmail(registration,orders):
+    subject = "Registration Confirmation Email"
+    recipient = [registration.userId.email]
+    orderAmount = sum([order['quantity'] * order['price'] for order in orders])
+
+    text_content = render_to_string(
+        "users/newRegistrationEmail.txt",{"registration": registration, "orders": orders, "orderAmount": orderAmount}
+    )
+    html_content = render_to_string(
+        "users/newRegistrationEmail.html",{"registration": registration, "orders": orders, "orderAmount": orderAmount}
+    )
+
+    try:
+        send_mail(
+            subject,
+            text_content,
+            EMAIL_HOST_USER,
+            recipient,
+            html_message=html_content,
+            fail_silently=False,
+        )
+
+    except SMTPException as e:
+        print("error:", e)
+        raise Exception("Unable to send email")

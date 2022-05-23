@@ -1,0 +1,24 @@
+Hi {{registration.userId.firstName}} {{registration.userId.lastName}}!
+
+Thanks for signing up for {{registration.eventId}}. Below are the registration information.
+
+Order ID: #{{registration.id}}
+
+Event Information:
+Event Title: {{registration.eventId.title}}
+Organizer: {{registration.eventId.organizerId}}
+Date & Time: {{registration.eventId.startDateTime}} - {{registration.eventId.endDateTime}}
+Location: {{registration.eventId.location}}
+
+Order Information:
+Ordered at:{{registration.orderDateTime}}
+Tickets: {% for ticket in orders %}
+    - Ticket Name: {{ticket.name}}
+        - Quantity: {{ticket.quantity}}
+        - Amount: RM{% widthratio ticket.quantity 1 ticket.price %}{% endfor %}
+Total: RM{{orderAmount}}
+
+Thank you.
+
+Regards, 
+EventFinder
