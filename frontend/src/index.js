@@ -38,6 +38,7 @@ import NotFound from "./routes/notfound";
 import CreateOrganizerProfilePage from "./routes/createorganizerprofile";
 import OrganizerPage from './routes/organizer';
 import TermsOfServicePage from './routes/doc/termsofservice'
+import PrivacyPolicyPage from './routes/doc/privacypolicy'
 
 // Import AuthProvider
 import * as AuthProvider from './config/authProvider'
@@ -82,6 +83,7 @@ root.render(
           <Route path="createorganizerprofile" element={<AuthProvider.RequireAuthNoOrganizerProfile><CreateOrganizerProfilePage /></AuthProvider.RequireAuthNoOrganizerProfile>}/>
           <Route path="doc">
             <Route path="termsofservice" element={<TermsOfServicePage/>}/>
+            <Route path="privacypolicy" element={<PrivacyPolicyPage/>}/>
             <Route index element={<NotFound />}/>
           </Route>
           <Route path="*" element={<NotFound />} />
