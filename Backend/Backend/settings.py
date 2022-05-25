@@ -67,8 +67,11 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_rest_passwordreset',
     'corsheaders',
-    'users'
+    'users',
+    'utility',
+    'permission'
 ]
 
 MIDDLEWARE = [
@@ -161,3 +164,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = 'ee200bb9a5d8a2'
+EMAIL_HOST_PASSWORD = '064f2b2af3a164'
+EMAIL_PORT = '2525'
