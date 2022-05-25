@@ -197,6 +197,12 @@ p {
 }
 
 /* typography */
+.SuperBigText{
+  font-weight: 600;
+  font-size: 5rem;
+  line-height: 4.5rem;
+}
+
 .titleText{
   font-weight: 600;
   font-size: 26px;
