@@ -53,3 +53,29 @@ def sendNewRegistrationEmail(registration,orders):
     except SMTPException as e:
         print("error:", e)
         raise Exception("Unable to send email")
+
+def sendResetPasswordEmail(reset_password_token):
+    subject = "Password Reset - EventFinder"
+    link = "http://localhost:3000/reset_password?token=" + reset_password_token.key
+    recipient=[reset_password_token.user.email]
+
+    text_content = render_to_string(
+        "users/resetPasswordEmail.txt",{"link": link}
+    )
+    html_content = render_to_string(
+        "users/resetPasswordEmail.html",{"link": link}
+    )
+
+    try:
+        send_mail(
+            subject,
+            text_content,
+            EMAIL_HOST_USER,
+            recipient,
+            html_message=html_content,
+            fail_silently=False,
+        )
+    
+    except SMTPException as e:
+        print("error:", e)
+        raise Exception("Unable to send email")

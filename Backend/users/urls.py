@@ -40,4 +40,6 @@ urlpatterns = [
     path("getorganizerprofileeventreviewsnoauth/", GetOrganizerProfileEventReviewsNoAuthView.as_view()),
     path("getorganizingeventnoauth/", GetOrganizingEventNoAuthView.as_view()),
     path("getorganizedeventreviewsnoauth/", GetOrganizedReviewNoAuthView.as_view()),
+
+    path("reset-password/", include('django_rest_passwordreset.urls', namespace='reset-password')),
 ]
