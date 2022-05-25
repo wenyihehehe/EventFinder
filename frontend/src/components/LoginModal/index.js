@@ -84,7 +84,7 @@ class LoginModal extends React.Component{
                 </form>
                 <div>
                     <div className="detailSubText mb-1">Don’t have an account? <Link to="/signup" state={{ from: this.props.from }} className={`${style.tonedText}`}>Sign Up</Link></div>
-                    <div className="detailSubText mb-1">Forgot Password?</div>
+                    <div className="detailSubText mb-1"><Link to="/forgotpassword" state={{ from: this.props.from }} className={`${style.tonedText}`}>Forgot Password?</Link></div>
                 </div>
             </div>
         </div>

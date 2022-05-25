@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+        html{
+            background-color: #F8F8FA;
+        }
+        body{
+            font-family: 'Montserrat', sans-serif;
+        }
+        .detailMainText{
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 17px;
+        }
+        .detailSubText{
+            font-size: 14px;
+            line-height: 17px;
+        }
+        .headingText{
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 20px;
+        }
+    </style>
+</head>
+    <body>
+        <h3>Hi {{registration.userId.firstName}} {{registration.userId.lastName}}!</h3>
+        <p>Thanks for signing up for {{registration.eventId}}. Below are the registration information.</p>
+        <div style="background-color: #FDFDFD; padding: 0.25rem 0.5rem 0.5rem 0.5rem;">
+        <h3>Order ID: #{{registration.id}}</h3>
+        <div style="padding: 0 0 1rem 1rem; box-shadow: inset 0px -0.5px 0px #CCCCCC;">
+            <p class="headingText">Event Information:</p>
+            <div style="padding: 0 0 0.25rem 1rem;">
+                <p class="detailMainText">Event Title:</p>
+                <p class="detailSubText">{{registration.eventId.title}}</p>
+            </div>
+            <div style="padding: 0 0 0.25rem 1rem;">
+                <p class="detailMainText">Organizer:</p>
+                <p class="detailSubText">{{registration.eventId.organizerId}}</p>
+            </div>
+            <div style="padding: 0 0 0.25rem 1rem;">
+                <p class="detailMainText">Date & Time:</p>
+                <p class="detailSubText">{{registration.eventId.startDateTime}} - {{registration.eventId.endDateTime}}</p>
+            </div>
+            <div style="padding: 0 0 0.25rem 1rem;">
+                <p class="detailMainText">Location:</p>
+                <p class="detailSubText">{{registration.eventId.location}}</p>
+            </div>
+        </div>
+        <div style="padding-left: 1rem;">
+            <p class="headingText">Order Information:</p>
+            <div style="padding: 0 0 0.25rem 1rem;">
+                <p class="detailMainText">Ordered at:</p>
+                <p class="detailSubText">{{registration.orderDateTime}}</p>
+            </div>
+            <div style="padding: 0 0 0.25rem 1rem;">
+                <p class="detailMainText">Tickets:</p>
+                <table style="border: 0.5px solid rgba(0,0,0,.1);border-collapse:collapse;">
+                    <thead style="background-color: #F8F8FA; min-width:10rem;">
+                        <tr class="detailMainText">
+                            <th style="padding:1rem">Tickets</th>
+                            <th style="padding:1rem">Qty</th>
+                            <th style="padding:1rem">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for ticket in orders %}
+                        <tr class="detailSubText" style="padding:0; margin:0">
+                            <td style="padding-left:1rem">
+                                <p>{{ticket.name}}</p>
+                            </td>
+                            <td style="padding-left:1rem">
+                                <p>{{ticket.quantity}}</p>
+                            </td>
+                            <td style="padding-left:1rem">
+                                <p>RM{% widthratio ticket.quantity 1 ticket.price %}</p>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr class="detailMainText">
+                        <td colspan="2" style="padding:1rem; text-align: end;">Total:</td>
+                        <td colspan="1" style="padding:1rem">RM{{orderAmount}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>    
+            </div>
+        </div>
+        <p>Thank you.</p>
+        <p>Regards, <br/>EventFinder</p>
+    </body>
+</html>

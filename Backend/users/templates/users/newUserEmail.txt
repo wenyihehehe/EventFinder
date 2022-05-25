@@ -1,0 +1,14 @@
+Hi {{user.firstName}} {{user.lastName}}!
+
+Thanks for signing up for EventFinder. We're very happy to have you on board.
+
+Below are your account information:
+First Name: {{user.firstName}}
+Last Name: {{user.lastName}}
+Contact Number: {{ user.contactNumber }}
+Email: {{ user.email }}
+
+Thank you.
+
+Regards
+EventFinder

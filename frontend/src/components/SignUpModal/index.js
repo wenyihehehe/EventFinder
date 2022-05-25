@@ -13,7 +13,8 @@ class SignUpModal extends React.Component{
             contactNumber: "",
             email: "",
             password: "",
-            privacy: false
+            privacy: false,
+            loading: false
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -35,6 +36,7 @@ class SignUpModal extends React.Component{
         event.preventDefault()
         let error = this.validateForm(); 
         if(!error){
+            this.setState({loading:true})
             let signup = await Auth.signup({
                 email: this.state.email, 
                 password: this.state.password, 
@@ -42,11 +44,20 @@ class SignUpModal extends React.Component{
                 lastName: this.state.lastName,
                 contactNumber: this.state.contactNumber
             });
+            this.setState({loading:false})
             if (signup.status === "OK"){
                 let token = signup.token;
-                this.props.authContext.signIn(token, () => {
-                    this.props.navigate(this.props.from, {replace: true});
-                });
+                swal({
+                    title: "Success!",
+                    buttons: false,
+                    timer: 3000,
+                    icon: "success",
+                    text: "Your account has been created.",
+                }).then(()=>{
+                    this.props.authContext.signIn(token, () => {
+                        this.props.navigate(this.props.from, {replace: true});
+                    });
+                })
             } else {
                 let errorMessage = Object.values(signup.detail)[0][0];
                 if(errorMessage) swal("Error!", errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1), "error");
@@ -113,7 +124,7 @@ class SignUpModal extends React.Component{
                     <div className="invalid-feedback">You must agree to Terms of Service and Privacy Policy.</div>
                 <span className="checkmark"></span>
                 </label>
-                <button type="submit" className="btn primaryButton mt-1" style={{width:"100%"}} onClick={this.handleSubmit}>Sign Up</button>
+                    <button type="submit" className="btn primaryButton mt-1" style={{width:"100%"}} onClick={this.handleSubmit} disabled={this.state.loading}>{ this.state.loading ? "Loading..." : "Sign Up" }</button>
                 </form>
             </div>
         </div>

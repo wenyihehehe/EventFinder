@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from .managers import *
-
+from .mailFunction import *
 
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT user_photo/ user_<id>/<filename>
@@ -205,3 +205,10 @@ class EventPageVisit(models.Model):
     id = models.AutoField(primary_key=True)
     eventId = models.OneToOneField(Event, on_delete=models.CASCADE)
     visits = models.PositiveIntegerField(default=0)
+
+from django.dispatch import receiver
+from django_rest_passwordreset.signals import reset_password_token_created
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+    sendResetPasswordEmail(reset_password_token)

@@ -26,6 +26,27 @@ async function signup({ firstName, lastName, contactNumber, email, password }){
     return res;
 };
 
+async function forgotPassword({ email }){
+    let res = await Network.post({
+        path: "api/reset-password/",
+        body: {
+            email,
+        }
+    });
+    return res;
+};
+
+async function resetPassword({ token, password }){
+    let res = await Network.post({
+        path: "api/reset-password-custom/",
+        body: {
+            token,
+            password
+        }
+    });
+    return res;
+};
+
 function storeTokenInCookie({ token, expiry = 7 }) {
     Cookie.set("token", token, { expires: expiry });
 };
@@ -34,5 +55,5 @@ function logout(){
     Cookie.remove("token");
 };
 
-export { login, signup, storeTokenInCookie, logout }
+export { login, signup, forgotPassword, resetPassword, storeTokenInCookie, logout }
 

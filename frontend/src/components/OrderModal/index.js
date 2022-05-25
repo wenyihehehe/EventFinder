@@ -14,7 +14,8 @@ class OrderModal extends React.Component{
             organizerName: "",
             ticketType: [],
             num: Array.from({length: 10}, (_, i) => i + 1),
-            order: []
+            order: [],
+            loading: false
         };
         this.getData = this.getData.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -39,7 +40,7 @@ class OrderModal extends React.Component{
                 id: item.id,
                 name: item.name,
                 quantity: quantity,
-                price: item.price,
+                price: parseInt(item.price),
             }
             this.setState(prevState => ({
                 order: [...prevState.order, orderItem]
@@ -70,7 +71,9 @@ class OrderModal extends React.Component{
         if(this.state.order.length === 0){
             return;
         }
+        this.setState({loading:true})
         let createRegistration = await Attendee.createRegistration({eventId: this.props.eventId, orders: this.state.order})
+        this.setState({loading:false})
         if(createRegistration.status === "OK"){
             this.props.handleClose()
             swal({
@@ -158,7 +161,7 @@ class OrderModal extends React.Component{
                     }
                 </Modal.Body>
                 <Modal.Footer>
-                    <button type="button" className="btn primaryButton mx-auto" onClick={this.handleRegister} disabled={authContext.token ? false : true}>Register Now</button>
+                    <button type="button" className="btn primaryButton mx-auto" onClick={this.handleRegister} disabled={!authContext.token ? true : this.state.loading ? true : false}>{ this.state.loading ? "Loading..." : "Register Now"}</button>
                 </Modal.Footer>
             </Modal>
         )

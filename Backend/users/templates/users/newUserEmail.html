@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+        body{
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+    <body>
+        <h3>Hi {{user.firstName}} {{user.lastName}}!</h3>
+        <p>Thanks for signing up for EventFinder. We're very happy to have you on board.</p>
+        <p>Below are your account information:</p>
+        <ul>
+            <li>First Name: {{ user.firstName }}</li>
+            <li>Last Name: {{ user.lastName }}</li>
+            <li>Contact Number: {{ user.contactNumber }}</li>
+            <li>Email: {{ user.email }}</li>
+        </ul>
+        <p>Thank you.</p>
+        <p>Regards, <br/>EventFinder</p>
+    </body>
+</html>

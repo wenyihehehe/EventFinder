@@ -246,7 +246,7 @@ p {
   color: #797383;
 }
 
-.tonedTextOrange{
+.tonedTextOrange, .tonedTextOrange:hover{
   color: #F58444;
 }
 
@@ -394,4 +394,9 @@ p {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   display: -webkit-box;
+}
+
+/* Custom swal */
+.swal-text{
+  text-align: center;
 }
