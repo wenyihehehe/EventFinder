@@ -71,7 +71,7 @@ export default function ForgotPasswordPage() {
                             <form className="needs-validation-forgotpassword ml-0" noValidate>
                                 <label htmlFor="email" className="mt-2 mb-2 form-label labelText">Email Address</label>
                                 <div className="input-group mb-3">
-                                    <input type="email" className="form-control" name="email" value={email} onChange={(e)=>setEmail(e.target.value)} required/>
+                                    <input type="email" className="form-control" name="email" value={email} onChange={(e)=>setEmail(e.target.value)} disabled={loading} required/>
                                     <div className="invalid-feedback">Please provide a valid email.</div>
                                 </div>
                                 <button type="submit" className="btn primaryButton mt-1" style={{width:"100%"}} onClick={handleSubmit} disabled={loading}>{ loading ? "Loading..." : "Continue" }</button>

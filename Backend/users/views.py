@@ -540,3 +540,24 @@ class GetOrganizedReviewNoAuthView(generics.CreateAPIView):
             return self.get_paginated_response(serializer.data)
         serializer = GetOrganizerReviewsSerializer(queryset, many=True, context={"request": request})
         return Response(serializer.data)
+
+# Reset password
+from django_rest_passwordreset.serializers import PasswordTokenSerializer
+from django_rest_passwordreset.models import ResetPasswordToken
+from django_rest_passwordreset.views import ResetPasswordConfirm
+
+class ResetPasswordCustomView(APIView):
+
+    throttle_classes = ()
+    permission_classes = ()
+    serializer_class = PasswordTokenSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        token = serializer.validated_data["token"]
+
+        reset_password_token = ResetPasswordToken.objects.filter(key=token).first()
+        loginToken, created = Token.objects.get_or_create(user=reset_password_token.user)
+        result = ResetPasswordConfirm().post(request)
+        return Response({"status": result.data["status"], "token": loginToken.key})

@@ -56,7 +56,7 @@ def sendNewRegistrationEmail(registration,orders):
 
 def sendResetPasswordEmail(reset_password_token):
     subject = "Password Reset - EventFinder"
-    link = "http://localhost:3000/reset_password?token=" + reset_password_token.key
+    link = "http://localhost:3000/resetpassword?token=" + reset_password_token.key
     recipient=[reset_password_token.user.email]
 
     text_content = render_to_string(

@@ -16,6 +16,7 @@ import NavTemplate from './templates/navTemplate';
 import LoginPage from "./routes/login";
 import SignUpPage from "./routes/signup";
 import ForgotPasswordPage from "./routes/forgotpassword";
+import ResetPasswordPage from "./routes/resetpassword";
 import Home from "./routes/home";
 import Search from "./routes/search";
 import EventPage from "./routes/event";
@@ -49,6 +50,7 @@ root.render(
         <Route path="login" element={<AuthProvider.RequireBeforeAuth><LoginPage /></AuthProvider.RequireBeforeAuth>} />
         <Route path="signup" element={<AuthProvider.RequireBeforeAuth><SignUpPage /></AuthProvider.RequireBeforeAuth>} />
         <Route path="forgotpassword" element={<AuthProvider.RequireBeforeAuth><ForgotPasswordPage /></AuthProvider.RequireBeforeAuth>} />
+        <Route path="resetpassword" element={<AuthProvider.RequireBeforeAuth><ResetPasswordPage /></AuthProvider.RequireBeforeAuth>} />
         <Route path="/" element={<NavTemplate />}>
           <Route index element={<Home />} />
           <Route path="search" element={<Search />} />

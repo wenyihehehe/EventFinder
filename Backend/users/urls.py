@@ -42,4 +42,5 @@ urlpatterns = [
     path("getorganizedeventreviewsnoauth/", GetOrganizedReviewNoAuthView.as_view()),
 
     path("reset-password/", include('django_rest_passwordreset.urls', namespace='reset-password')),
+    path("reset-password-custom/", ResetPasswordCustomView.as_view(), name='reset-password-custom'),
 ]
