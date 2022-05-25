@@ -39,6 +39,7 @@ import CreateOrganizerProfilePage from "./routes/createorganizerprofile";
 import OrganizerPage from './routes/organizer';
 import TermsOfServicePage from './routes/doc/termsofservice'
 import PrivacyPolicyPage from './routes/doc/privacypolicy'
+import FAQPage from './routes/doc/faq'
 
 // Import AuthProvider
 import * as AuthProvider from './config/authProvider'
@@ -84,6 +85,7 @@ root.render(
           <Route path="doc">
             <Route path="termsofservice" element={<TermsOfServicePage/>}/>
             <Route path="privacypolicy" element={<PrivacyPolicyPage/>}/>
+            <Route path="faq" element={<FAQPage/>}/>
             <Route index element={<NotFound />}/>
           </Route>
           <Route path="*" element={<NotFound />} />
