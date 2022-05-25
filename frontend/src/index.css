@@ -1,4 +1,4 @@
-*:not(ol,hr){
+*:not(ol,ul,hr){
   margin:0;
   padding:0;
   text-align: left;
@@ -197,10 +197,16 @@ p {
 }
 
 /* typography */
-.SuperBigText{
+.superBigText{
   font-weight: 600;
   font-size: 5rem;
   line-height: 4.5rem;
+}
+
+.bigText{
+  font-weight: 600;
+  font-size: 3rem;
+  line-height: 2.5rem;
 }
 
 .titleText{
