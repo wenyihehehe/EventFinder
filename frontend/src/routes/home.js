@@ -4,6 +4,7 @@ import * as Event from '../services/event';
 import * as Util from '../services/util';
 import EventCard from "../components/EventCard";
 import moment from 'moment';
+import Footer from "../components/Footer";
 
 export default function Home() {
   let navigate = useNavigate();
@@ -120,21 +121,14 @@ export default function Home() {
 
   const categoryEventsRender = [];
     
-  for (var j = 0; j < categoryEvent.length; j += 4) {
-    if(categoryEvent.length !== 0){
-      categoryEventsRender.push(
-        <div className="row justify-content-center" style={{margin:"0"}} key={j}>
-          {
-            categoryEvent.slice(j, j + 4)
-              .map(event => (
-                <EventCard event={event} key={event.id}/>
-              ))
-          }
-        </div>
-      );
-    } else {
-      categoryEventsRender.push(<p className="detailSubText" style={{paddingLeft: "7rem"}}>No event is found.</p>);
-    }
+  if(categoryEvent.length !== 0){
+    categoryEventsRender.push(
+      categoryEvent.map(event => (
+        <EventCard event={event} key={event.id}/>
+      ))
+    );
+  } else {
+    categoryEventsRender.push(<p className="detailSubText" style={{paddingLeft: "7rem"}} key="none">No event is found.</p>);
   }
 
   return (
@@ -212,13 +206,16 @@ export default function Home() {
             </ul>
             </div>
             <div className="col-12 p-0 m-0">
-              {categoryEventsRender}
+              <div className="row justify-content-center" style={{margin:"0"}}>
+                {categoryEventsRender}
+              </div>
             </div>
             <div className="mx-auto mb-3">
               <button className="btn primaryButton" style={{width: "100px"}} onClick={handleClickMore}>More</button>
             </div>
           </div>
         </section>
+        <Footer/>
       </main>
     );
 }
