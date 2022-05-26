@@ -274,7 +274,7 @@ p {
   color: #0659A8;
 }
 
-.whiteText{
+.whiteText, .whiteText:hover{
   color: #FDFDFD;
 }
 
@@ -491,4 +491,13 @@ p {
 .accordion-body {
   padding: 1rem 1.25rem;
   color: #797383;
+}
+
+/* Help Page */
+.helpText{
+  color: #F58444;
+}
+.helpText:hover{
+  color: #F58444;
+  text-decoration: underline;
 }
