@@ -1,5 +1,5 @@
 import OrganizerProfile from '../components/OrganizerProfile';
-import EventCardOrganizer from '../components/EventCardOrganizer';
+import EventCard from '../components/EventCard';
 import Review from '../components/Review';
 import * as User from '../services/user';
 import { useState, useEffect } from 'react';
@@ -47,7 +47,7 @@ export default function OrganizerPage() {
           {
             events.slice(i, i + 3)
               .map(event => (
-                <EventCardOrganizer event={event} key={event.id}/>
+                <EventCard event={event} key={event.id}/>
                 ))
           }
         </div>

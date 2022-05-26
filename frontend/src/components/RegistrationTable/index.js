@@ -114,7 +114,6 @@ class RegistrationTable extends React.Component{
                                     <ul className={`dropdown-menu ${style.dropDownMenu}`} aria-labelledby='dropdownMenu'>
                                         <li><button className="dropdown-item detailSubText" type="button" onClick={()=>this.props.navigate("/ticket/" + registration.id)}>View</button></li>
                                     </ul>
-                                    {/* TODO: Add view complete information page, probably ticket page but with additional user information */}
                                 </div>
                             </td>
                         </tr>

@@ -1,4 +1,4 @@
-import { Outlet, NavLink, useParams, useNavigate } from "react-router-dom";
+import { Outlet, NavLink, useParams, useNavigate, Link } from "react-router-dom";
 
 export default function EventDashboardTemplate() {
     let params = useParams();
@@ -48,14 +48,13 @@ export default function EventDashboardTemplate() {
                 key={nav.link}><i className={`${nav.icon} mr-3`}></i>{nav.display}</NavLink>
             ))}
             <div style={{position: "absolute", bottom: "1rem"}}>
-                {/* TODO: Add page and copywriting */}
-                {/* TODO: Fix floating issue */}
-                <div className="detailSubText mb-2" style={{paddingLeft: "1.5rem", width:"100%"}} onClick={()=> navigate("/")}>
+                <Link to='/doc/help' target="_blank" className="detailSubText mb-2 whiteText" style={{paddingLeft: "1.5rem", width:"100%"}}>
                     Need help?
-                </div>
-                <div className="detailSubText" style={{paddingLeft: "1.5rem", width:"100%"}} onClick={()=> navigate("/")}>
+                </Link>
+                <br/>
+                <Link to='/doc/faq' target="_blank" className="detailSubText whiteText" style={{paddingLeft: "1.5rem", width:"100%"}}>
                     FAQ
-                </div>
+                </Link>
             </div>
         </nav>
         <Outlet/>

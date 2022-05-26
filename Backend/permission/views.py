@@ -54,6 +54,6 @@ def getOrganizerExist(request):
 @permission_classes([permissions.AllowAny])
 def getEventExist(request):
     eventId = request.data['eventId'];
-    if(not Event.objects.filter(pk=eventId).exists()):
+    if(not Event.objects.filter(pk=eventId, status__in=["Published","Ended"]).exists()):
         return JsonResponse({"status": "ERROR", "detail": "Event not found"})
     return JsonResponse({"status": "OK"})

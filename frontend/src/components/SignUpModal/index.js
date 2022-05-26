@@ -118,8 +118,7 @@ class SignUpModal extends React.Component{
                         <div className="invalid-feedback">Password should be at least 8 characters.</div>
                     </div>
                 <label className="checkboxcontainer">
-                    <span className="detailSubText">I agree to the <Link to="/" className={`${style.tonedText}`}>Terms of Service</Link> and <Link to="/" className={`${style.tonedText}`}>Privacy Policy.</Link></span>
-                    {/* TODO: ADD COPYWRITING FOR TERMS OF SERVICE AND PRIVACY POLICY */}
+                    <span className="detailSubText">I agree to the <Link to="/doc/termsofservice" target="_blank" className={`${style.tonedText}`}>Terms of Service</Link> and <Link to="/doc/privacypolicy" target="_blank" className={`${style.tonedText}`}>Privacy Policy.</Link></span>
                     <input type="checkbox" className="form-control" name="privacy" checked={this.state.privacy} onChange={this.handleInputChange} required/>
                     <div className="invalid-feedback">You must agree to Terms of Service and Privacy Policy.</div>
                 <span className="checkmark"></span>

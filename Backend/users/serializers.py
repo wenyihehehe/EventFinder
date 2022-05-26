@@ -159,6 +159,8 @@ class GetOrganizerProfileEventReviewSerializer(serializers.ModelSerializer):
 class GetOrganizingEventsSerializer(serializers.ModelSerializer):
     pricing = serializers.SerializerMethodField()
     coverImage = serializers.SerializerMethodField()
+    organizerName = serializers.StringRelatedField(source='organizerId')
+    organizerProfileImage = serializers.SerializerMethodField()
 
     def get_pricing(self,event):
         if(event.has_ticketType()):
@@ -172,10 +174,16 @@ class GetOrganizingEventsSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         coverImage = event.coverImage.url
         return request.build_absolute_uri(coverImage)
+    
+    def get_organizerProfileImage(self, event):
+        organizerProfile = event.organizerId
+        request = self.context.get('request')
+        profileImage = organizerProfile.profileImage.url
+        return request.build_absolute_uri(profileImage)
 
     class Meta:
         model = Event
-        fields = ['id','coverImage','title','startDateTime','type','location','pricing','status']
+        fields = ['id','coverImage','title','startDateTime','type','location','pricing','status', 'organizerName', 'organizerProfileImage']
 
 class GetOrganizerReviewsSerializer(serializers.ModelSerializer):
     profileImage = serializers.SerializerMethodField()

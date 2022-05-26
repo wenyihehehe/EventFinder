@@ -37,6 +37,11 @@ import EventDashboardRegistration from "./routes/dashboard/manage/registration";
 import NotFound from "./routes/notfound";
 import CreateOrganizerProfilePage from "./routes/createorganizerprofile";
 import OrganizerPage from './routes/organizer';
+import TermsOfServicePage from './routes/doc/termsofservice'
+import PrivacyPolicyPage from './routes/doc/privacypolicy'
+import FAQPage from './routes/doc/faq'
+import HelpPage from './routes/doc/help'
+import HelpInfoPage from './routes/doc/helpinfo'
 
 // Import AuthProvider
 import * as AuthProvider from './config/authProvider'
@@ -60,16 +65,18 @@ root.render(
           <Route path="profile">
             <Route path="user/view" element={<AuthProvider.RequireAuth><UserProfilePage /></AuthProvider.RequireAuth>}/>
             <Route path="organizer/view" element={<AuthProvider.RequireAuth><OrganizerProfilePage /></AuthProvider.RequireAuth>}/>
+            <Route index element={<NotFound />}/>
           </Route>
           <Route path="settings" element={<AuthProvider.RequireAuth><SettingPage /></AuthProvider.RequireAuth>}>
             <Route path="account" element={<Account />}/>
             <Route path="organizeraccount" element={<OrganizerAccount />}/>
+            <Route index element={<Account />}/>
           </Route>
           <Route path="dashboard">
             <Route index element={<AuthProvider.RequireAuthGotOrganizerProfile><DashboardPage /></AuthProvider.RequireAuthGotOrganizerProfile>} /> {/*Check if got organizer profile*/}
             <Route path="create" element={<AuthProvider.RequireAuthGotOrganizerProfile><CreateEvent /></AuthProvider.RequireAuthGotOrganizerProfile>}/> {/*Check if got organizer profile*/}
             <Route path="manage/:eventId" element={<AuthProvider.RequireAuthGotOrganizerProfileIsOrganizer><EventDashboardTemplate /></AuthProvider.RequireAuthGotOrganizerProfileIsOrganizer>}> {/*Check if got organizer profile and is organizer of the event*/}
-              <Route path="" element={<EventDashboardMain />}/>
+              <Route index element={<EventDashboardMain />}/>
               <Route path="edit" element={<EventDashboardEdit />}/>
               <Route path="registration" element={<EventDashboardRegistration />}/>
               <Route path="attendee" element={<EventDashboardAttendee />}/>
@@ -77,6 +84,16 @@ root.render(
             </Route>
           </Route>
           <Route path="createorganizerprofile" element={<AuthProvider.RequireAuthNoOrganizerProfile><CreateOrganizerProfilePage /></AuthProvider.RequireAuthNoOrganizerProfile>}/>
+          <Route path="doc">
+            <Route path="termsofservice" element={<TermsOfServicePage/>}/>
+            <Route path="privacypolicy" element={<PrivacyPolicyPage/>}/>
+            <Route path="faq" element={<FAQPage/>}/>
+            <Route path="help">
+              <Route index element={<HelpPage/>}/>
+              <Route path=":helpId" element={<HelpInfoPage/>}/>
+            </Route>
+            <Route index element={<NotFound />}/>
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
