@@ -40,6 +40,8 @@ import OrganizerPage from './routes/organizer';
 import TermsOfServicePage from './routes/doc/termsofservice'
 import PrivacyPolicyPage from './routes/doc/privacypolicy'
 import FAQPage from './routes/doc/faq'
+import HelpPage from './routes/doc/help'
+import HelpInfoPage from './routes/doc/helpinfo'
 
 // Import AuthProvider
 import * as AuthProvider from './config/authProvider'
@@ -86,6 +88,10 @@ root.render(
             <Route path="termsofservice" element={<TermsOfServicePage/>}/>
             <Route path="privacypolicy" element={<PrivacyPolicyPage/>}/>
             <Route path="faq" element={<FAQPage/>}/>
+            <Route path="help">
+              <Route index element={<HelpPage/>}/>
+              <Route path=":helpId" element={<HelpInfoPage/>}/>
+            </Route>
             <Route index element={<NotFound />}/>
           </Route>
           <Route path="*" element={<NotFound />} />
