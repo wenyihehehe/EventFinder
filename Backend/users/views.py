@@ -517,7 +517,7 @@ class GetOrganizingEventNoAuthView(APIView):
 
     def post(self, request):
         organizerProfile = OrganizerProfile.objects.get(pk=request.data['organizerId'])
-        event = Event.objects.filter(organizerId=organizerProfile)
+        event = Event.objects.filter(organizerId=organizerProfile, status__in=["Published","Ended"])
         serializer = GetOrganizingEventsSerializer(instance=event, many=True, context={"request": request})
         return Response({"data": serializer.data})
 
