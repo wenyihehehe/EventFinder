@@ -86,8 +86,7 @@ export default function NavigationBar(props) {
               <Link className="nav-link" style={{color: "#FABA40"}} to="/dashboard/create">Create Event</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" style={{color: "#FABA40"}} to="/faq">Learn More</Link>
-              {/* TODO: Link to FAQ */}
+              <Link className="nav-link" style={{color: "#FABA40"}} to="/doc/faq">Learn More</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" style={{color: "#0F0A49"}} to="/login">Log In</Link>
