@@ -65,7 +65,6 @@ class EventDescriptionBox extends React.Component{
                             <img className={`${style.profileImage} col-auto p-0 mr-2`} src={event.organizerId.profileImage} alt="organizer profile"></img>
                             <p className="col-auto align-self-center detailMainText p-0"><Link to={`/organizer/${event.organizerId.id}`} target="_blank">{event.organizerId.organizerName}</Link></p>
                         </div>
-                        {/* TODO: LINK TO ORGANIZER PAGE */}
                         <p className="detailMainText">About the organizer:</p>
                         <p className={`${style.descriptionText}`}>{event.organizerId.description}</p>
                     </div>

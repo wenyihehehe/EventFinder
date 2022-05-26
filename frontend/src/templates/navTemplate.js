@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import NavigationBar from '../components/NavigationBar2';
+import NavigationBar from '../components/NavigationBar';
 import * as AuthProvider from './../config/authProvider'
 
 export default function NavTemplate(){
