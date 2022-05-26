@@ -35,7 +35,7 @@ export default function NavigationBar(props) {
 
   const handleSignOut = () =>{
     props.authContext.signOut(()=>{
-      navigate('/');
+      window.location.reload();
     })
   }
 
