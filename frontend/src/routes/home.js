@@ -128,7 +128,7 @@ export default function Home() {
       ))
     );
   } else {
-    categoryEventsRender.push(<p className="detailSubText" style={{paddingLeft: "7rem"}} key="none">No event is found.</p>);
+    categoryEventsRender.push(<p className="detailSubText" key="none">No event is found.</p>);
   }
 
   return (

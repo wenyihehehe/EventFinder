@@ -1,6 +1,16 @@
-# TODO: Add real world category
 CATEGORY = [
-    'Music',
-    'A',
-    'B',
+    'Art',
+    'Business',
+    'Charity',
+    'Community',
+    'Education',
+    'Entertainment',
+    'Fashion',
+    'Food & Drink',
+    'Film & Media',
+    'Lifestyle',
+    'Science & Tech',
+    'Sports & Fitness',
+    'Travel',
+    'Other',
 ]
