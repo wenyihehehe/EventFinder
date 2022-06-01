@@ -401,7 +401,7 @@ class GetEventPageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['title','coverImage','description','type','location','latitude','longitude','startDateTime','endDateTime', 'images','organizerId']
+        fields = ['title','coverImage','description','type','location','latitude','longitude','startDateTime','endDateTime', 'images','organizerId','status']
 
 class GetRelatedEventsSerializer(serializers.ModelSerializer):
     pricing = serializers.SerializerMethodField()

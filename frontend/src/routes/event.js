@@ -80,7 +80,7 @@ export default function EventPage() {
       <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
         <div style={sectionStyle} className="row justify-content-between m-0">
           <p className="secondaryTitleText col-10 mb-0 p-0">{event.title}</p>
-          <button className="btn primaryButton col-lg-2" style={{filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1))"}}onClick={handleOpen}>Register Now</button>
+          <button className="btn primaryButton col-lg-2" style={{filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1))"}} onClick={handleOpen} disabled={event.status === 'Ended'}>Register Now</button>
         </div>
       </section>
       <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
