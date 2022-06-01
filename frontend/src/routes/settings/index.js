@@ -11,7 +11,8 @@ export default function SettingPage() {
         backgroundColor: "#FDFDFD",
         padding: "1rem 0",
         marginTop: "2.5rem",
-        height: "fit-content"
+        height: "fit-content",
+        boxShadow: '0px 4px 25px rgba(0, 0, 0, 0.05)'
     };
 
     return (
