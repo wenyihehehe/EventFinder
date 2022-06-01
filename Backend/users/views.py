@@ -242,7 +242,7 @@ class GetRegistrationsView(generics.CreateAPIView):
     pagination_class = SmallPagination
 
     def post(self, request):
-        registrations = Registration.objects.filter(userId=request.user.id)
+        registrations = Registration.objects.filter(userId=request.user.id).order_by('-orderDateTime')
         page = self.paginate_queryset(registrations)
         if page is not None:
             serializer = GetRegistrationsSerializer(page, many=True, context={"request": request})
