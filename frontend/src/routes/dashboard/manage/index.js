@@ -10,7 +10,7 @@ export default function EventDashboardTemplate() {
         {icon: "bi bi-pencil-square", link: "/edit", display: "Edit event"},
         {icon: "bi bi-list-ol", link: "/registration", display: "Manage registration"},
         {icon: "bi bi-people-fill", link: "/attendee", display: "Manage attendee"},
-        {icon: "bi bi-graph-up-arrow", link: "/performance", display: "Event performance"},
+        {icon: "bi bi-graph-up-arrow", link: "/performance", display: "View performance"},
     ];
 
     let navBarHeight = document.getElementById('navBar').offsetHeight;

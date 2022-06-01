@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function Footer(){
     return (
         <footer className="pb-2 pt-4 detailMainText tonedTextDark backgroundWhite">
-            <div className="row mx-auto" style={{width:'80%'}}>
+            <div className="row mx-auto" style={{width:'70%'}}>
                 <div className="col">
                     <img className="logo" src={`${Website}/logo.png`} alt="logo"></img>
                     <p className="mt-2">Find the events happening aroung you with just a click!</p>
