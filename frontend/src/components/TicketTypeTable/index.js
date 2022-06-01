@@ -232,7 +232,7 @@ class TicketTypeTable extends React.Component{
                         </div>
                         <div className="form-group">
                             <label htmlFor="quantity" className="form-label labelText">Quantity:</label>
-                            <input type="number" className="form-control" name="quantity" value={this.state.quantity} onChange={this.handleInputChange} required min={1} max={100}/>
+                            <input type="number" className="form-control" name="quantity" value={this.state.quantity} onChange={this.handleInputChange} required min={0} max={100}/>
                             <div className="invalid-feedback">This field is required.</div>
                         </div>
                     </form> 
