@@ -64,7 +64,7 @@ root.render(
           <Route path="ticket/:registrationId" element={<AuthProvider.RequireAuthIsOwner><Ticket /></AuthProvider.RequireAuthIsOwner>} />
           <Route path="profile">
             <Route path="user/view" element={<AuthProvider.RequireAuth><UserProfilePage /></AuthProvider.RequireAuth>}/>
-            <Route path="organizer/view" element={<AuthProvider.RequireAuth><OrganizerProfilePage /></AuthProvider.RequireAuth>}/>
+            <Route path="organizer/view" element={<AuthProvider.RequireAuthGotOrganizerProfile><OrganizerProfilePage /></AuthProvider.RequireAuthGotOrganizerProfile>}/>
             <Route index element={<NotFound />}/>
           </Route>
           <Route path="settings" element={<AuthProvider.RequireAuth><SettingPage /></AuthProvider.RequireAuth>}>
