@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.db.models import F, Count, Max, Min, Sum
 import datetime
 from .models import *
+from django.utils import timezone
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -472,7 +473,7 @@ class GetRegistrationSerializer(serializers.ModelSerializer):
         return amount
 
     def get_disableReview(self,registration):
-        return registration.has_review()
+        return registration.has_review() or registration.eventId.endDateTime > timezone.now()
 
     class Meta:
         model = Registration
