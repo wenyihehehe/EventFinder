@@ -3,6 +3,7 @@ from django.db.models import F, Count, Max, Min, Sum
 import datetime
 from .models import *
 from django.utils import timezone
+import pytz
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -361,20 +362,24 @@ class GetEventPerformanceSerializer(serializers.ModelSerializer):
     def get_attendances(self, event):
         if(event.has_registration()):
             registrations = event.registration.all()
-            attendances = Ticket.objects.filter(registration__in=registrations).values('status').annotate(value=Count('status'))
+            attendances = list(Ticket.objects.filter(registration__in=registrations).values('status').annotate(value=Count('status')))
+            names = ['Attended', 'Unattended']
             for attendance in attendances:
                 name = "Attended" if attendance.pop('status') else "Unattended"
                 attendance["name"] = name
+                names.remove(name)
+            for name in names:
+                attendances.append({'name': name, 'value': 0})
             return attendances
         return []
     
     def get_ticketSales(self, event):
         if(event.has_registration()):
-            registrations = event.registration.all().filter(orderDateTime__lte=datetime.datetime.today(), orderDateTime__gte=datetime.datetime.today()-datetime.timedelta(days=30))
+            registrations = event.registration.all().filter(orderDateTime__lte=timezone.now(), orderDateTime__gte=timezone.now()-datetime.timedelta(days=30))
             tickets = Ticket.objects.filter(registration__in=registrations).values(orderDateTime=F('registration__orderDateTime__date')).annotate(ticketSold=Count('id'))
             items = list(tickets)
             dates = [x.get('orderDateTime') for x in items]
-            for d in (datetime.datetime.today().date() - datetime.timedelta(days=x) for x in range(0,30)):
+            for d in (timezone.now().date() - datetime.timedelta(days=x) for x in range(0,30)):
                 if d not in dates:
                     items.append({'orderDateTime': d, 'ticketSold': 0})
             newlist = sorted(items, key=lambda x: x.get('orderDateTime'), reverse=False)
