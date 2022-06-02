@@ -62,8 +62,8 @@ class OrganizerProfileForm extends React.Component{
             if (update.data.status === "OK"){
                 window.location.reload()
             } else {
-                let errorMessage = update.data.detail;
-                swal("Error!", errorMessage,  "error");
+                let errorMessage = Object.values(update.data.detail)[0][0];
+                swal("Error!", errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1),  "error");
             }
         } 
     }

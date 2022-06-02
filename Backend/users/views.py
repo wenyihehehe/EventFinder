@@ -100,7 +100,7 @@ class OrganizerProfileViewSet(ModelViewSet):
         organizerProfile = self.get_object()
         serializer = OrganizerProfileUpdateSerializer(organizerProfile, data=request.data, partial=True)
         if not serializer.is_valid():
-            return Response({"status": "ERROR", "detail": "Unable to update record"})
+            return Response({"status": "ERROR", "detail": serializer.errors})
         serializer.save()
         return Response({"status": "OK", "data": serializer.data})
 
@@ -113,7 +113,7 @@ class OrganizerProfileViewSet(ModelViewSet):
         if not serializer.is_valid():
             print(serializer.errors)
             return Response(
-                {"status": "ERROR", "detail": "Unable to create record"}
+                {"status": "ERROR", "detail": serializer.errors}
             )
         serializer.save()
         return Response({"status": "OK", "data": serializer.data})
@@ -278,7 +278,7 @@ class UpdateOrganizerProfileView(APIView):
         organizerProfile, created = OrganizerProfile.objects.get_or_create(userId=request.user)
         serializer = OrganizerProfileUpdateSerializer(organizerProfile, data=request.data, partial=True)
         if not serializer.is_valid():
-            return Response({"status": "ERROR", "detail": "Unable to update record"})
+            return Response({"status": "ERROR", "detail": serializer.errors})
         serializer.save()
         return Response({"status": "OK", "data": serializer.data})
 
@@ -433,7 +433,6 @@ class GetEventPageView(APIView):
         eventPageVisit.visits += 1
         eventPageVisit.save()
         serializer = GetEventPageSerializer(event, context={"request": request})
-        print(serializer.data)
         return Response({"data": serializer.data})
 
 class GetRelatedEventsView(APIView):
