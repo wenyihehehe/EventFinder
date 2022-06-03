@@ -2,7 +2,7 @@ import React from 'react';
 import style from './index.module.css';
 import moment from 'moment'
 
-class UserProfile extends React.Component{
+class Ticket extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -47,4 +47,4 @@ class UserProfile extends React.Component{
     }
 }
 
-export default UserProfile;
+export default Ticket;
