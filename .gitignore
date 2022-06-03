@@ -132,3 +132,6 @@ dmypy.json
 **/migrations/*
 static
 media
+Backend/sqlite3_analyzer.exe
+Backend/sqlite3.exe
+Backend/sqldiff.exe
