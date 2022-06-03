@@ -33,6 +33,14 @@ export default function EventDashboardMain() {
     getData()
   },[])
 
+  const handleTicketType = async (data) => {
+    await Event.createUpdateTicketType({
+      eventId,
+      ticketTypes: data
+    });
+    getData();
+  }
+
   return (
     <main className="pt-3 pl-5 col-10" style={{height: "90vh",overflowY: "scroll"}}>
       <div className="TopSection" style={sectionStyle}>
@@ -44,7 +52,7 @@ export default function EventDashboardMain() {
       <hr/>
       <div style={sectionStyle}>
         <p className="headingText">Tickets</p>
-        <TicketTypeTable ticketType={event.ticketType}/>
+        <TicketTypeTable ticketType={event.ticketType} handleTicketType={handleTicketType}/>
       </div>
       <hr/>
       <div style={sectionStyle} className="mb-3">

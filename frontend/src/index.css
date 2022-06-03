@@ -18,6 +18,10 @@ body {
   color: #241C33;
 }
 
+p{
+  caret-color: transparent;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

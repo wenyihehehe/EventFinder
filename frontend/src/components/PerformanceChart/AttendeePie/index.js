@@ -73,11 +73,11 @@ class AttendeePie extends React.Component{
         const attendances = this.props.attendances;
         return (
             <div>
-                <div className="p-2">
-                    {attendances.length > 0 && (
+                {attendances.length > 0 && (
+                    <div className="p-2"  style={{height: "300px", width: "300px", background:"#FDFDFD"}}>
                         <Pie data={this.state.data} options={this.state.option}/>
-                    )}
-                </div>
+                    </div>
+                )}
                 {attendances.length === 0 && (
                     <p className="detailSubText">No attendee is found.</p>
                 )}

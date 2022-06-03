@@ -22,7 +22,7 @@ class EventDescriptionBox extends React.Component{
                         <p className="headingText">Date & Time</p>
                         <div className="row" style={{margin:"0"}}>
                             <i className="bi bi-clock col-1" style={{padding:"0", paddingTop:"1.5px"}}></i>
-                            <p className="col" style={{padding:"0"}}>{moment(event.eventStartDateTime).format('MMM Do, dddd [at] LT')} to {moment(event.endDateTime).format('MMM Do, dddd [at] LT')}</p>
+                            <p className="col" style={{padding:"0"}}>{moment(event.startDateTime).format('MMM Do, dddd [at] LT')} to {moment(event.endDateTime).format('MMM Do, dddd [at] LT')}</p>
                         </div>
                     </div>
                     <div className="mb-3">

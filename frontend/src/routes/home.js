@@ -104,7 +104,7 @@ export default function Home() {
     if(featuredEvent.length !== 0){
       featuredEventsRender.push(
         <div className={`carousel-item ${i===0 ? "active" : ""}`} key={i}>
-        <div className="row" style={{margin:"0"}}>
+        <div className="row justify-content-center" style={{margin:"0"}}>
           {
             featuredEvent.slice(i, i + 4)
               .map(event => (
@@ -168,7 +168,7 @@ export default function Home() {
             <div className="mx-auto mb-3">
               <p className="secondaryTitleText">Featured Events happening in <span className="mainBlue">{locationName}</span></p>
             </div>
-            <div className="col-12 row m-0 p-0 justify-content-between align-items-center">
+            <div className="col-12 row m-0 p-0 justify-content-center align-items-center">
               <a className="btn mb-3 mr-1" href="#carouselContent" role="button" data-slide="prev" style={{height: "fit-content"}}>
                 <i className="bi bi-chevron-left"></i>
               </a>

@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import filters
 
 from django.db.models import Q
+from django.utils import timezone
 
 from .permissions import *
 from .models import *
@@ -99,7 +100,7 @@ class OrganizerProfileViewSet(ModelViewSet):
         organizerProfile = self.get_object()
         serializer = OrganizerProfileUpdateSerializer(organizerProfile, data=request.data, partial=True)
         if not serializer.is_valid():
-            return Response({"status": "ERROR", "detail": "Unable to update record"})
+            return Response({"status": "ERROR", "detail": serializer.errors})
         serializer.save()
         return Response({"status": "OK", "data": serializer.data})
 
@@ -112,7 +113,7 @@ class OrganizerProfileViewSet(ModelViewSet):
         if not serializer.is_valid():
             print(serializer.errors)
             return Response(
-                {"status": "ERROR", "detail": "Unable to create record"}
+                {"status": "ERROR", "detail": serializer.errors}
             )
         serializer.save()
         return Response({"status": "OK", "data": serializer.data})
@@ -155,7 +156,7 @@ class EventViewSet(ModelViewSet):
     
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-        queryset = queryset.order_by('-eventpagevisit__visits')
+        queryset = queryset.filter(status='Published').order_by('-eventpagevisit__visits')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = GetRelatedEventsSerializer(page, many=True, context={"request": request})
@@ -242,7 +243,7 @@ class GetRegistrationsView(generics.CreateAPIView):
     pagination_class = SmallPagination
 
     def post(self, request):
-        registrations = Registration.objects.filter(userId=request.user.id)
+        registrations = Registration.objects.filter(userId=request.user.id).order_by('-orderDateTime')
         page = self.paginate_queryset(registrations)
         if page is not None:
             serializer = GetRegistrationsSerializer(page, many=True, context={"request": request})
@@ -277,7 +278,7 @@ class UpdateOrganizerProfileView(APIView):
         organizerProfile, created = OrganizerProfile.objects.get_or_create(userId=request.user)
         serializer = OrganizerProfileUpdateSerializer(organizerProfile, data=request.data, partial=True)
         if not serializer.is_valid():
-            return Response({"status": "ERROR", "detail": "Unable to update record"})
+            return Response({"status": "ERROR", "detail": serializer.errors})
         serializer.save()
         return Response({"status": "OK", "data": serializer.data})
 
@@ -425,6 +426,9 @@ class GetEventPageView(APIView):
 
     def get(self, request, pk=None):
         event = Event.objects.get(pk=pk)
+        if(event.endDateTime < timezone.now()):
+            event.status = 'Ended'
+        event.save()
         eventPageVisit, created = EventPageVisit.objects.get_or_create(eventId=event)
         eventPageVisit.visits += 1
         eventPageVisit.save()

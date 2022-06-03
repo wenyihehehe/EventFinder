@@ -88,15 +88,15 @@ class SalesLine extends React.Component{
         const ticketSales = this.props.ticketSales;
         return (
             <div>
-                <div className="p-2">
-                    {ticketSales.length > 0 && (
+                {ticketSales.length > 0 && (
+                    <div className="p-2" style={{maxWidth: "900px", background:"#FDFDFD"}}>
                         <Line data={this.state.data} options={this.state.option}/>
-                    )}
-                </div>
-                    {ticketSales.length === 0 && (
-                        <p className="detailSubText">No ticket sale is found.</p>
-                    )}
-            </div>
+                    </div>
+                )}
+                {ticketSales.length === 0 && (
+                    <p className="detailSubText">No ticket sale is found.</p>
+                )}
+        </div>
         );
     }
 }

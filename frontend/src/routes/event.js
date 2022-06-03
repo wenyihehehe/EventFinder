@@ -7,6 +7,7 @@ import GoogleMapReact from 'google-map-react';
 import MapMarker from "../components/MapMarker";
 import OrderModal from "../components/OrderModal";
 import * as AuthProvider from "../config/authProvider"
+import Footer from "../components/Footer";
 
 export default function EventPage() {
   let navigate = useNavigate();
@@ -56,7 +57,7 @@ export default function EventPage() {
     if(relatedEvents.length !== 0){
       eventsRender.push(
         <div className={`carousel-item ${i===0 ? "active" : ""}`} key={i}>
-        <div className="row" style={{margin:"0"}}>
+        <div className="row justify-content-center" style={{margin:"0"}}>
           {
             relatedEvents.slice(i, i + 3)
               .map(event => (
@@ -79,7 +80,7 @@ export default function EventPage() {
       <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
         <div style={sectionStyle} className="row justify-content-between m-0">
           <p className="secondaryTitleText col-10 mb-0 p-0">{event.title}</p>
-          <button className="btn primaryButton col-lg-2" onClick={handleOpen}>Register Now</button>
+          <button className="btn primaryButton col-lg-2" style={{filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1))"}} onClick={handleOpen} disabled={event.status === 'Ended'}>Register Now</button>
         </div>
       </section>
       <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
@@ -106,11 +107,11 @@ export default function EventPage() {
         : <span></span>
       }
       <section className="container-fluid row justify-content-center mt-4 mb-4" style={{margin: "0", padding: "0"}}>
-        <div style={sectionStyle} className="row m-0 backgroundWhite">
+        <div style={{width: "70%", boxShadow:"0px 4px 15px rgba(0, 0, 0, 0.05)"}} className="row m-0 backgroundWhite">
           <div className="col-12 mb-3 mt-3">
             <p className="secondaryTitleText text-center">More Events </p>
           </div>
-          <div className="col-12 row m-0 p-0 justify-content-between align-items-center">
+          <div className="col-12 row m-0 p-0 justify-content-center align-items-center">
             <a className="btn mb-3 mr-1" href="#carouselContent" role="button" data-slide="prev" style={{height: "fit-content"}}>
               <i className="bi bi-chevron-left"></i>
             </a>
@@ -131,6 +132,7 @@ export default function EventPage() {
         </div>
       </section>
       <OrderModal show={showOrder} handleClose={handleClose} eventId={eventId} navigate={navigate} authContext={authContext} location={location}/>
+      <Footer/>
     </main>
   );
 }

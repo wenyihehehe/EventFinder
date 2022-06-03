@@ -53,12 +53,12 @@ export default function Ticket() {
               <div className="mb-3">
                 <p className="detailMainText">Event Title:</p>
                 <p className="detailSubText">{order.event.title}</p>
-                <p className="detailSubText">URL: <Link className="subTextColor" to={Website + 'event/' + order.event.id}>{Website + 'event/' + order.event.id}</Link></p>
+                <p className="detailSubText">URL: <Link className="subTextColor" to={'/event/' + order.event.id}>{Website + 'event/' + order.event.id}</Link></p>
               </div>
               <div className="mb-3">  
                 <p className="detailMainText">Organizer:</p>
                 <p className="detailSubText">{order.event.organizerName}</p>
-                <p className="detailSubText">URL: <Link className="subTextColor" to={Website + 'organizer/' + order.event.organizerId}>{Website + 'organizer/' + order.event.organizerId}</Link></p>
+                <p className="detailSubText">URL: <Link className="subTextColor" to={'/organizer/' + order.event.organizerId}>{Website + 'organizer/' + order.event.organizerId}</Link></p>
               </div>
               <div className="mb-3">  
                 <p className="detailMainText">Date & Time:</p>

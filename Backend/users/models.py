@@ -151,8 +151,8 @@ class TicketType(models.Model):
     eventId = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="ticketType")
     name = models.CharField(max_length=10)
     type = models.CharField(max_length=10)
-    quantity = models.CharField(max_length=10)
-    price = models.CharField(max_length=10)
+    quantity = models.PositiveIntegerField()
+    price = models.PositiveIntegerField()
 
     def __str__(self):
         return "%s" % (self.name)
@@ -194,7 +194,7 @@ class Ticket(models.Model):
 class Review(models.Model):
     id = models.AutoField(primary_key=True)
     registrationId = models.OneToOneField(Registration, on_delete=models.CASCADE, related_name="review")
-    rating = models.SmallIntegerField()
+    rating = models.IntegerField()
     comment = models.CharField(max_length=200)
     postedDate = models.DateField(auto_now_add=True)
 

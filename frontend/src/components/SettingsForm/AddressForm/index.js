@@ -12,7 +12,7 @@ class AddressForm extends React.Component{
             city: "",
             postalCode: "",
             state: "",
-            country: "",
+            country: "Malaysia",
         };
         this.getData = this.getData.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -107,7 +107,7 @@ class AddressForm extends React.Component{
                 </div>
                 <label htmlFor="postalCode" className="form-label labelText">Postal Code</label>
                 <div className="input-group mb-3">
-                    <input type="text" className="form-control" name="postalCode" value={this.state.postalCode} onChange={this.handleInputChange} required />
+                    <input type="text" className="form-control" name="postalCode" value={this.state.postalCode} onChange={this.handleInputChange} required maxLength={5}/>
                     <div className="invalid-feedback">This field is required.</div>
                 </div>
                 <label htmlFor="state" className="form-label labelText">State</label>
@@ -117,7 +117,7 @@ class AddressForm extends React.Component{
                 </div>
                 <label htmlFor="country" className="form-label labelText">Country</label>
                 <div className="input-group mb-3">
-                    <input type="text" className="form-control" name="country" value={this.state.country} onChange={this.handleInputChange} required />
+                    <input type="text" className="form-control" name="country" value={this.state.country} onChange={()=>{}} required />
                     <div className="invalid-feedback">This field is required.</div>
                 </div>
                 <button type="submit" className="btn primaryButton mt-1" onClick={this.handleSubmit}>Save Change</button>

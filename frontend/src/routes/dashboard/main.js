@@ -39,7 +39,7 @@ export default function DashboardPage() {
       <div style={{width: "85%", maxWidth: "900px"}} >
         <div className="row col-12 justify-content-between mb-3" style={{padding:"0", margin:"0"}}>
           <p className="titleText">My Events</p>
-          <Link to="/dashboard/create"><button className="btn primaryButton">Create Event</button></Link>
+          <Link to="/dashboard/create"><button className="btn primaryButton" style={{filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1))', width: '10em'}}>Create Event</button></Link>
         </div>
         <div className="col-12 mb-4 subTextColor" style={{padding:"0", margin:"0"}}>
           <span className="bi bi-search" style={{position:"absolute", top: "0.5rem", left:"1rem"}}></span>

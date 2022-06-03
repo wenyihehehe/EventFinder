@@ -120,11 +120,11 @@ class OrderModal extends React.Component{
                             ticketType.map((item,index) => (
                                 <div key={item.id} className={`row m-0 ${index !== 0 ? "pt-3" : ""} pb-2`} style={index !== 0 ? {boxShadow: "inset 0px 0.5px 0px #CCCCCC"} : {}}>
                                     <div className="col">
-                                        <p className="detailMainText">{item.name}</p>
+                                        <p className="detailMainText" style={item.quantity>0 ? {}: {textDecorationLine: 'line-through'}}>{item.name}&nbsp;<span style={{textDecorationLine: 'none', display: 'inline-block'}}>{item.quantity > 0 ? '' : '(Sold out)'}</span></p>
                                         <p className="detailSubText subTextColor">{item.price === '0' ? "Free" : "RM" + item.price }</p>
                                     </div>
                                     <div className="col-auto">
-                                        <select defaultValue={0} className={`form-select ${style.selectInput}`} onChange={(e)=>this.handleChange(item, e)}>
+                                        <select defaultValue={0} className={`form-select ${style.selectInput}`} onChange={(e)=>this.handleChange(item, e)} disabled={item.quantity<=0}>
                                             <option key={0} value="0">0</option>
                                             {
                                                 num.map(item => (

@@ -14,7 +14,8 @@ class TicketTypeTable extends React.Component{
             quantity: "",
             show: false,
             edit: false,
-            index: ""
+            index: "",
+            disablePrice: false,
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleDeleteTicketType = this.handleDeleteTicketType.bind(this);
@@ -137,11 +138,22 @@ class TicketTypeTable extends React.Component{
     handleAddShow = () =>{
         this.setState({
             show: true,
-            edit: false
+            edit: false,
+            disablePrice: false
         })
     }
 
-    handleEditShow = (ticket, index) =>{
+    handleEditShow = async (ticket, index) =>{
+        let id = this.props.ticketType[index].id ?? null;
+        let editable = true;
+        if(id){
+            let status = await Event.getTicketTypeStatus({id})
+            if(status.canDelete){
+                editable = false
+            } 
+        } else {
+            editable =  false
+        }
         this.setState({
             name: ticket.name,
             type: ticket.type,
@@ -149,7 +161,8 @@ class TicketTypeTable extends React.Component{
             quantity: ticket.quantity,
             show: true,
             edit: true,
-            index: index
+            index: index,
+            disablePrice: editable
         })
     }
 
@@ -227,12 +240,12 @@ class TicketTypeTable extends React.Component{
                         </div>
                         <div className="form-group">
                             <label htmlFor="price" className="form-label labelText">Price(RM):</label>
-                            <input type="number" className="form-control" name="price" value={this.state.price} onChange={this.handleInputChange} required min={0}/>
+                            <input type="number" className="form-control" name="price" value={this.state.price} onChange={this.handleInputChange} required min={0} disabled={this.state.disablePrice}/>
                             <div className="invalid-feedback">This field is required.</div>
                         </div>
                         <div className="form-group">
                             <label htmlFor="quantity" className="form-label labelText">Quantity:</label>
-                            <input type="number" className="form-control" name="quantity" value={this.state.quantity} onChange={this.handleInputChange} required min={1} max={100}/>
+                            <input type="number" className="form-control" name="quantity" value={this.state.quantity} onChange={this.handleInputChange} required min={0} max={100}/>
                             <div className="invalid-feedback">This field is required.</div>
                         </div>
                     </form> 

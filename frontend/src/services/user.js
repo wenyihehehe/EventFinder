@@ -119,13 +119,13 @@ async function changePassword({currentPassword, newPassword}){
     return res;
 };
 
-async function createOrganizerProfile({organizerName, profileImage, contactNumber, description}){
+async function createOrganizerProfile({organizerName, profileImage, contactEmail, description}){
     let formData = new FormData();
     formData.append("organizerName", organizerName);
     if(profileImage){
         formData.append("profileImage", profileImage);
     }
-	formData.append("contactNumber", contactNumber);
+	formData.append("contactEmail", contactEmail);
 	formData.append("description", description);
     let res = await Network.authPostWithFormData({
         path: "api/organizerprofile/",

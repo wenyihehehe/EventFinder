@@ -101,7 +101,7 @@ class ReviewModal extends React.Component{
                         </div>
                         <div className="form-group">
                             <label htmlFor="type" className="form-label detailMainText mb-2">Comment:</label>
-                            <textarea className="form-control detailSubText" value={this.state.comment} style={{resize: "none", height: "10rem"}} onChange={(e)=> this.setState({comment: e.target.value})} required></textarea>
+                            <textarea className="form-control detailSubText" value={this.state.comment} style={{resize: "none", height: "10rem"}} onChange={(e)=> this.setState({comment: e.target.value})} required maxLength={200}></textarea>
                             <div className="invalid-feedback ml-1">This field is required.</div>
                         </div>
                     </form>

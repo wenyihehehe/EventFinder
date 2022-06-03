@@ -54,7 +54,7 @@ export default function EventDashboardPerformance() {
       <div style={sectionStyle}>
         <p className="titleText">Sales</p>
         <p className="detailSubText subTextColor">Ticket sales of your event</p>
-        <div className="ml-3 mb-3" style={{maxWidth: "900px", background:"#FDFDFD"}}> 
+        <div className="ml-3 mb-3" > 
           {event.ticketSales && (
             <SalesLine ticketSales={event.ticketSales}/>
           )}
@@ -64,7 +64,7 @@ export default function EventDashboardPerformance() {
       <div style={sectionStyle}>
         <p className="titleText">Attendee</p>
         <p className="detailSubText subTextColor">Attendance of your event</p>
-        <div className="ml-3 mb-3" style={{height: "300px", width: "300px", background:"#FDFDFD"}}> 
+        <div className="ml-3 mb-3"> 
           {event.attendances && (
             <AttendeePie attendances={event.attendances}/>
           )}

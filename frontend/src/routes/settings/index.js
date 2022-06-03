@@ -11,11 +11,12 @@ export default function SettingPage() {
         backgroundColor: "#FDFDFD",
         padding: "1rem 0",
         marginTop: "2.5rem",
-        height: "fit-content"
+        height: "fit-content",
+        boxShadow: '0px 4px 25px rgba(0, 0, 0, 0.05)'
     };
 
     return (
-      <main className="container-fluid row justify-content-center mt-4">
+      <main className="container-fluid row m-0 justify-content-center mt-4">
         <nav className="col-lg-2 mr-5 mb-3 ml-3" style={navStyle}>
             {navs.map((nav) => (
             <NavLink

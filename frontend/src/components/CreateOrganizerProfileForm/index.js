@@ -45,7 +45,7 @@ class CreateOrganizerProfileForm extends React.Component{
             let create = await User.createOrganizerProfile({
                 organizerName: this.state.organizerName, 
                 profileImage: this.state.profileImageInput ? this.state.profileImageInput : "", 
-                contactNumber: this.state.contactNumber, 
+                contactEmail: this.state.contactEmail, 
                 description: this.state.description, 
             });
             if (create.data.status === "OK"){
@@ -59,8 +59,8 @@ class CreateOrganizerProfileForm extends React.Component{
                     this.props.navigate(this.props.from, {replace: true});
                 })
             } else {
-                let errorMessage = create.data.detail;
-                swal("Error!", errorMessage,  "error");
+                let errorMessage = Object.values(create.data.detail)[0][0];
+                swal("Error!", errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1),  "error");
             }
         } 
     }
