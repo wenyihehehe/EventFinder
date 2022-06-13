@@ -479,7 +479,7 @@ class GetEventSearchPageView(generics.CreateAPIView):
     pagination_class = EightPagination
 
     def post(self, request, *args, **kwargs):
-        queryset = Event.objects.filter(status='Published').order_by('id')
+        queryset = Event.objects.filter(status='Published').order_by('startDateTime')
         category = request.data["category"]
         type = request.data["type"]
         location = request.data["location"]

@@ -72,11 +72,15 @@ export default function Search() {
     if(!mapItem.mapInstance) return;
     const bounds = new window.google.maps.LatLngBounds();
     events.forEach((event, index) => {
-        const position = new window.google.maps.LatLng(event.latitude, event.longitude);
+      if(event.latitude != null){
+        let position = new window.google.maps.LatLng(event.latitude, event.longitude);
         bounds.extend(position);
+      }
     });
-    const position = new window.google.maps.LatLng(location[0], location[1]);
-    bounds.extend(position);
+    if(location[0] != null){
+      const position = new window.google.maps.LatLng(location[0], location[1]);
+      bounds.extend(position);
+    }
     mapItem.mapInstance.fitBounds(bounds)
   }
 
@@ -89,6 +93,10 @@ export default function Search() {
     });
     setLocation([place.geometry.location.lat(),place.geometry.location.lng()])
   };
+
+  const clearLocation = () => {
+    setLocation([]);
+  }
 
   const handleChange = ({ center, zoom }) => {
     const checkedZoom = zoom > 15 ? 15 : zoom
@@ -128,7 +136,7 @@ export default function Search() {
             lat: 3.067891823231041, 
             lng: 101.60351894232923
           });
-          setLocation([3.067891823231041, 101.60351894232923])
+          
         }
       );
     } 
@@ -166,7 +174,7 @@ export default function Search() {
               <option value="Online">Online</option>
             </select>
             {(mapItem.mapApiLoaded && mapItem.mapApi.places) && (
-              <MapSearchInput location={location.location} map={mapItem.mapInstance} mapApi={mapItem.mapApi} addplace={addPlace} setCurrentLocation={setCurrentLocation}/>
+              <MapSearchInput location={location.location} map={mapItem.mapInstance} mapApi={mapItem.mapApi} addplace={addPlace} setCurrentLocation={setCurrentLocation} clearLocation={clearLocation}/>
             )}
           </div>
         </div>
