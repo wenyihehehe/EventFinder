@@ -28,6 +28,7 @@ class EventForm extends React.Component{
             startDateTime: moment().format("YYYY-MM-DDThh:mm"),
             endDateTime: moment().add(1, 'days').format("YYYY-MM-DDThh:mm"),
             ticketType: [],
+            status: "Draft", //default
             deleteTicketType : [],
         };
         this.getData = this.getData.bind(this);
@@ -75,6 +76,7 @@ class EventForm extends React.Component{
                 startDateTime: moment(event.startDateTime).format("YYYY-MM-DDThh:mm"),
                 endDateTime: moment(event.endDateTime).format("YYYY-MM-DDThh:mm"),
                 ticketType: event.ticketType,
+                status: event.status,
             }, () => {
                 this.getImagesToImageInput()
             })
@@ -406,7 +408,7 @@ class EventForm extends React.Component{
                     <TicketTypeTable ticketType={this.state.ticketType} handleTicketType={this.handleTicketType} handleDeleteTicketType={this.handleDeleteTicketType}/>
                     <div className="invalidFeedback" style={{marginLeft: "1rem"}}>At least one ticket type should be created.</div>
                 </section>
-                <button type="submit" className="btn secondaryButton mt-1 mr-3" onClick={this.handleSave}>Save as Draft</button>
+                <button type="submit" className="btn secondaryButton mt-1 mr-3" onClick={this.handleSave} disabled={this.state.status!=="Draft"}>Save as Draft</button>
                 <button type="submit" className="btn primaryButton mt-1" onClick={this.handlePublish}>Publish Event</button>
             </div>
         );
