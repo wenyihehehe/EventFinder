@@ -59,7 +59,7 @@ export default function NavigationBar(props) {
         }
         {
           props.authContext.token ? 
-          <ul className="col-lg-auto col-12 p-0 navbar-nav">
+          <ul className="col-lg-auto col-12 p-0 navbar-nav ml-auto">
             <li className="nav-item">
               <Link className="nav-link" style={{color: "#FABA40"}} to="/dashboard/create">Create Event</Link>
             </li>
