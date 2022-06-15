@@ -67,7 +67,7 @@ export default function ForgotPasswordPage() {
                         :
                         <div>
                             <div className="titleText mb-2">Forgot Password</div>
-                            <div className="detailSubText mt-2 mb-2">Enter the email address associated with your account and we'll send you a link to reset your password</div>
+                            <div className="detailSubText mt-2 mb-2">Enter the email address associated with your account and we'll send you a link to reset your password.</div>
                             <form className="needs-validation-forgotpassword ml-0" noValidate>
                                 <label htmlFor="email" className="mt-2 mb-2 form-label labelText">Email Address</label>
                                 <div className="input-group mb-3">

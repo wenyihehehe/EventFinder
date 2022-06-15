@@ -383,7 +383,10 @@ class EventForm extends React.Component{
                             ((this.props.eventId && this.state.id) || (!this.props.eventId)) && 
                             <SearchMap handleLocation={this.handleLocation} location={this.state.location} latitude={this.state.latitude} longitude={this.state.longitude}/>
                             :
-                            <input type="text" className="form-control mb-3" name="location" value={this.state.location} onChange={this.handleInputChange} required ></input>
+                            <div>
+                                <input id="locationField" type="text" className="form-control mb-3" name="location" value={this.state.location} onChange={this.handleInputChange} required ></input>
+                                <div className="invalid-location-feedback">This location is invalid.</div>
+                            </div>
                         }
                         
                     </form>

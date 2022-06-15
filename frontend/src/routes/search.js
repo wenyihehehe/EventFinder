@@ -10,7 +10,7 @@ export default function Search() {
   let navigate = useNavigate();
   let pathLocation = useLocation();
   const [events, setEvents] = useState([])
-  const [searchParams, setSearchParams] = useState("")
+  const [searchParams, setSearchParams] = useState(pathLocation.state.searchParams ?? "")
   const [category, setCategory] = useState("all")
   const [categoryOption, setCategoryOption] = useState([])
   const [type, setType] = useState("all")
@@ -31,7 +31,6 @@ export default function Search() {
   });
 
   const getData = async() =>{
-    setSearchParams(pathLocation.state.searchParams)
     let category = await Util.getCategory()
     setCategoryOption(category.data)
   }

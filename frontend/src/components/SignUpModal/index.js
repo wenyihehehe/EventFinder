@@ -50,7 +50,7 @@ class SignUpModal extends React.Component{
                 swal({
                     title: "Success!",
                     buttons: false,
-                    timer: 3000,
+                    timer: 1000,
                     icon: "success",
                     text: "Your account has been created.",
                 }).then(()=>{
