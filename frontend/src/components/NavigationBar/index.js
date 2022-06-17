@@ -28,9 +28,10 @@ export default function NavigationBar(props) {
     borderRadius: "100%",
     width: "25px",
     height: "25px",
-    paddingRight: "0.25rem",
+    marginRight: "0.25rem",
     objectFit: "cover",
     boxSizing: "content-box",
+    border: "0.5px solid rgba(0,0,0,.125)"
   }
 
   const handleSignOut = () =>{

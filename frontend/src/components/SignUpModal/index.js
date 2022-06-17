@@ -104,8 +104,8 @@ class SignUpModal extends React.Component{
                     </div>
                     <label htmlFor="contactNumber" className="form-label labelText">Contact Number</label>
                     <div className="input-group mb-3">
-                        <input type="text" className="form-control" name="contactNumber" value={this.state.contactNumber} onChange={this.handleInputChange} required maxLength={11}/>
-                        <div className="invalid-feedback">This field is required.</div>
+                        <input type="text" className="form-control" name="contactNumber" value={this.state.contactNumber} onChange={this.handleInputChange} required maxLength={11} pattern="[0-9]+"/>
+                        <div className="invalid-feedback">This field is invalid.</div>
                     </div>
                     <label htmlFor="email" className="form-label labelText">Email Address</label>
                     <div className="input-group mb-3">

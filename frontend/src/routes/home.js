@@ -105,7 +105,7 @@ export default function Home() {
     if(featuredEvent.length !== 0){
       featuredEventsRender.push(
         <div className={`carousel-item ${i===0 ? "active" : ""}`} key={i}>
-        <div className="row justify-content-center" style={{margin:"0"}}>
+        <div className="row justify-content-around" style={{margin:"0"}}>
           {
             featuredEvent.slice(i, i + 4)
               .map(event => (
@@ -174,7 +174,7 @@ export default function Home() {
                 <i className="bi bi-chevron-left"></i>
               </a>
               <div>
-                <div id="carouselContent" className="carousel slide" data-ride="carousel">
+                <div id="carouselContent" className="carousel slide" data-ride="carousel" style={{width: "80vw"}}>
                   <div className="carousel-inner">
                     {featuredEventsRender}  
                   </div>
@@ -206,8 +206,8 @@ export default function Home() {
                 ))}
             </ul>
             </div>
-            <div className="col-12 p-0 m-0">
-              <div className="row justify-content-center" style={{margin:"0"}}>
+            <div className="col-12 p-0 m-0 row justify-content-center">
+              <div className="row justify-content-around" style={{margin:"0", width: "80vw"}}>
                 {categoryEventsRender}
               </div>
             </div>

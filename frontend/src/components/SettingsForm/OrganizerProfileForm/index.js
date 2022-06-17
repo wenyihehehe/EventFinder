@@ -116,7 +116,7 @@ class OrganizerProfileForm extends React.Component{
                     <input type="text" className="form-control" name="organizerName" value={this.state.organizerName} onChange={this.handleInputChange} required />
                     <div className="invalid-feedback">This field is required.</div>
                 </div>
-                <label htmlFor="contactNumber" className="form-label labelText">Contact Email</label>
+                <label htmlFor="contactEmail" className="form-label labelText">Contact Email</label>
                 <div className="input-group mb-3">
                     <input type="email" className="form-control" name="contactEmail" value={this.state.contactEmail} onChange={this.handleInputChange} required/>
                     <div className="invalid-feedback">This field is required.</div>

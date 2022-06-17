@@ -254,7 +254,7 @@ class GetRegistrationsView(generics.CreateAPIView):
 class GetOrganizerProfileEventReviewsView(APIView):
     def get(self, request):
         user = OrganizerProfile.objects.filter(userId=request.user.id)
-        serializer = GetOrganizerProfileEventReviewSerializer(instance=user, many=True, context={"request": request})
+        serializer = GetOrganizerProfileEventReviewSerializer(instance=user, many=True, context={"request": request, "owner": True})
         return Response({"data": serializer.data})
 
 class GetOrganizingEventView(APIView):
@@ -513,7 +513,7 @@ class GetOrganizerProfileEventReviewsNoAuthView(APIView):
 
     def post(self, request):
         user = OrganizerProfile.objects.filter(pk=request.data['organizerId'])
-        serializer = GetOrganizerProfileEventReviewSerializer(instance=user, many=True, context={"request": request})
+        serializer = GetOrganizerProfileEventReviewSerializer(instance=user, many=True, context={"request": request, "owner": False})
         return Response({"data": serializer.data})
 
 class GetOrganizingEventNoAuthView(APIView):

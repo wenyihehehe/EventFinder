@@ -113,14 +113,15 @@ class CreateOrganizerProfileForm extends React.Component{
                     <input type="text" className="form-control" name="organizerName" value={this.state.organizerName} onChange={this.handleInputChange} required />
                     <div className="invalid-feedback">This field is required.</div>
                 </div>
-                <label htmlFor="contactNumber" className="form-label labelText">Contact Email</label>
+                <label htmlFor="contactEmail" className="form-label labelText">Contact Email</label>
                 <div className="input-group mb-3">
                     <input type="email" className="form-control" name="contactEmail" value={this.state.contactEmail} onChange={this.handleInputChange} required/>
                     <div className="invalid-feedback">This field is required.</div>
                 </div>
                 <label htmlFor="description" className="form-label labelText">Description</label>
                 <div className="input-group mb-3">
-                    <input type="text" className="form-control" name="description"value={this.state.description} onChange={this.handleInputChange} maxLength={500}/>
+                    <input type="text" className="form-control" name="description"value={this.state.description} onChange={this.handleInputChange} maxLength={500} required/>
+                    <div className="invalid-feedback">This field is required.</div>
                 </div>
                 <button type="submit" className="btn primaryButton mt-1" onClick={this.handleSubmit}>Create Profile</button>
             </form>

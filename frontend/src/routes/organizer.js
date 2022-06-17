@@ -43,7 +43,7 @@ export default function OrganizerPage() {
     if(events.length !== 0){
       eventsRender.push(
         <div className={`carousel-item ${i===0 ? "active" : ""}`} key={i}>
-        <div className="row justify-content-center" style={{margin:"0"}}>
+        <div className="row justify-content-around" style={{margin:"0"}}>
           {
             events.slice(i, i + 3)
               .map(event => (
@@ -75,7 +75,7 @@ export default function OrganizerPage() {
                       <i className="bi bi-chevron-left"></i>
                     </a>
                     <div>
-                      <div id="carouselContent" className="carousel slide" data-ride="carousel">
+                      <div id="carouselContent" className="carousel slide" data-ride="carousel" style={{width: "60vw"}}>
                         <div className="carousel-inner">
                           {eventsRender}  
                         </div>

@@ -57,7 +57,7 @@ export default function EventPage() {
     if(relatedEvents.length !== 0){
       eventsRender.push(
         <div className={`carousel-item ${i===0 ? "active" : ""}`} key={i}>
-        <div className="row justify-content-center" style={{margin:"0"}}>
+        <div className="row justify-content-around" style={{margin:"0"}}>
           {
             relatedEvents.slice(i, i + 3)
               .map(event => (
@@ -115,22 +115,24 @@ export default function EventPage() {
             <p className="secondaryTitleText text-center">More Events </p>
           </div>
           <div className="col-12 row m-0 p-0 justify-content-center align-items-center">
-            <a className="btn mb-3 mr-1" href="#carouselContent" role="button" data-slide="prev" style={{height: "fit-content"}}>
+            {relatedEvents.length > 4 ? 
+            <a className="btn mb-3" href="#carouselContent" role="button" data-slide="prev" style={{height: "fit-content"}}>
               <i className="bi bi-chevron-left"></i>
             </a>
+            : <div></div>}
             <div>
-              <div id="carouselContent" className="carousel slide" data-ride="carousel">
+              <div id="carouselContent" className="carousel slide" data-ride="carousel" style={{width: "60vw"}}>
                 <div className="carousel-inner">
                   {eventsRender}  
                 </div>
               </div>
             </div>
+            {relatedEvents.length > 4 ? 
             <a className="btn mb-3" href="#carouselContent" role="button" data-slide="next" style={{height: "fit-content"}}>
               <i className="bi bi-chevron-right"></i>
             </a>
-          </div>
-          <div className="mx-auto mb-3">
-            <Link to="/search"><button className="btn primaryButton" style={{width:"100px"}}>More</button></Link>
+            : <div></div>}
+            
           </div>
         </div>
       </section>
