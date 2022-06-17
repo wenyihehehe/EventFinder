@@ -1,6 +1,6 @@
 import UserProfileForm from '../../components/SettingsForm/UserProfileForm';
 import PasswordForm from '../../components/SettingsForm/PasswordForm';
-import AddressForm from '../../components/SettingsForm/AddressForm';
+// import AddressForm from '../../components/SettingsForm/AddressForm';
 
 export default function Account() {
     return (
@@ -8,7 +8,7 @@ export default function Account() {
         <p className="titleText">User Account Settings</p>
         <UserProfileForm />
         <PasswordForm />
-        <AddressForm />
+        {/* <AddressForm /> */}
       </main>
     );
   }

@@ -28,10 +28,10 @@ class CreateUserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-class AddressSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Address
-        fields = "__all__"
+# class AddressSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Address
+#         fields = "__all__"
 
 class OrganizerProfileSerializer(serializers.ModelSerializer):
     class Meta:
