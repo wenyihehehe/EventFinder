@@ -90,7 +90,7 @@ export default function EventPage() {
       </section>
       {
         event.type === "Physical" ? 
-        <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
+        <section className="container-fluid row justify-content-center mt-4 mb-4" style={{margin: "0", padding: "0"}}>
           <div style={{...sectionStyle, height:"350px"}} className="row justify-content-between">
           <GoogleMapReact
             bootstrapURLKeys={{ key: "AIzaSyBx34-6ciKW6FZzEK3sff3Ae56sSAOJicI",libraries: ['places'],}}

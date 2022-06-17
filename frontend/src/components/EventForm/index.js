@@ -189,7 +189,7 @@ class EventForm extends React.Component{
                     let deleteTicketType = await Event.deleteTicketType({id})
                 }
             }
-            this.props.navigate('/dashboard/manage/' + create.data.data.id)
+            this.props.navigate('/dashboard/manage/' + create.data.data.id + '/')
         } else {
             let errorMessage = create.data.detail;
             swal("Error!", errorMessage,  "error");
@@ -315,7 +315,7 @@ class EventForm extends React.Component{
         return (
             <div className={`${style.box}`}>
                 <section>
-                    <p className="secondaryTitleText">Basic Information</p>
+                    <p className="secondaryTitleText">1. Basic Information</p>
                     <form className="needs-validation-event-form" noValidate>
                         <label htmlFor="title" className="form-label labelText">Event Title</label>
                         <div className="input-group mb-3">
@@ -328,7 +328,7 @@ class EventForm extends React.Component{
                             <div className="col-12" style={{padding: "0"}}>
                                 <img className={`${style.coverImage} img`} src={this.state.coverImage} alt="coverImage"></img>
                             </div>
-                            <input type="file" className=".form-control-file" name="coverImageInput" accept="image/*" onChange={this.onFileSelected} style={{backgroundColor: "transparent"}}/>
+                            <input type="file" className=".form-control-file" name="coverImageInput" accept="image/*" onChange={this.onCoverImageFileSelected} style={{backgroundColor: "transparent"}}/>
                         </div>
                         <label htmlFor="category" className="form-label labelText">Category</label>
                         <div className="input-group mb-3">
@@ -341,7 +341,7 @@ class EventForm extends React.Component{
                     </form>
                 </section>
                 <section>
-                    <p className="secondaryTitleText">Description</p>
+                    <p className="secondaryTitleText">2. Description</p>
                     <form className="needs-validation-event-form" noValidate>
                         <label htmlFor="description" className="form-label labelText">Event Detail</label>
                         <div className="input-group mb-3">
@@ -369,7 +369,7 @@ class EventForm extends React.Component{
                     </form>
                 </section>
                 <section>
-                    <p className="secondaryTitleText mb-0">Location</p>
+                    <p className="secondaryTitleText mb-0">3. Location</p>
                     <p className="detailSubText subTextColor">Where will the event be hosted at?</p>
                     <form className="needs-validation-event-form" noValidate>
                         <label htmlFor="type" className="form-label labelText">Type</label>
@@ -392,7 +392,7 @@ class EventForm extends React.Component{
                     </form>
                 </section>
                 <section>
-                    <p className="secondaryTitleText">Date and Time</p>
+                    <p className="secondaryTitleText">4. Date and Time</p>
                     <form className="needs-validation-event-form" noValidate>
                         <label htmlFor="startDateTime" className="form-label labelText">Event Start Date</label>
                         <div className="input-group mb-3">
@@ -407,7 +407,8 @@ class EventForm extends React.Component{
                     </form>
                 </section>
                 <section className="mb-3">
-                    <p className="secondaryTitleText">Ticket</p>
+                    <p className="secondaryTitleText mb-0">5. Ticket</p>
+                    <p className="detailSubText subTextColor mb-3">Create tickets for your event.</p>
                     <TicketTypeTable ticketType={this.state.ticketType} handleTicketType={this.handleTicketType} handleDeleteTicketType={this.handleDeleteTicketType}/>
                     <div className="invalidFeedback" style={{marginLeft: "1rem"}}>At least one ticket type should be created.</div>
                 </section>

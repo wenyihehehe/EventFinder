@@ -117,7 +117,7 @@ class TicketTypeTable extends React.Component{
                 const newTicketType = this.props.ticketType.filter((item, index) => index !== deleteIndex);
                 this.props.handleTicketType(newTicketType)
             } else {
-                swal("Error!", "This ticket type cannot be deleted with either of the following reasons: (1) Event is published/ended (2) At least 1 ticket has been sold",  "error");
+                swal("Error!", "This ticket type cannot be deleted with either of the following reasons: (1) Event is ended (2) At least 1 ticket has been sold",  "error");
             }
         } else {
             const newTicketType = this.props.ticketType.filter((item, index) => index !== deleteIndex);
@@ -245,7 +245,7 @@ class TicketTypeTable extends React.Component{
                         </div>
                         <div className="form-group">
                             <label htmlFor="quantity" className="form-label labelText">Quantity:</label>
-                            <input type="number" className="form-control" name="quantity" value={this.state.quantity} onChange={this.handleInputChange} required min={0} max={100}/>
+                            <input type="number" className="form-control" name="quantity" value={this.state.quantity} onChange={this.handleInputChange} required min={0}/>
                             <div className="invalid-feedback">This field is required.</div>
                         </div>
                     </form> 

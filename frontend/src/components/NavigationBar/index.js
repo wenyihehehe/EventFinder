@@ -74,7 +74,7 @@ export default function NavigationBar(props) {
               <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                 <a className="dropdown-item" href="/profile/user/view">User Profile</a>
                 <a className="dropdown-item" href="/profile/organizer/view">Organizer Profile</a>
-                <a className="dropdown-item" href="/dashboard">Event dashboard</a>
+                <a className="dropdown-item" href="/dashboard">My Events</a>
                 <a className="dropdown-item" href="/settings/account">Settings</a>
                 <p className="dropdown-item mb-0" onClick={handleSignOut}>Sign Out</p>
               </div>

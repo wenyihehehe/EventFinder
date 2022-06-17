@@ -18,8 +18,12 @@ body {
   color: #241C33;
 }
 
-p{
+*{
   caret-color: transparent;
+}
+
+input{
+  caret-color: black;
 }
 
 code {
