@@ -89,6 +89,7 @@ export default function Home() {
 
   const handleCategoryClick = (value) =>{
     setCategory(value)
+    setPage(1)
     var categoryNavs = document.querySelectorAll('.category-nav');
     [].forEach.call(categoryNavs, function(categoryNav) {
       categoryNav.classList.remove('active');
