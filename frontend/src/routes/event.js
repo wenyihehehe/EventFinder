@@ -36,7 +36,9 @@ export default function EventPage() {
   const imageStyle = {
     width: "100%",
     height: "480px",
-    objectFit: "cover"
+    objectFit: "cover",
+    borderTop: "0.5px solid rgba(0,0,0,.125)",
+    borderBottom: "0.5px solid rgba(0,0,0,.125)"
   }
 
   const sectionStyle = {

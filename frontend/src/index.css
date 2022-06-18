@@ -22,7 +22,7 @@ body {
   caret-color: transparent;
 }
 
-input{
+input, textarea{
   caret-color: black;
 }
 
@@ -99,6 +99,12 @@ p {
 }
 
 .secondaryButton:hover{
+  background: #FDFDFD !important;
+  box-shadow: 0 0 0 0.2rem rgba(250, 186, 64, 0.25);
+}
+
+.outlinedButton:hover{
+  border-color: #FABA40;
   background: #FDFDFD !important;
   box-shadow: 0 0 0 0.2rem rgba(250, 186, 64, 0.25);
 }
@@ -303,10 +309,16 @@ p {
   font-weight: 400;
   font-size: 1rem !important;
   height: 400px !important;
+  caret-color: black;
 }
 
 .ql-editor{
   line-height: 20px !important;
+  caret-color: black;
+}
+
+.ql-blank, .ql-blank br{
+  caret-color: black;
 }
 
 /* Custom Invalid feedback for normal and location */
@@ -356,6 +368,7 @@ p {
 
 .nav-item{
   align-self: center;
+  cursor: pointer;
 }
 
 /* Custom dropdown-item */
@@ -508,4 +521,25 @@ p {
 .helpText:hover{
   color: #F58444;
   text-decoration: underline;
+}
+
+/* Remove arrow in input type number */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.carousel-indicators .active {
+  background-color: #F58444;
+}
+
+.carousel-indicators li{
+  background-color: rgba(220,220,220,0.5);
 }

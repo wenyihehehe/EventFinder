@@ -50,10 +50,10 @@ class EventDescriptionBox extends React.Component{
                                     )
                                 })}
                             </div>
-                            <button className={`carousel-control-prev ${style.carouselButton}`} type="button" data-target="#eventImageCarousel" data-slide="prev">
+                            <button className={`carousel-control-prev ${style.carouselButton}`} type="button" data-target="#eventImageCarousel" data-slide="prev" style={{color: "darkgray"}}>
                                 <i className="bi bi-chevron-left"></i>
                             </button>
-                            <button className={`carousel-control-next ${style.carouselButton}`} type="button" data-target="#eventImageCarousel" data-slide="next">
+                            <button className={`carousel-control-next ${style.carouselButton}`} type="button" data-target="#eventImageCarousel" data-slide="next" style={{color: "darkgray"}}>
                                 <i className="bi bi-chevron-right"></i>
                             </button>
                         </div>

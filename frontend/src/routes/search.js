@@ -158,16 +158,16 @@ export default function Search() {
         <div className="mb-2">
           <div className="col-12 mb-2 subTextColor" style={{padding:"0", margin:"0"}}>
             <span className="bi bi-search" style={{position:"absolute", top: "0.5rem", left:"1rem"}}></span>
-            <input type="text" className="form-control detailMainText" placeholder="Search events" style={{textIndent:"2rem", height:"40px", border: "0.5px solid rgba(0,0,0,.1)"}} value={searchParams} onChange={(e)=> setSearchParams(e.target.value)}></input>
+            <input type="text" className="form-control detailMainText" placeholder="Search events" style={{textIndent:"2rem", height:"40px", border: "0.5px solid rgba(0,0,0,.1)"}} value={searchParams} onChange={(e)=> {setSearchParams(e.target.value); setPage(1)}}></input>
           </div>
           <div className="row m-0">
-            <select className="custom-select form-control col mr-2 detailMainText" style={{height: "40px"}} name="category" value={category} onChange={(e)=>setCategory(e.target.value)}>
+            <select className="custom-select form-control col mr-2 detailMainText" style={{height: "40px"}} name="category" value={category} onChange={(e)=>{setCategory(e.target.value); setPage(1)}}>
               <option value={"all"}>All Categories</option>
               {categoryOption.map((option)=>(
                 <option value={option} key={option}>{option}</option>
                 ))}
             </select>
-            <select className="custom-select form-control col mr-2 detailMainText" style={{height: "40px"}} name="type" value={type} onChange={(e)=>setType(e.target.value)}>
+            <select className="custom-select form-control col mr-2 detailMainText" style={{height: "40px"}} name="type" value={type} onChange={(e)=>{setType(e.target.value); setPage(1)}}>
               <option value="all">All types</option>
               <option value="Physical">Physical</option>
               <option value="Online">Online</option>

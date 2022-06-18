@@ -129,7 +129,7 @@ export default function Home() {
       ))
     );
   } else {
-    categoryEventsRender.push(<p className="detailSubText" key="none">No event is found.</p>);
+    categoryEventsRender.push(<p className="detailSubText mb-3" key="none">No event is found.</p>);
   }
 
   return (
@@ -156,10 +156,10 @@ export default function Home() {
                       )
                   })}
               </div>
-              <button style={{background: "linear-gradient(to right, rgba(255,255,255,0.8) , rgba(255,255,255,0))", border: "none"}} className={`carousel-control-prev`} type="button" data-target="#eventImageCarousel" data-slide="prev">
+              <button style={{background: "linear-gradient(to right, rgba(255,255,255,0.8) , rgba(255,255,255,0))", border: "none", color: "darkgray"}} className={`carousel-control-prev`} type="button" data-target="#eventImageCarousel" data-slide="prev">
                   <i className="bi bi-chevron-left"></i>
               </button>
-              <button style={{background: "linear-gradient(to right, rgba(255,255,255,0) , rgba(255,255,255,0.8))", border: "none"}} className={`carousel-control-next`} type="button" data-target="#eventImageCarousel" data-slide="next">
+              <button style={{background: "linear-gradient(to right, rgba(255,255,255,0) , rgba(255,255,255,0.8))", border: "none", color: "darkgray"}} className={`carousel-control-next`} type="button" data-target="#eventImageCarousel" data-slide="next">
                   <i className="bi bi-chevron-right"></i>
               </button>
           </div>
@@ -211,9 +211,14 @@ export default function Home() {
                 {categoryEventsRender}
               </div>
             </div>
+            {maxPage}
+            {page}
+            
+            {maxPage > 1 && page < maxPage ?
             <div className="mx-auto mb-3">
               <button className="btn primaryButton" style={{width: "100px"}} onClick={handleClickMore}>More</button>
             </div>
+            : <div></div>}
           </div>
         </section>
         <Footer/>

@@ -26,7 +26,7 @@ class EventForm extends React.Component{
             latitude: "",
             longitude: "",
             startDateTime: moment().format("YYYY-MM-DDThh:mm"),
-            endDateTime: moment().add(1, 'days').format("YYYY-MM-DDThh:mm"),
+            endDateTime: moment().add(10, 'minutes').format("YYYY-MM-DDThh:mm"),
             ticketType: [],
             status: "Draft", //default
             deleteTicketType : [],
@@ -144,7 +144,9 @@ class EventForm extends React.Component{
                 let errorMessage = create.data.detail;
                 swal("Error!", errorMessage,  "error");
             }
-        } 
+        } else {
+            swal("Error!", "Invalid field(s)", "error")
+        }
     }
 
     async handleSave(event){
@@ -397,12 +399,12 @@ class EventForm extends React.Component{
                         <label htmlFor="startDateTime" className="form-label labelText">Event Start Date</label>
                         <div className="input-group mb-3">
                             <input type="datetime-local" className="form-control" name="startDateTime" value={this.state.startDateTime} onChange={this.handleInputChange} required min={minDate}/>
-                            <div className="invalid-feedback">This field is required.</div>
+                            <div className="invalid-feedback">This field is invalid.</div>
                         </div>
                         <label htmlFor="endDateTime" className="form-label labelText">Event End Date</label>
                         <div className="input-group mb-3">
-                            <input type="datetime-local" className="form-control" name="endDateTime" value={this.state.endDateTime} onChange={this.handleInputChange} required min={this.state.startDateTime || minDate}/>
-                            <div className="invalid-feedback">This field is required.</div>
+                            <input type="datetime-local" className="form-control" name="endDateTime" value={this.state.endDateTime} onChange={this.handleInputChange} required min={moment(this.state.startDateTime).add(1, "minutes").format("YYYY-MM-DDThh:mm")|| minDate}/>
+                            <div className="invalid-feedback">This field is invalid.</div>
                         </div>
                     </form>
                 </section>

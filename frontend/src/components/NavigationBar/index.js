@@ -50,9 +50,9 @@ export default function NavigationBar(props) {
         {
           location.pathname === "/search" ? "" : 
           <div className="col-lg-6 col-12 p-0 row m-0 my-2 my-lg-0 subTextColor input-group" style={{width: "40vw"}}>
-            <input type="text" className="col form-control detailMainText" placeholder="Search events" style={{height:"40px", border: "0.5px solid rgba(0,0,0,.1)"}} value={search} onChange={(e)=>setSearch(e.target.value)}></input>
+            <input type="text" className="col form-control detailMainText" placeholder="Search events" style={{height:"40px", border: "0.5px solid rgba(0,0,0,.1)"}} value={search} onChange={(e)=>setSearch(e.target.value)} onKeyPress={(e)=>{if(e.key==="Enter") onSearch()}}></input>
             <div className="input-group-append">
-              <span className="input-group-text" onClick={onSearch} style={{backgroundColor: "#FABA40", borderColor: "#FABA40", color: "#FEFEFE"}}>
+              <span className="input-group-text" onClick={onSearch} style={{backgroundColor: "#FABA40", borderColor: "#FABA40", color: "#FEFEFE", cursor: "pointer"}}>
                 <i className="bi bi-search"></i>
               </span>
             </div>
