@@ -211,9 +211,6 @@ export default function Home() {
                 {categoryEventsRender}
               </div>
             </div>
-            {maxPage}
-            {page}
-            
             {maxPage > 1 && page < maxPage ?
             <div className="mx-auto mb-3">
               <button className="btn primaryButton" style={{width: "100px"}} onClick={handleClickMore}>More</button>
