@@ -47,41 +47,41 @@ class User(AbstractUser):
 '''
 Extended from User
 '''
-class Address(models.Model):
-    COUNTRY = (
-        ("Malaysia", "Malaysia"),
-    )
+# class Address(models.Model):
+#     COUNTRY = (
+#         ("Malaysia", "Malaysia"),
+#     )
 
-    STATE = (
-        ("Johor", "Johor"),
-        ("Kedah", "Kedah"),
-        ("Kelantan", "Kelantan"),
-        ("Malacca", "Malacca"),
-        ("Negeri Sembilan", "Negeri Sembilan"),
-        ("Pahang", "Pahang"),
-        ("Penang", "Penang"),
-        ("Perak", "Perak"),
-        ("Perlis", "Perlis"),
-        ("Sabah", "Sabah"),
-        ("Sarawak", "Sawarak"),
-        ("Selangor", "Selangor"),
-        ("Terengganu", "Terengganu"),
-        ("Kuala Lumpur", "Kuala Lumpur"),
-        ("Labuan", "Labuan"),
-        ("Putrajaya", "Putrajaya"),
-    )
+#     STATE = (
+#         ("Johor", "Johor"),
+#         ("Kedah", "Kedah"),
+#         ("Kelantan", "Kelantan"),
+#         ("Malacca", "Malacca"),
+#         ("Negeri Sembilan", "Negeri Sembilan"),
+#         ("Pahang", "Pahang"),
+#         ("Penang", "Penang"),
+#         ("Perak", "Perak"),
+#         ("Perlis", "Perlis"),
+#         ("Sabah", "Sabah"),
+#         ("Sarawak", "Sawarak"),
+#         ("Selangor", "Selangor"),
+#         ("Terengganu", "Terengganu"),
+#         ("Kuala Lumpur", "Kuala Lumpur"),
+#         ("Labuan", "Labuan"),
+#         ("Putrajaya", "Putrajaya"),
+#     )
 
-    id = models.AutoField(primary_key=True)
-    userId = models.OneToOneField(User, on_delete=models.CASCADE)
-    address = models.CharField(max_length=100)
-    address2 = models.CharField(max_length=100)
-    city = models.CharField(max_length=50)
-    country = models.CharField(max_length=8, choices=COUNTRY)
-    postalCode = models.CharField(max_length=5)
-    state = models.CharField(max_length=15, choices=STATE)
+#     id = models.AutoField(primary_key=True)
+#     userId = models.OneToOneField(User, on_delete=models.CASCADE)
+#     address = models.CharField(max_length=100)
+#     address2 = models.CharField(max_length=100)
+#     city = models.CharField(max_length=50)
+#     country = models.CharField(max_length=8, choices=COUNTRY)
+#     postalCode = models.CharField(max_length=5)
+#     state = models.CharField(max_length=15, choices=STATE)
 
-    def __str__(self):
-        return self.address
+#     def __str__(self):
+#         return self.address
 
 '''
 Extended from User

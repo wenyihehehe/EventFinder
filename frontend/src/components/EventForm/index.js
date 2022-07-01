@@ -26,8 +26,9 @@ class EventForm extends React.Component{
             latitude: "",
             longitude: "",
             startDateTime: moment().format("YYYY-MM-DDThh:mm"),
-            endDateTime: moment().add(1, 'days').format("YYYY-MM-DDThh:mm"),
+            endDateTime: moment().add(10, 'minutes').format("YYYY-MM-DDThh:mm"),
             ticketType: [],
+            status: "Draft", //default
             deleteTicketType : [],
         };
         this.getData = this.getData.bind(this);
@@ -75,6 +76,7 @@ class EventForm extends React.Component{
                 startDateTime: moment(event.startDateTime).format("YYYY-MM-DDThh:mm"),
                 endDateTime: moment(event.endDateTime).format("YYYY-MM-DDThh:mm"),
                 ticketType: event.ticketType,
+                status: event.status,
             }, () => {
                 this.getImagesToImageInput()
             })
@@ -142,7 +144,9 @@ class EventForm extends React.Component{
                 let errorMessage = create.data.detail;
                 swal("Error!", errorMessage,  "error");
             }
-        } 
+        } else {
+            swal("Error!", "Invalid field(s)", "error")
+        }
     }
 
     async handleSave(event){
@@ -187,7 +191,7 @@ class EventForm extends React.Component{
                     let deleteTicketType = await Event.deleteTicketType({id})
                 }
             }
-            this.props.navigate('/dashboard/manage/' + create.data.data.id)
+            this.props.navigate('/dashboard/manage/' + create.data.data.id + '/')
         } else {
             let errorMessage = create.data.detail;
             swal("Error!", errorMessage,  "error");
@@ -313,7 +317,7 @@ class EventForm extends React.Component{
         return (
             <div className={`${style.box}`}>
                 <section>
-                    <p className="secondaryTitleText">Basic Information</p>
+                    <p className="secondaryTitleText">1. Basic Information</p>
                     <form className="needs-validation-event-form" noValidate>
                         <label htmlFor="title" className="form-label labelText">Event Title</label>
                         <div className="input-group mb-3">
@@ -326,7 +330,7 @@ class EventForm extends React.Component{
                             <div className="col-12" style={{padding: "0"}}>
                                 <img className={`${style.coverImage} img`} src={this.state.coverImage} alt="coverImage"></img>
                             </div>
-                            <input type="file" className=".form-control-file" name="coverImageInput" accept="image/*" onChange={this.onFileSelected} style={{backgroundColor: "transparent"}}/>
+                            <input type="file" className=".form-control-file" name="coverImageInput" accept="image/*" onChange={this.onCoverImageFileSelected} style={{backgroundColor: "transparent"}}/>
                         </div>
                         <label htmlFor="category" className="form-label labelText">Category</label>
                         <div className="input-group mb-3">
@@ -339,7 +343,7 @@ class EventForm extends React.Component{
                     </form>
                 </section>
                 <section>
-                    <p className="secondaryTitleText">Description</p>
+                    <p className="secondaryTitleText">2. Description</p>
                     <form className="needs-validation-event-form" noValidate>
                         <label htmlFor="description" className="form-label labelText">Event Detail</label>
                         <div className="input-group mb-3">
@@ -367,7 +371,7 @@ class EventForm extends React.Component{
                     </form>
                 </section>
                 <section>
-                    <p className="secondaryTitleText mb-0">Location</p>
+                    <p className="secondaryTitleText mb-0">3. Location</p>
                     <p className="detailSubText subTextColor">Where will the event be hosted at?</p>
                     <form className="needs-validation-event-form" noValidate>
                         <label htmlFor="type" className="form-label labelText">Type</label>
@@ -381,32 +385,36 @@ class EventForm extends React.Component{
                             ((this.props.eventId && this.state.id) || (!this.props.eventId)) && 
                             <SearchMap handleLocation={this.handleLocation} location={this.state.location} latitude={this.state.latitude} longitude={this.state.longitude}/>
                             :
-                            <input type="text" className="form-control mb-3" name="location" value={this.state.location} onChange={this.handleInputChange} required ></input>
+                            <div>
+                                <input id="locationField" type="text" className="form-control mb-3" name="location" value={this.state.location} onChange={this.handleInputChange} required ></input>
+                                <div className="invalid-location-feedback">This location is invalid.</div>
+                            </div>
                         }
                         
                     </form>
                 </section>
                 <section>
-                    <p className="secondaryTitleText">Date and Time</p>
+                    <p className="secondaryTitleText">4. Date and Time</p>
                     <form className="needs-validation-event-form" noValidate>
                         <label htmlFor="startDateTime" className="form-label labelText">Event Start Date</label>
                         <div className="input-group mb-3">
                             <input type="datetime-local" className="form-control" name="startDateTime" value={this.state.startDateTime} onChange={this.handleInputChange} required min={minDate}/>
-                            <div className="invalid-feedback">This field is required.</div>
+                            <div className="invalid-feedback">This field is invalid.</div>
                         </div>
                         <label htmlFor="endDateTime" className="form-label labelText">Event End Date</label>
                         <div className="input-group mb-3">
-                            <input type="datetime-local" className="form-control" name="endDateTime" value={this.state.endDateTime} onChange={this.handleInputChange} required min={this.state.startDateTime || minDate}/>
-                            <div className="invalid-feedback">This field is required.</div>
+                            <input type="datetime-local" className="form-control" name="endDateTime" value={this.state.endDateTime} onChange={this.handleInputChange} required min={moment(this.state.startDateTime).add(1, "minutes").format("YYYY-MM-DDThh:mm")|| minDate}/>
+                            <div className="invalid-feedback">This field is invalid.</div>
                         </div>
                     </form>
                 </section>
                 <section className="mb-3">
-                    <p className="secondaryTitleText">Ticket</p>
+                    <p className="secondaryTitleText mb-0">5. Ticket</p>
+                    <p className="detailSubText subTextColor mb-3">Create tickets for your event.</p>
                     <TicketTypeTable ticketType={this.state.ticketType} handleTicketType={this.handleTicketType} handleDeleteTicketType={this.handleDeleteTicketType}/>
                     <div className="invalidFeedback" style={{marginLeft: "1rem"}}>At least one ticket type should be created.</div>
                 </section>
-                <button type="submit" className="btn secondaryButton mt-1 mr-3" onClick={this.handleSave}>Save as Draft</button>
+                <button type="submit" className="btn secondaryButton mt-1 mr-3" onClick={this.handleSave} disabled={this.state.status!=="Draft"}>Save as Draft</button>
                 <button type="submit" className="btn primaryButton mt-1" onClick={this.handlePublish}>Publish Event</button>
             </div>
         );

@@ -35,6 +35,7 @@ class MapSearchInput extends React.Component {
 
     clearSearchBox() {
         this.searchInput.value = '';
+        this.props.clearLocation();
     }
 
     handleKeyDown(e){

@@ -15,7 +15,7 @@ class EventCard extends React.Component{
         const event = this.props.event;
         return (
             <Link to={`/event/${event.id}/`}>
-                <div className={`${this.props.className} card ${style.card}  mb-3 mr-4`} style={{ padding:"0"}}>
+                <div className={`${this.props.className} card ${style.card}  mb-3`} style={{ padding:"0"}}>
                     <img src={event.coverImage} className="card-img-top" alt="..." />
                     <div className="card-body">
                         <p className="card-subtitle detailMainText mainYellow mb-1">{moment(this.state.eventStartDateTime).format('MMM Do, dddd [at] LT')}</p>

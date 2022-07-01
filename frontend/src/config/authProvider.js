@@ -1,10 +1,11 @@
 import { useState, createContext, useContext, useEffect } from 'react';
-import { useLocation, Navigate, useParams } from 'react-router-dom';
+import { useLocation, Navigate, useParams, useNavigate } from 'react-router-dom';
 import React from 'react';
 import Cookie from "js-cookie";
 import * as Auth from '../services/auth';
 import * as Permission from '../services/permission';
 import { get } from '../services/network';
+import swal from 'sweetalert';
 
 let AuthContext = createContext({});
 
@@ -85,6 +86,7 @@ function RequireAuthGotOrganizerProfile({ children }){
     let auth = useAuth();
     let [organizerProfile, setOrganizerProfile] = useState({});
     let location = useLocation();
+    let navigate = useNavigate();
 
     const getPermission = async() => {
         if(!auth.token){
@@ -106,7 +108,15 @@ function RequireAuthGotOrganizerProfile({ children }){
         if(organizerProfile.status === 'OK'){
             return children;
         }
-        return <Navigate to="/createorganizerprofile" state={{ from: location }} replace/>;   
+        swal({
+            buttons: false,
+            timer: 2000,
+            icon: "info",
+            text: "To start create event, you will need to create an organizer profile. \n Redirecting to create organizer profile page...",
+        }).then(()=>{
+            navigate("/createorganizerprofile", {state: { from: location }, replace: true});
+        })
+        // return <Navigate to="/createorganizerprofile" state={{ from: location }} replace/>;   
     }
 
     return (
@@ -122,6 +132,7 @@ function RequireAuthGotOrganizerProfileIsOrganizer({ children }){
     let eventId = parseInt(params.eventId, 10);
     let [organizerProfile, setOrganizerProfile] = useState({});
     let location = useLocation();
+    let navigate = useNavigate();
 
     const getPermission = async() => {
         if(!auth.token){
@@ -143,7 +154,15 @@ function RequireAuthGotOrganizerProfileIsOrganizer({ children }){
         if(organizerProfile.status === 'OK'){
             return children;
         } else if (organizerProfile.detail === "Organizer profile not found"){
-            return <Navigate to="/createorganizerprofile" replace/>;    
+            swal({
+                buttons: false,
+                timer: 2000,
+                icon: "info",
+                text: "To view event dashboard, you will need to create an organizer profile. \n Redirecting to create organizer profile page...",
+            }).then(()=>{
+                navigate("/createorganizerprofile", {replace: true});
+            })
+            // return <Navigate to="/createorganizerprofile" replace/>;     
         } else {
             return <Navigate to="/notfound" replace/>;    
         }

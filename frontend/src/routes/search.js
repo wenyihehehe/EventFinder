@@ -10,7 +10,7 @@ export default function Search() {
   let navigate = useNavigate();
   let pathLocation = useLocation();
   const [events, setEvents] = useState([])
-  const [searchParams, setSearchParams] = useState("")
+  const [searchParams, setSearchParams] = useState(pathLocation.state.searchParams ?? "")
   const [category, setCategory] = useState("all")
   const [categoryOption, setCategoryOption] = useState([])
   const [type, setType] = useState("all")
@@ -31,7 +31,6 @@ export default function Search() {
   });
 
   const getData = async() =>{
-    setSearchParams(pathLocation.state.searchParams)
     let category = await Util.getCategory()
     setCategoryOption(category.data)
   }
@@ -72,11 +71,15 @@ export default function Search() {
     if(!mapItem.mapInstance) return;
     const bounds = new window.google.maps.LatLngBounds();
     events.forEach((event, index) => {
-        const position = new window.google.maps.LatLng(event.latitude, event.longitude);
+      if(event.latitude != null){
+        let position = new window.google.maps.LatLng(event.latitude, event.longitude);
         bounds.extend(position);
+      }
     });
-    const position = new window.google.maps.LatLng(location[0], location[1]);
-    bounds.extend(position);
+    if(location[0] != null){
+      const position = new window.google.maps.LatLng(location[0], location[1]);
+      bounds.extend(position);
+    }
     mapItem.mapInstance.fitBounds(bounds)
   }
 
@@ -89,6 +92,10 @@ export default function Search() {
     });
     setLocation([place.geometry.location.lat(),place.geometry.location.lng()])
   };
+
+  const clearLocation = () => {
+    setLocation([]);
+  }
 
   const handleChange = ({ center, zoom }) => {
     const checkedZoom = zoom > 15 ? 15 : zoom
@@ -128,7 +135,7 @@ export default function Search() {
             lat: 3.067891823231041, 
             lng: 101.60351894232923
           });
-          setLocation([3.067891823231041, 101.60351894232923])
+          
         }
       );
     } 
@@ -151,22 +158,22 @@ export default function Search() {
         <div className="mb-2">
           <div className="col-12 mb-2 subTextColor" style={{padding:"0", margin:"0"}}>
             <span className="bi bi-search" style={{position:"absolute", top: "0.5rem", left:"1rem"}}></span>
-            <input type="text" className="form-control detailMainText" placeholder="Search events" style={{textIndent:"2rem", height:"40px", border: "0.5px solid rgba(0,0,0,.1)"}} value={searchParams} onChange={(e)=> setSearchParams(e.target.value)}></input>
+            <input type="text" className="form-control detailMainText" placeholder="Search events" style={{textIndent:"2rem", height:"40px", border: "0.5px solid rgba(0,0,0,.1)"}} value={searchParams} onChange={(e)=> {setSearchParams(e.target.value); setPage(1)}}></input>
           </div>
           <div className="row m-0">
-            <select className="custom-select form-control col mr-2 detailMainText" style={{height: "40px"}} name="category" value={category} onChange={(e)=>setCategory(e.target.value)}>
+            <select className="custom-select form-control col mr-2 detailMainText" style={{height: "40px"}} name="category" value={category} onChange={(e)=>{setCategory(e.target.value); setPage(1)}}>
               <option value={"all"}>All Categories</option>
               {categoryOption.map((option)=>(
                 <option value={option} key={option}>{option}</option>
                 ))}
             </select>
-            <select className="custom-select form-control col mr-2 detailMainText" style={{height: "40px"}} name="type" value={type} onChange={(e)=>setType(e.target.value)}>
+            <select className="custom-select form-control col mr-2 detailMainText" style={{height: "40px"}} name="type" value={type} onChange={(e)=>{setType(e.target.value); setPage(1)}}>
               <option value="all">All types</option>
               <option value="Physical">Physical</option>
               <option value="Online">Online</option>
             </select>
             {(mapItem.mapApiLoaded && mapItem.mapApi.places) && (
-              <MapSearchInput location={location.location} map={mapItem.mapInstance} mapApi={mapItem.mapApi} addplace={addPlace} setCurrentLocation={setCurrentLocation}/>
+              <MapSearchInput location={location.location} map={mapItem.mapInstance} mapApi={mapItem.mapApi} addplace={addPlace} setCurrentLocation={setCurrentLocation} clearLocation={clearLocation}/>
             )}
           </div>
         </div>

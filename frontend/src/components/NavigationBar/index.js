@@ -28,9 +28,10 @@ export default function NavigationBar(props) {
     borderRadius: "100%",
     width: "25px",
     height: "25px",
-    paddingRight: "0.25rem",
+    marginRight: "0.25rem",
     objectFit: "cover",
     boxSizing: "content-box",
+    border: "0.5px solid rgba(0,0,0,.125)"
   }
 
   const handleSignOut = () =>{
@@ -49,9 +50,9 @@ export default function NavigationBar(props) {
         {
           location.pathname === "/search" ? "" : 
           <div className="col-lg-6 col-12 p-0 row m-0 my-2 my-lg-0 subTextColor input-group" style={{width: "40vw"}}>
-            <input type="text" className="col form-control detailMainText" placeholder="Search events" style={{height:"40px", border: "0.5px solid rgba(0,0,0,.1)"}} value={search} onChange={(e)=>setSearch(e.target.value)}></input>
+            <input type="text" className="col form-control detailMainText" placeholder="Search events" style={{height:"40px", border: "0.5px solid rgba(0,0,0,.1)"}} value={search} onChange={(e)=>setSearch(e.target.value)} onKeyPress={(e)=>{if(e.key==="Enter") onSearch()}}></input>
             <div className="input-group-append">
-              <span className="input-group-text" onClick={onSearch} style={{backgroundColor: "#FABA40", borderColor: "#FABA40", color: "#FEFEFE"}}>
+              <span className="input-group-text" onClick={onSearch} style={{backgroundColor: "#FABA40", borderColor: "#FABA40", color: "#FEFEFE", cursor: "pointer"}}>
                 <i className="bi bi-search"></i>
               </span>
             </div>
@@ -59,7 +60,7 @@ export default function NavigationBar(props) {
         }
         {
           props.authContext.token ? 
-          <ul className="col-lg-auto col-12 p-0 navbar-nav">
+          <ul className="col-lg-auto col-12 p-0 navbar-nav ml-auto">
             <li className="nav-item">
               <Link className="nav-link" style={{color: "#FABA40"}} to="/dashboard/create">Create Event</Link>
             </li>
@@ -74,7 +75,7 @@ export default function NavigationBar(props) {
               <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                 <a className="dropdown-item" href="/profile/user/view">User Profile</a>
                 <a className="dropdown-item" href="/profile/organizer/view">Organizer Profile</a>
-                <a className="dropdown-item" href="/dashboard">Event dashboard</a>
+                <a className="dropdown-item" href="/dashboard">My Events</a>
                 <a className="dropdown-item" href="/settings/account">Settings</a>
                 <p className="dropdown-item mb-0" onClick={handleSignOut}>Sign Out</p>
               </div>

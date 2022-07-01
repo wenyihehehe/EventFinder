@@ -51,34 +51,34 @@ class UserViewSet(ModelViewSet):
         token, created = Token.objects.get_or_create(user=user)
         return Response({"status": "OK", "data": serializer.data, "token": token.key})
 
-class AddressViewSet(ModelViewSet):
-    queryset = Address.objects.all()
-    serializer_class = AddressSerializer
+# class AddressViewSet(ModelViewSet):
+#     queryset = Address.objects.all()
+#     serializer_class = AddressSerializer
 
-    def list(self, request, *args, **kwargs):
-        queryset = Address.objects.filter(userId=request.user.id)
+#     def list(self, request, *args, **kwargs):
+#         queryset = Address.objects.filter(userId=request.user.id)
 
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+#         page = self.paginate_queryset(queryset)
+#         if page is not None:
+#             serializer = self.get_serializer(page, many=True)
+#             return self.get_paginated_response(serializer.data)
+#         serializer = self.get_serializer(queryset, many=True)
+#         return Response(serializer.data)
 
-    def create(self, request):
-        request.data['userId'] = request.user.id
-        address = Address.objects.filter(userId=request.user.id).first()
-        if(address):
-            serializer = self.get_serializer(address, data=request.data)
-        else: 
-            serializer = self.get_serializer(data=request.data)
-        if not serializer.is_valid():
-            print(serializer.errors)
-            return Response(
-                {"status": "ERROR", "detail": "Unable to update/create address"}
-            )
-        serializer.save()
-        return Response({"status": "OK", "data": serializer.data})
+#     def create(self, request):
+#         request.data['userId'] = request.user.id
+#         address = Address.objects.filter(userId=request.user.id).first()
+#         if(address):
+#             serializer = self.get_serializer(address, data=request.data)
+#         else: 
+#             serializer = self.get_serializer(data=request.data)
+#         if not serializer.is_valid():
+#             print(serializer.errors)
+#             return Response(
+#                 {"status": "ERROR", "detail": "Unable to update/create address"}
+#             )
+#         serializer.save()
+#         return Response({"status": "OK", "data": serializer.data})
 
 class OrganizerProfileViewSet(ModelViewSet):
     queryset = OrganizerProfile.objects.all()
@@ -254,7 +254,7 @@ class GetRegistrationsView(generics.CreateAPIView):
 class GetOrganizerProfileEventReviewsView(APIView):
     def get(self, request):
         user = OrganizerProfile.objects.filter(userId=request.user.id)
-        serializer = GetOrganizerProfileEventReviewSerializer(instance=user, many=True, context={"request": request})
+        serializer = GetOrganizerProfileEventReviewSerializer(instance=user, many=True, context={"request": request, "owner": True})
         return Response({"data": serializer.data})
 
 class GetOrganizingEventView(APIView):
@@ -367,7 +367,7 @@ class GetTicketTypeStatusView(APIView):
     def get(self, request, pk=None):
         ticketType = TicketType.objects.get(pk=pk)
         eventStatus = ticketType.eventId.status
-        if (eventStatus != "Draft" and ticketType.has_ticketSold()):
+        if (eventStatus == "Ended" or ticketType.has_ticketSold()):
             return Response({"canDelete": False})
         return Response({"canDelete": True})
 
@@ -376,7 +376,7 @@ class GetEventRegistrationsView(generics.CreateAPIView):
     pagination_class = BasicPagination
 
     def post(self, request, *args, **kwargs):
-        registrations = Registration.objects.filter(eventId=request.data['eventId'])
+        registrations = Registration.objects.filter(eventId=request.data['eventId']).order_by('orderDateTime')
         page = self.paginate_queryset(registrations)
         if page is not None:
             serializer = GetEventRegistrationsSerializer(page, many=True, context={"request": request})
@@ -479,7 +479,7 @@ class GetEventSearchPageView(generics.CreateAPIView):
     pagination_class = EightPagination
 
     def post(self, request, *args, **kwargs):
-        queryset = Event.objects.filter(status='Published').order_by('id')
+        queryset = Event.objects.filter(status='Published').order_by('startDateTime')
         category = request.data["category"]
         type = request.data["type"]
         location = request.data["location"]
@@ -513,7 +513,7 @@ class GetOrganizerProfileEventReviewsNoAuthView(APIView):
 
     def post(self, request):
         user = OrganizerProfile.objects.filter(pk=request.data['organizerId'])
-        serializer = GetOrganizerProfileEventReviewSerializer(instance=user, many=True, context={"request": request})
+        serializer = GetOrganizerProfileEventReviewSerializer(instance=user, many=True, context={"request": request, "owner": False})
         return Response({"data": serializer.data})
 
 class GetOrganizingEventNoAuthView(APIView):

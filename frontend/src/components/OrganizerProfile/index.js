@@ -46,7 +46,7 @@ class OrganizerProfile extends React.Component{
                 <p className="secondaryTitleText importantTextColor mb-1">{this.state.organizerName}&nbsp;{this.props.organizerId ? "" : <Link to='/settings/organizeraccount'><i className="bi bi-pencil-fill" style={{fontSize: 'medium',verticalAlign: 'middle'}}></i></Link>}</p>
                 <p className="headingText mb-1">Description:</p>
                 <p className="detailMainText mb-2 twoLineTextClamp">{this.state.description ? this.state.description : "Not available"}</p>
-                <p className="detailMainText subTextColor">{this.state.events} Organize | {this.state.reviews} Review</p>
+                <p className="detailMainText subTextColor">{this.state.events} Event | {this.state.reviews} Review</p>
             </div>
         </div>
         )

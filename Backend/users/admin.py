@@ -7,7 +7,7 @@ class CustomUserAdmin(UserAdmin):
     model = User
     add_form = CustomUserCreationForm
 
-    list_display = ('id', 'email', 'firstName','lastName','contactNumber','address')
+    list_display = ('id', 'email', 'firstName','lastName','contactNumber')
 
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
@@ -33,11 +33,11 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('email',)
     ordering = ('email',)
 
-    def address(self, x):
-        return x.address
+#     def address(self, x):
+#         return x.address
 
-class AddressAdmin(admin.ModelAdmin):
-    list_display = ('id', 'address', 'address2', 'userId')
+# class AddressAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'address', 'address2', 'userId')
 
 class OrganizerProfileAdmin(admin.ModelAdmin):
     list_display = ('id', 'organizerName', 'userId')
@@ -65,7 +65,7 @@ class EventPageVisitAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(User, CustomUserAdmin)
-admin.site.register(Address, AddressAdmin)
+# admin.site.register(Address, AddressAdmin)
 admin.site.register(OrganizerProfile, OrganizerProfileAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(TicketType, TicketTypeAdmin)

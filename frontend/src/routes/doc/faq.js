@@ -63,7 +63,7 @@ export default function FAQPage() {
                     </h2>
                     <div id="collapseFour" className="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                     <div className="accordion-body">
-                        <p>Currently, EventFinder supports free events only.</p>
+                        <p>Currently, EventFinder supports free events only as it does not provide proper payment gateway. For paid events, the organizers will need to collect ticket amount themselves.</p>
                     </div>
                     </div>
                 </div>

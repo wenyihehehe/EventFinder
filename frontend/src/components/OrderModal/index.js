@@ -160,9 +160,12 @@ class OrderModal extends React.Component{
                     </div>
                     }
                 </Modal.Body>
-                <Modal.Footer>
-                    <button type="button" className="btn primaryButton mx-auto" onClick={this.handleRegister} disabled={!authContext.token ? true : this.state.loading ? true : false}>{ this.state.loading ? "Loading..." : "Register Now"}</button>
-                </Modal.Footer>
+                {authContext.token ? 
+                    <Modal.Footer>
+                        <button type="button" className="btn primaryButton mx-auto" onClick={this.handleRegister} disabled={this.state.loading ? true : false}>{ this.state.loading ? "Loading..." : "Register Now"}</button>
+                    </Modal.Footer>
+                :<div></div>
+                }
             </Modal>
         )
     }

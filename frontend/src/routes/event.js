@@ -36,7 +36,9 @@ export default function EventPage() {
   const imageStyle = {
     width: "100%",
     height: "480px",
-    objectFit: "cover"
+    objectFit: "cover",
+    borderTop: "0.5px solid rgba(0,0,0,.125)",
+    borderBottom: "0.5px solid rgba(0,0,0,.125)"
   }
 
   const sectionStyle = {
@@ -57,7 +59,7 @@ export default function EventPage() {
     if(relatedEvents.length !== 0){
       eventsRender.push(
         <div className={`carousel-item ${i===0 ? "active" : ""}`} key={i}>
-        <div className="row justify-content-center" style={{margin:"0"}}>
+        <div className="row justify-content-around" style={{margin:"0"}}>
           {
             relatedEvents.slice(i, i + 3)
               .map(event => (
@@ -77,20 +79,20 @@ export default function EventPage() {
       <section>
         <img style={imageStyle} src={event.coverImage} alt="event cover"></img>
       </section>
-      <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
+      <section className="container-fluid row justify-content-center mt-4 " style={{margin: "0", padding: "0"}}>
         <div style={sectionStyle} className="row justify-content-between m-0">
           <p className="secondaryTitleText col-10 mb-0 p-0">{event.title}</p>
           <button className="btn primaryButton col-lg-2" style={{filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1))"}} onClick={handleOpen} disabled={event.status === 'Ended'}>Register Now</button>
         </div>
       </section>
-      <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
+      <section className="container-fluid row justify-content-center mt-4 mb-4" style={{margin: "0", padding: "0"}}>
         <div style={sectionStyle} className="row justify-content-between">
           {event.title && (<EventDescriptionBox event={event}/>)}
         </div>
       </section>
       {
         event.type === "Physical" ? 
-        <section className="container-fluid row justify-content-center mt-4" style={{margin: "0", padding: "0"}}>
+        <section className="container-fluid row justify-content-center mt-4 mb-4" style={{margin: "0", padding: "0"}}>
           <div style={{...sectionStyle, height:"350px"}} className="row justify-content-between">
           <GoogleMapReact
             bootstrapURLKeys={{ key: "AIzaSyBx34-6ciKW6FZzEK3sff3Ae56sSAOJicI",libraries: ['places'],}}
@@ -106,31 +108,38 @@ export default function EventPage() {
         </section>
         : <span></span>
       }
+      {
+        relatedEvents.length > 0 ?
+      
       <section className="container-fluid row justify-content-center mt-4 mb-4" style={{margin: "0", padding: "0"}}>
         <div style={{width: "70%", boxShadow:"0px 4px 15px rgba(0, 0, 0, 0.05)"}} className="row m-0 backgroundWhite">
           <div className="col-12 mb-3 mt-3">
             <p className="secondaryTitleText text-center">More Events </p>
           </div>
           <div className="col-12 row m-0 p-0 justify-content-center align-items-center">
-            <a className="btn mb-3 mr-1" href="#carouselContent" role="button" data-slide="prev" style={{height: "fit-content"}}>
+            {relatedEvents.length > 4 ? 
+            <a className="btn mb-3" href="#carouselContent" role="button" data-slide="prev" style={{height: "fit-content"}}>
               <i className="bi bi-chevron-left"></i>
             </a>
+            : <div></div>}
             <div>
-              <div id="carouselContent" className="carousel slide" data-ride="carousel">
+              <div id="carouselContent" className="carousel slide" data-ride="carousel" style={{width: "60vw"}}>
                 <div className="carousel-inner">
                   {eventsRender}  
                 </div>
               </div>
             </div>
+            {relatedEvents.length > 4 ? 
             <a className="btn mb-3" href="#carouselContent" role="button" data-slide="next" style={{height: "fit-content"}}>
               <i className="bi bi-chevron-right"></i>
             </a>
-          </div>
-          <div className="mx-auto mb-3">
-            <Link to="/search"><button className="btn primaryButton" style={{width:"100px"}}>More</button></Link>
+            : <div></div>}
+            
           </div>
         </div>
       </section>
+      : <div></div>
+      }
       <OrderModal show={showOrder} handleClose={handleClose} eventId={eventId} navigate={navigate} authContext={authContext} location={location}/>
       <Footer/>
     </main>

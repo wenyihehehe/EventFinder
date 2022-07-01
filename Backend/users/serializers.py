@@ -28,10 +28,10 @@ class CreateUserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-class AddressSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Address
-        fields = "__all__"
+# class AddressSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Address
+#         fields = "__all__"
 
 class OrganizerProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -142,10 +142,13 @@ class GetOrganizerProfileEventReviewSerializer(serializers.ModelSerializer):
         return reviews
     
     def get_events(self, organizerProfile):
+        owner = self.context.get("owner")
         request = self.context.get('request')
         user = organizerProfile.userId
         if(user.has_organizerprofile()):
             events = Event.objects.filter(organizerId=user.organizerprofile).count()
+            if(not owner):
+                events = Event.objects.filter(organizerId=user.organizerprofile,status__in=["Published","Ended"]).count()
             return "%s" % (events)
         return "0"
 
