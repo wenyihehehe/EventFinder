@@ -66,7 +66,7 @@ export default function EventDashboardMain() {
               </tr>
               <tr>
                 <td className="detailMainText" style={{width:"30%"}}>Organizer Profile URL:</td>
-                <td className="detailSubText"><Link to={`/organizer/${event.id}`}>{Website}organizer/{event.organizerId}</Link></td>
+                <td className="detailSubText"><Link to={`/organizer/${event.organizerId}`}>{Website}organizer/{event.organizerId}</Link></td>
               </tr>
             </tbody>
           </table>
