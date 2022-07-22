@@ -1,0 +1,16 @@
+To start the application, please follow the steps below to run both server.
+
+For backend:
+1) Open command prompt
+2) Enter "cd Backend"
+3) Create virtual environment by entering "python -m venv venv"
+4) Enter ".\venv\Scripts\activate.bat"
+5) Install requirements by entering "pip install -r requirements.txt"
+6) Run the server by entering "python manage.py runserver"
+
+For frontend:
+1) Open command prompt
+2) Enter "cd frontend"
+3) Install requirements by entering "npm install --force"
+4) Enter "npm start"
+5) Go to "localhost:3000"
